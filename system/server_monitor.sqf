@@ -13,6 +13,9 @@ waitUntil{initialized}; //means all the functions are now defined
 
 diag_log "HIVE: Starting";
 
+// ### BASE BUILDING 1.2 ### SERVER SIDE BUILD ARRAYS - START
+call build_baseBuilding_arrays;
+// ### BASE BUILDING 1.2 ### SERVER SIDE BUILD ARRAYS - END
 waituntil{isNil "sm_done"}; // prevent server_monitor be called twice (bug during login of the first player)
 
 //Set the Time
@@ -172,6 +175,7 @@ if (isServer and isNil "sm_done") then {
 			clearMagazineCargoGlobal  _object;
 			// _object setVehicleAmmo DZE_vehicleAmmo;
 			
+			/*
 			if ((typeOf _object) in dayz_allowedObjects) then {
 				_object addMPEventHandler ["MPKilled",{_this call object_handleServerKilled;}];
 				// Test disabling simulation server side on buildables only.
@@ -179,10 +183,47 @@ if (isServer and isNil "sm_done") then {
 				// used for inplace upgrades and lock/unlock of safe
 				_object setVariable ["OEMPos", _pos, true];
 			};
+			*/
 			
 			_object setdir _dir;
 			_object setposATL _pos;
 			_object setDamage _damage;
+// ##### BASE BUILDING 1.2 Server Side ##### - START
+// This sets objects to appear properly once server restarts
+		//if ((_object isKindOf "Static") && !(_object isKindOf "TentStorage")) then {
+		if (typeOf(_object) in allbuildables_class) then {		
+			_object setpos [(getposATL _object select 0),(getposATL _object select 1), 0];
+		};
+		//Set Variable
+		if (_object isKindOf "Infostand_2_EP1" && !(_object isKindOf "Infostand_1_EP1")) then {
+			_object setVariable ["ObjectUID", _worldspace call dayz_objectUID2, true];
+			_object enableSimulation false;
+		};
+
+
+		// Set whether or not buildable is destructable
+		if (typeOf(_object) in allbuildables_class) then {
+			diag_log ("SERVER: in allbuildables_class:" + typeOf(_object) + " !");
+			for "_i" from 0 to ((count allbuildables) - 1) do
+			{
+				_classname = (allbuildables select _i) select _i - _i + 1;
+				_result = [_classname,typeOf(_object)] call BIS_fnc_areEqual;
+				if (_result) exitWith {
+					_requirements = (allbuildables select _i) select _i - _i + 2;
+					_isDestructable = _requirements select 13;
+					diag_log ("SERVER: " + typeOf(_object) + " _isDestructable = " + str(_isDestructable));
+					if (!_isDestructable) then {
+						diag_log("Spawned: " + typeOf(_object) + " Handle Damage False");
+						_object addEventHandler ["HandleDamage", {false}];
+					};
+					if (typeOf(_object) == "Grave") then {
+						_object setVariable ["isBomb", true];
+					};
+				};
+			};
+			//gateKeypad = _object addaction ["Defuse", "\z\addons\dayz_server\compile\enterCode.sqf"];
+		};
+// ##### BASE BUILDING 1.2 Server Side ##### - END
 
 			if (count _intentory > 0) then {
 				if (_type in DZE_LockedStorage) then {
@@ -276,7 +317,6 @@ if (isServer and isNil "sm_done") then {
 	} forEach _objectArray;
 	// # END OF STREAMING #
 
-
 	// preload server traders menu data into cache
 	{
 		// get tids
@@ -356,26 +396,9 @@ if (isServer and isNil "sm_done") then {
 	if(OldHeliCrash) then {
 		nul = [3, 4, (50 * 60), (15 * 60), 0.75, 'center', HeliCrashArea, true, false] spawn server_spawnCrashSite;
 	};
-/*	
-	// [_guaranteedLoot, _randomizedLoot, _frequency, _variance, _spawnChance, _spawnMarker, _spawnRadius, _spawnFire, _fadeFire]
-	nul = [3, 4, 900, 300, 0.99, 'center', HeliCrashArea, true, false] spawn server_spawnCrashSite;
-*/	
-	// [_guaranteedLoot, _randomizedLoot, _frequency, _variance(DONOTUSE), _spawnChance, _spawnMarker, _spawnRadius, _spawnFire, _fadeFire, waypoints, damage]
-	nul = [7, 5, 900, 300, 0.99, 'center', 4000, true, false, true, 5, 3]spawn server_spawnC130CrashSite;
-	nul =    [
-                6,        //Number of the guaranteed Loot-Piles at the Crashside
-                3,        //Number of the random Loot-Piles at the Crashside 3+(1,2,3 or 4)
-                900,    //Fixed-Time (in seconds) between each start of a new Chopper
-                300,      //Random time (in seconds) added between each start of a new Chopper
-                0.99,        //Spawnchance of the Heli (1 will spawn all possible Choppers, 0.5 only 50% of them)
-                'center', //'center' Center-Marker for the Random-Crashpoints, for Chernarus this is a point near Stary
-                8000,    // [106,[960.577,3480.34,0.002]]Radius in Meters from the Center-Marker in which the Choppers can crash and get waypoints
-                true,    //Should the spawned crashsite burn (at night) & have smoke?
-                false,    //Should the flames & smoke fade after a while?
-                4,    //RANDOM WP
-                6,        //GUARANTEED WP
-                1        //Amount of Damage the Heli has to get while in-air to explode before the POC. (0.0001 = Insta-Explode when any damage//bullethit, 1 = Only Explode when completly damaged)
-            ] spawn server_spawnAN2;
+	//Airraid
+	nul = [] spawn server_airRaid;
+	nul = [7, 5, 700, 0, 0.99, 'center', 4000, true, false, true, 5, 1]spawn server_spawnC130CrashSite;
 	if (isDedicated) then {
 		// Epoch Events
 		_id = [] spawn server_spawnEvents;

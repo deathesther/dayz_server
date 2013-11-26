@@ -265,8 +265,8 @@ class FSM
       init = /*%FSM<STATEINIT""">*/"//Clean groups" \n
        "{" \n
        "	// diag_log (""CLEANUP: CHECKING GROUP WITH "" + str(count units _x) + "" UNITS"");" \n
-       "	if (count units _x==0) then {" \n
-       "		deleteGroup _x;" \n
+       "	if ((count units _x==0) && !(_x getVariable[""SAR_protect"",false])) then {" \n
+       "                deleteGroup _x;" \n
        "		// diag_log (""CLEANUP: DELETING A GROUP"");" \n
        "	};" \n
        "} forEach allGroups;" \n
@@ -295,7 +295,7 @@ class FSM
        "" \n
        "//Check for hackers" \n
        " {" \n
-		"  	if(vehicle _x != _x && !(vehicle _x in _safety) && (typeOf vehicle _x) != ""ParachuteWest"" && ((vehicle _x getVariable [""Sarge"",0] != 1) && (vehicle _x getVariable [""DZAI"",0] != 1) && (vehicle _x getVariable [""DZAIM"",0] != 1)))) then {" \n
+       "	if(vehicle _x != _x && !(vehicle _x in _safety) && (isPlayer _x) && ((typeOf vehicle _x) != ""Parachute"") && ((typeOf vehicle _x) != ""ParachuteWest"") && ((typeOf vehicle _x) != ""ParachuteC"") && ((typeOf vehicle _x) != ""ParachuteG"") && ((typeOf vehicle _x) != ""ParachuteEast"")  && !((typeOf vehicle _x) in DZE_safeVehicle) && (vehicle _x getVariable [""axeBus"",0] != 1) && (vehicle _x getVariable [""Sarge"",0] != 1)&&(vehicle _x getVariable [""Mission"",0] != 1) && (vehicle _x getVariable [""DZAI"",0] != 1) && (vehicle _x getVariable [""DZAIM"",0] != 1)) then {" \n
        "		diag_log (""CLEANUP: KILLING A HACKER "" + (name _x) + "" "" + str(_x) + "" IN "" + (typeOf vehicle _x));" \n
        "		(vehicle _x) setDamage 1;" \n
        "		_x setDamage 1;" \n

@@ -56,6 +56,3 @@ _crate addMagazineCargoGlobal ["1Rnd_SmokeGreen_M203", 10];
 _crate addMagazineCargoGlobal ["1Rnd_Smoke_M203", 10];
 
 
-_crate addmagazineCargoGlobal ["HandGrenade_West",20];
-
-
