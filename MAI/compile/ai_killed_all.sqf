@@ -45,7 +45,7 @@ if (isPlayer _killer) then {
 	if (MAI_humanityGain > 0) then {
 		private ["_humanity"];
 		_humanity = _killer getVariable["humanity",0];
-		_killer setVariable ["humanity",(_humanity + MAI_humanityGain),true];
+		_killer setVariable ["humanity",(_humanity - MAI_humanityGain),true];
 	};
 } else {
 	if (_killer != _victim) then {
