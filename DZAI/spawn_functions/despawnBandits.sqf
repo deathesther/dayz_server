@@ -78,6 +78,7 @@ if !(_trigger getVariable ["permadelete",false]) then {
 	if (DZAI_debugMarkers > 0) then {
 		deleteMarker (str (_trigger));
 	};
+	deleteMarker (_trigger getVariable ["spawnmarker",""]);
 	deleteVehicle _trigger;
 };
 

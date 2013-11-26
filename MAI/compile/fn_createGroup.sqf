@@ -45,27 +45,26 @@ if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Found spawn 
 
 for "_i" from 1 to _totalAI do {
 	private ["_type","_unit","_name"];
-	_type = MAI_militaryTypes call BIS_fnc_selectRandom3;								// Select skin of AI unit
+	_type = MAI_militaryTypes call BIS_fnc_selectRandom2;								// Select skin of AI unit
 	_unit = _unitGroup createUnit [_type, _pos, [], 0, "FORM"];							// Spawn the AI unit
 	_unit setPosATL _pos;
 	[_unit] joinSilent _unitGroup;														// Add AI unit to group
 
 	_name = (name _unit);
 	_unit setIdentity _name;	
-	_unit setVariable ["bodyName",_name];												// Set unit body name	// Set unit name
+	_unit setVariable ["bodyName",_name];												// Set unit body name
 	_unit setVariable ["unithealth",[12000,0,0]];										// Set unit health (blood, hands health, legs health)
 	_unit setVariable ["unconscious",false];											// Set unit consciousness
 
 	if (MAI_zAggro) then {
 		_unit addEventHandler ["Fired", {_this spawn ai_fired;}];};						// Unit firing causes zombie aggro in the area, like player.
 	if (MAI_taserAI) then {
-		_unit addEventHandler ["HandleDamage",{_this call DDOPP_taser_handleHit;_this call MAI_AI_handledamage;}];
+		_unit addEventHandler ["HandleDamage",{_this call DDOPP_taser_handleHit;_this call MAI_AI_handledamage}];
 	} else {
-		_unit addEventHandler ["HandleDamage",{_this call MAI_AI_handledamage;}];};
-	_unit addEventHandler ["Killed",{[_this,"humanKills"] call local_eventKill;}];
+		_unit addEventHandler ["HandleDamage",{_this call MAI_AI_handledamage}];};
 
 	0 = [_unit, _weapongrade] call MAI_setupLoadout;									// Assign unit loadout
-	0 = [_unit, _weapongrade] spawn MAI_setSkills;										// Set AI skill
+	0 = [_unit, _weapongrade] call MAI_setSkills;										// Set AI skill
 	0 = [_unit, _weapongrade] spawn MAI_autoRearm_unit;
 	if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: Spawned AI Type %1 with weapongrade %2 for group %3 (fnc_createGroup).",_type,_weapongrade,_unitGroup];};
 };
@@ -76,7 +75,7 @@ if (!isNil "_dummy") then {
 	[_dummy] joinSilent grpNull;
 	deleteVehicle _dummy;
 	_unitGroup setVariable ["dummyUnit",nil];
-	if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Deleted 1 dummy AI unit for group %1. (fnc_createGroup)",_unitGroup];};
+	if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: Deleted 1 dummy AI unit for group %1. (fnc_createGroup)",_unitGroup];};
 };
 
 _unitGroup selectLeader ((units _unitGroup) select 0);

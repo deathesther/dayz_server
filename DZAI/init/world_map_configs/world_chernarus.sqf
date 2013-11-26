@@ -237,7 +237,7 @@ if (DZAI_staticAI) then {
 	_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [0,2,200,thisTrigger,[],2] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
 	_trigger_76 = _this;
 
-	_this = createTrigger ["EmptyDetector", [6073.5898, 7763.0264]];
+	_this = createTrigger ["EmptyDetector", [6179.4053, 7786.5435]];
 	_this setTriggerArea [600, 600, 0, false];
 	_this setTriggerActivation ["ANY", "PRESENT", true];
 	_this setTriggerTimeout [10, 15, 20, true];
@@ -589,55 +589,6 @@ if (DZAI_staticAI) then {
 	_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [2,1,200,thisTrigger,['NWAF7_1','NWAF7_2','NWAF7_3','NWAF7_4'],2] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
 	_trigger_195 = _this;
 	//triggers end
-	//custom
-_this = createTrigger ["EmptyDetector", [6559, 14199, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_1 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,2,200,thisTrigger,['Sector_1'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_500 = _this;
-
-_this = createTrigger ["EmptyDetector", [6736.28, 14204.5, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_2 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,2,200,thisTrigger,['Sector_2'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_501 = _this;
-
-_this = createTrigger ["EmptyDetector", [6589.84, 14277.5, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_c1 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,1,200,thisTrigger,['Sector_c1'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_502 = _this;
-
-_this = createTrigger ["EmptyDetector", [6785, 14319, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_c2 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,1,200,thisTrigger,['Sector_c2'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_503 = _this;
-
-_this = createTrigger ["EmptyDetector", [6788, 14090, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_c3 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,1,200,thisTrigger,['Sector_c3'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_504 = _this;
-
-_this = createTrigger ["EmptyDetector", [6668, 14128, 0]];
-_this setTriggerArea [600, 600, 0, false];
-_this setTriggerActivation ["ANY", "PRESENT", true];
-_this setTriggerTimeout [10, 15, 20, true];
-_this setTriggerText "Sector_c4 (Markers)";
-_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [1,1,200,thisTrigger,['Sector_c4'],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-_trigger_505 = _this;
-
 };
 
 #include "custom_markers\cust_markers_chernarus.sqf"

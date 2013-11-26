@@ -16,6 +16,9 @@ _killer = _this select 1;
 _unitGroup = _helicopter getVariable "unitGroup";
 _crewCount = _helicopter getVariable ["crewCount",1];
 
+_helicopter removeAllEventHandlers "GetOut";
+_helicopter removeAllEventHandlers "Killed";
+
 {
 	deleteVehicle _x;
 } forEach (units _unitGroup);
@@ -32,8 +35,8 @@ if (MAI_airLootMode > 0) then {
 		if (MAI_airLootMode == 1) then {
 			for "_i" from 1 to _crewCount do {
 				private ["_dropPos","_agentType","_weapongrade","_agent","_parachute"];
-				_agentType = (MAI_militaryTypes call BIS_fnc_selectRandom3);
-				_weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeightedmil;
+				_agentType = (MAI_militaryTypes call BIS_fnc_selectRandom2);
+				_weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeighted_M;
 				_dropPos = [((_heliPos select 0) + (random 10) - (random 10)),((_heliPos select 1) + (random 10) - (random 10)),90];
 				_parachute = createVehicle ["ParachuteWest", _dropPos, [], 0, "FLY"];
 				_agent = createAgent [_agentType,[0,0,0],[],1,"NONE"];
@@ -64,9 +67,9 @@ if (MAI_airLootMode > 0) then {
 			_dropTrigger = createTrigger ["EmptyDetector",_heliPos];
 			_dropTrigger setTriggerArea [600, 600, 0, false];
 			_dropTrigger setTriggerActivation ["ANY", "PRESENT", true];
-			_dropTrigger setTriggerTimeout [5, 5, 5, true];
+			_dropTrigger setTriggerTimeout [3, 4, 5, true];
 			_dropTrigger setTriggerText (format ["Paradrop%1",mapGridPosition _helicopter]);
-			_statements = format ["0 = [%1,0,100,thisTrigger,-1,'%2'] call fnc_spawnmilitary_custom;",_crewCount,_dropMarker];
+			_statements = format ["0 = [%1,0,75,thisTrigger,-1,'%2'] call fnc_spawnmilitary_custom;",_crewCount,_dropMarker];
 			_dropTrigger setTriggerStatements ["{isPlayer _x} count thisList > 0;",_statements,"0 = [thisTrigger] spawn fnc_despawnmilitary;"];
 			_dropTrigger setVariable ["respawn",false];
 			_dropTrigger setVariable ["spawnmarker",_dropMarker];
@@ -84,7 +87,7 @@ if (MAI_airLootMode > 0) then {
 				if (_deleteTrigger) then {deleteVehicle _this};
 			};
 			
-			if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Spawning AI paradrop at %1.",mapGridPosition _trigger];};
+			if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Spawning AI paradrop at %1.",mapGridPosition _dropTrigger];};
 		};
 	};
 };

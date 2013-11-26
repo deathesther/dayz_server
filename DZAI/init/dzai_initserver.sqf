@@ -33,7 +33,6 @@ DZAI_actTrigs = 0;											//Tracks current number of active static triggers.
 DZAI_curHeliPatrols = 0;
 DZAI_dynTriggerArray = [];									//List of all generated dynamic triggers.
 DZAI_respawnQueue = [];										//Queue of AI groups that require respawning. Group ID is removed from queue after it is respawned.
-//DZAI_dmgFactors = [0.33,0.495,0.33,1,1];					//AI health settings.
 
 //Set side relations
 createcenter east;
@@ -122,6 +121,6 @@ if (isNil "DDOPP_taser_handleHit") then {DZAI_taserAI = false;} else {DZAI_taser
 
 if (DZAI_verifyTables) then {["DZAI_Rifles0","DZAI_Rifles1","DZAI_Rifles2","DZAI_Rifles3","DZAI_Pistols0","DZAI_Pistols1","DZAI_Pistols2","DZAI_Pistols3","DZAI_Backpacks0","DZAI_Backpacks1","DZAI_Backpacks2","DZAI_Backpacks3","DZAI_Edibles","DZAI_Medicals1","DZAI_Medicals2","DZAI_MiscItemS","DZAI_MiscItemL","DZAI_BanditTypes","DZAI_heliTypes"] execVM "\z\addons\dayz_server\DZAI\scripts\verifyTables.sqf";};
 [] execVM '\z\addons\dayz_server\DZAI\scripts\DZAI_scheduler.sqf';
-if (DZAI_monitor) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\DZAI_monitor.sqf';};
+if (DZAI_monitorRate > 0) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\DZAI_monitor.sqf';};
 diag_log format ["[DZAI] DZAI loaded with settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. DZAI_dynamicWeaponList: %4. VerifyTables: %5.",DZAI_debugLevel,DZAI_debugMarkers,DZAI_modName,DZAI_dynamicWeaponList,DZAI_verifyTables];
 diag_log format ["[DZAI] DZAI loading completed in %1 seconds.",(diag_tickTime - _startTime)];

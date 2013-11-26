@@ -31,6 +31,9 @@ DZAI_AI_killed_static = {
 DZAI_AI_killed_dynamic = {
 	#include "\z\addons\dayz_server\DZAI\compile\ai_killed_dynamic.sqf"
 };
+DZAI_unitDeath = {
+	#include "\z\addons\dayz_server\DZAI\compile\ai_death.sqf"
+};
 fnc_selectRandomWeighted = {
 	#include "\z\addons\dayz_server\DZAI\compile\fn_selectRandomWeighted.sqf"
 };
@@ -61,8 +64,11 @@ if (DZAI_findKiller) then {
 DZAI_dyn_huntPlayer = {
 	#include "\z\addons\dayz_server\DZAI\compile\fn_seekPlayer.sqf"
 };
-DZAI_randDynTriggers = {
-	#include "\z\addons\dayz_server\DZAI\compile\fn_randomizeTriggers.sqf"
+DZAI_addLoot = {
+	#include "\z\addons\dayz_server\DZAI\compile\ai_generate_loot.sqf"
+};
+DZAI_setupLoadout = {
+	#include "\z\addons\dayz_server\DZAI\compile\ai_setup_loadout.sqf"
 };
 	
 //Compile spawn scripts
@@ -76,7 +82,8 @@ fnc_respawnBandits = {
 	#include "\z\addons\dayz_server\DZAI\spawn_functions\respawnBandits.sqf"
 };
 fnc_respawnHandler = {
-	#include "\z\addons\dayz_server\DZAI\spawn_functions\respawnHandler.sqf"
+	//#include "\z\addons\dayz_server\DZAI\spawn_functions\respawnHandler.sqf"
+	#include "\z\addons\dayz_server\DZAI\spawn_functions\respawnHandler2.sqf"
 };
 fnc_despawnBandits = {
 	#include "\z\addons\dayz_server\DZAI\spawn_functions\despawnBandits.sqf"
@@ -113,17 +120,19 @@ if (DZAI_debugMarkers < 1) then {
 fnc_spawnHeliPatrol	= { 
 	#include "\z\addons\dayz_server\DZAI\spawn_functions\spawn_heliPatrol.sqf"
 };
+DZAI_airLanding = {
+	#include "\z\addons\dayz_server\DZAI\compile\heli_airlanding.sqf"
+};
 
 //DZAI custom spawns function.
 DZAI_spawn = {
-	private ["_spawnMarker","_patrolRadius","_trigStatements","_trigger","_respawn","_weapongrade","_totalAI","_useUPS"];
+	private ["_spawnMarker","_patrolRadius","_trigStatements","_trigger","_respawn","_weapongrade","_totalAI"];
 	
 	_spawnMarker = _this select 0;
 	if ((typeName _spawnMarker) != "STRING") exitWith {diag_log "DZAI Error: Marker string not given!"};
 	_totalAI = if ((typeName (_this select 1)) == "SCALAR") then {_this select 1} else {1};
 	_weapongrade = if ((typeName (_this select 2)) == "SCALAR") then {_this select 2} else {1};
 	_respawn = if ((typeName (_this select 3)) == "BOOL") then {_this select 3} else {true};
-	//_useUPS = if ((count _this) > 3) then {_this select 3} else {false};
 
 	_patrolRadius = ((((getMarkerSize _spawnMarker) select 0) min ((getMarkerSize _spawnMarker) select 1)) min 300);
 
@@ -152,7 +161,7 @@ DZAI_spawn = {
 //Miscellaneous functions 
 //------------------------------------------------------------------------------------------------------------------------
 
-//DZAI group side assignment function. Detects when East side has too many groups, then switches to east side.
+//DZAI group side assignment function. Detects when East side has too many groups, then switches to Resistance side.
 DZAI_getFreeSide = {
 	private["_groupSide"];
 	_groupSide = east;
@@ -176,9 +185,9 @@ DZAI_heliRandomPatrol = {
 	_wpSelect = [_wpSelect,200+(random 100),(random 360),true] call SHK_pos;
 	[_unitGroup,0] setWPPos _wpSelect; 
 	if ((waypointType [_unitGroup,0]) == "MOVE") then {
-		if ((random 1) < 0.30) then {
+		if ((random 1) < 0.25) then {
 			[_unitGroup,0] setWaypointType "SAD";
-			[_unitGroup,0] setWaypointTimeout [20,40,60];
+			[_unitGroup,0] setWaypointTimeout [20,30,40];
 		};
 	} else {
 		[_unitGroup,0] setWaypointType "MOVE";
@@ -186,6 +195,7 @@ DZAI_heliRandomPatrol = {
 	};
 	[_unitGroup,0] setWaypointCompletionRadius 150;
 	_unitGroup setCurrentWaypoint [_unitGroup,0];
+	(vehicle (leader _unitGroup)) flyInHeight (100 + (random 40));
 };
 
 //Sets skills for unit based on their weapongrade value.
@@ -203,7 +213,7 @@ DZAI_setSkills = {
 		case default {DZAI_skill2};
 	};
 	{
-		_unit setskill [_x select 0,((_x select 1) + random (_x select 2))];
+		_unit setskill [_x select 0,((_x select 1) + random ((_x select 2)-(_x select 1)))];
 	} foreach _skillArray;
 };
 
@@ -282,42 +292,6 @@ DZAI_unconscious = {
 	_unit setVariable ["unconscious",false];
 };
 
-//Killed eventhandler script used by both static and dynamic AI.
-DZAI_unitDeath = {
-	private["_victim","_killer","_unitGroup"];
-	_victim = _this select 0;
-	_killer = _this select 1;
-	
-	if (_victim getVariable ["deathhandled",false]) exitWith {};
-	_victim setVariable ["deathhandled",true];
-	_victim setDamage 1;
-	
-	_unitGroup = (group _victim);
-
-	switch (_unitGroup getVariable "unitType") do {
-		case "static":
-		{
-			[_victim,_unitGroup] spawn DZAI_AI_killed_static;
-		};
-		case "dynamic":
-		{
-			[_victim,_unitGroup] spawn DZAI_AI_killed_dynamic;
-		};
-		case default {
-			if (DZAI_debugMarkers > 0) then {
-				{
-					deleteMarker (str _x);
-				} forEach (waypoints _unitGroup);
-			};
-		};
-	};
-	
-	[_victim,_killer,_unitGroup] call DZAI_AI_killed_all;
-	//diag_log format ["DEBUG :: AI %1 (Group %2) killed by %3",_victim,_unitGroup,_killer];
-	
-	true
-};
-
 //Generic function to delete a specified object (or array of objects) after a specified time (seconds).
 DZAI_deleteObject = {
 	private["_obj","_delay"];
@@ -330,8 +304,12 @@ DZAI_deleteObject = {
 	if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Deleting object(s) %1 now.",_obj];};
 	
 	if ((typeName _obj) == "ARRAY") then {
-		{deleteVehicle _x} forEach _obj;
-	} else {deleteVehicle _obj};
+		{
+			deleteVehicle _x;
+		} forEach _obj;
+	} else {
+		deleteVehicle _obj;
+	};
 };
 
 //If a trigger's calculated totalAI value is zero, then add new group to respawn queue to retry spawn until a nonzero value is found.
@@ -365,7 +343,7 @@ DZAI_retrySpawn = {
 	_grpArray = _trigger getVariable "GroupArray";
 	_grpArray set [(count _grpArray),_unitGroup];
 
-	0 = [(time + DZAI_respawnTime),_trigger,_unitGroup] spawn fnc_respawnHandler;
+	0 = [_trigger,_unitGroup,true] spawn fnc_respawnHandler;
 
 	if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Inserted group %1 into respawn queue. (retryRespawn)",_unitGroup];};
 };
@@ -422,6 +400,26 @@ DZAI_relocDynTrigger = {
 	_newPos
 };
 
+DZAI_randDynTriggers = {
+	private ["_randomizeCount","_trigger"];
+
+	_randomizeCount = _this select 0;
+
+	if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Randomizing %1 dynamic trigger locations... (DZAI_randDynTriggers)",_randomizeCount];};
+	for "_i" from 1 to _randomizeCount do {
+	private ["_trigger"];
+		if (DZAI_debugLevel > 0) then {diag_log "DZAI Debug: Selecting a random dynamic trigger to randomize location. (DZAI_randDynTriggers)";};
+		_trigger = DZAI_dynTriggerArray call BIS_fnc_selectRandom2;
+		//Select only dynamic triggers that haven't spawned any AI and not in cleaning state
+		if ((count (_trigger getVariable ["GroupArray",[]]) == 0) && (!(_trigger getVariable ["isCleaning",false]))) then {
+			private ["_newPos"];
+			_newPos = _trigger call DZAI_relocDynTrigger;
+			if (DZAI_debugLevel > 0) then {diag_log format["DZAI Debug: A dynamic trigger has been relocated to %1. (DZAI_randDynTriggers)",_newPos];};
+		};
+		sleep 1;
+	};
+};
+
 //Creates static spawn trigger (in development)
 /*Syntax: 	[
 				_spawnMarker, 		//Circular marker defining patrol radius.
@@ -470,6 +468,7 @@ DZAI_findLootPile = {
 	_lootPiles = (getPosATL (leader _unitGroup)) nearObjects ["ReammoBox",_searchRange];
 	if ((count _lootPiles) > 0) then {
 		_lootPos = getPosATL (_lootPiles call BIS_fnc_selectRandom2);
+		if ((behaviour (leader _unitGroup)) != "AWARE") then {_unitGroup setBehaviour "AWARE"};
 		(units _unitGroup) doMove _lootPos;
 		{_x moveTo _lootPos} forEach (units _unitGroup);
 		//diag_log format ["DEBUG :: AI group %1 is investigating a loot pile at %2.",_unitGroup,_lootPos];
@@ -529,221 +528,6 @@ DZAI_bldgPatrol = {
 	};
 };
 
-DZAI_addLoot = {
-	private ["_unit","_pistol","_pistols","_weapongrade","_magazine","_currentWeapon","_toolselect","_chance","_tool","_toolsArray"];
-		_unit = _this select 0;
-		_weapongrade = _this select 1;
-
-		if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: AI killed by player at %1. Generating loot with weapongrade %2 (fn_banditAIKilled).",mapGridPosition _unit,_weapongrade];};
-
-		if (_unit getVariable ["CanGivePistol",true]) then {
-			_pistols = switch (_weapongrade) do {
-				case 0: {DZAI_Pistols0};
-				case 1: {DZAI_Pistols1};
-				case 2: {DZAI_Pistols2};
-				case 3: {DZAI_Pistols3};
-				case default {[DZAI_Pistols0,DZAI_Pistols1,DZAI_Pistols2,DZAI_Pistols3] call BIS_fnc_selectRandom2};
-			};
-
-			_pistol = _pistols call BIS_fnc_selectRandom2;
-			_magazine = getArray (configFile >> "CfgWeapons" >> _pistol >> "magazines") select 0;
-			_unit addMagazine _magazine;	
-			_unit addWeapon _pistol;
-			
-			if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated pistol weapon: %1 for AI.",_pistol];};
-			sleep 0.001;
-		};
-		
-		//Add consumables, medical items, and miscellaneous items
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		//Add one guaranteed Bandage to inventory
-		_unit addMagazine "ItemBandage";
-
-		//Add edible items to inventory
-		for "_i" from 1 to DZAI_invedibles do {
-			if ((random 1) < DZAI_chanceEdibles) then{
-				private["_invedible"];
-				_invedible = DZAI_Edibles call BIS_fnc_selectRandom2;
-				_unit addMagazine _invedible;
-				if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Inventory Edible Item: %1 for AI.",_invedible];};
-			};
-		};
-		
-		//Add edible items to backpack
-		for "_i" from 1 to DZAI_bpedibles do {
-			if ((random 1) < DZAI_chanceEdibles) then {
-				private["_bpedible"];
-				_bpedible = DZAI_Edibles call BIS_fnc_selectRandom2;
-				(unitBackpack _unit) addMagazineCargoGlobal [_bpedible, 1];
-				if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Backpack Edible Item: %1 for AI.",_bpedible];};
-			};
-		};
-		
-		if (_weapongrade > 0) then {
-			//Chance to add miscellaneous item (Small) to backpack
-			for "_i" from 1 to DZAI_numMiscItemS do {
-				if ((random 1) < DZAI_chanceMiscItemS) then {
-					private ["_miscItemS"];
-					_miscItemS = DZAI_MiscItemS call BIS_fnc_selectRandom2;
-					(unitBackpack _unit) addMagazineCargoGlobal [_miscItemS,1];
-					if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Misc Item (Small): %1 for AI.",_miscItemS];};
-				};
-			};
-			
-			//Chance to add miscellaneous item (Large) to backpack
-			for "_i" from 1 to DZAI_numMiscItemL do {
-				if ((random 1) < DZAI_chanceMiscItemL) then {
-					private["_miscItemL"];
-					_miscItemL = DZAI_MiscItemL call BIS_fnc_selectRandom2;
-					(unitBackpack _unit) addMagazineCargoGlobal [_miscItemL,1];
-					if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Misc Item (Large): %1 for AI.",_miscItemL];};
-				};
-			};
-
-			//Add medical items to backpack
-			for "_i" from 1 to DZAI_bpmedicals do {
-				if ((random 1) < DZAI_chanceMedicals) then {
-					private["_bpmedical"];
-					_bpmedical = DZAI_Medicals2 call BIS_fnc_selectRandom2;
-					(unitBackpack _unit) addMagazineCargoGlobal [_bpmedical, 1];
-					if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Backpack Medical Item: %1 for AI.",_bpmedical];};
-				};
-			};
-
-			//Add medical items to inventory
-			for "_i" from 1 to DZAI_invmedicals do {
-				if ((random 1) < DZAI_chanceMedicals) then {
-					private["_invmedical"];
-					_invmedical = DZAI_Medicals1 call BIS_fnc_selectRandom2;
-					_unit addMagazine _invmedical;
-					if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Generated Inventory Medical Item: %1 for AI.",_invmedical];};
-				};
-			};
-			
-			if (DZAI_modName == "epoch") then {
-				private ["_itemBar","_index","_chance","_metalBarCount"];
-				_metalBarCount = (count DZAI_metalBars);
-				//diag_log format ["DEBUG :: Counted %1 bars in DZAI_metalBars.",_metalBarCount];
-				for "_i" from 0 to DZAI_metalBarNum do {
-					_index = floor (random _metalBarCount);
-					_chance = ((DZAI_metalBars select _index) select 1);
-					//diag_log format ["DEBUG :: %1 chance to add bar.",_chance];
-					if ((random 1) < _chance) then {
-						_itemBar = ((DZAI_metalBars select _index) select 0);
-						_unit addMagazine _itemBar;
-						//diag_log format ["DEBUG :: Added bar %1 as loot to AI corpse.",_itemBar];
-					};
-				};
-			};
-		};
-		
-		sleep 0.001;
-		
-		//Add tool items
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		_toolsArray = if (_weapongrade < 2) then {DZAI_tools0} else {DZAI_tools1};
-
-		//diag_log format ["DEBUG :: Counted %1 tools in _toolsArray.",(count _toolsArray)];
-		for "_i" from 0 to ((count _toolsArray) - 1) do {
-			_chance = ((_toolsArray select _i) select 1);
-			//diag_log format ["DEBUG :: %1 chance to add tool.",_chance];
-			if ((random 1) < _chance) then {
-				_tool = ((_toolsArray select _i) select 0);
-				_unit addWeapon _tool;
-				//diag_log format ["DEBUG :: Added tool %1 as loot to AI corpse.",_tool];
-			};
-	};
-};
-
-DZAI_setupLoadout = {
-	private ["_unit","_weapongrade","_weapons","_weapon","_magazine","_backpacks","_gadgetsArray","_backpack","_gadget"];
-	_unit = _this select 0;
-	_weapongrade = _this select 1;
-
-	if (_unit getVariable ["loadoutDone",false]) exitWith {diag_log "DZAI Error :: Unit already has loadout!";};
-	if ((typeName _weapongrade) == "SCALAR") then {
-		if ((count (weapons _unit)) > 0) then {
-			removeAllWeapons _unit;
-			_unit removeWeapon "ItemMap";
-			_unit removeWeapon "ItemGPS";
-			_unit removeWeapon "ItemCompass";
-			_unit removeWeapon "ItemRadio";  
-			_unit removeWeapon "ItemWatch";
-		};
-		
-		switch (_weapongrade) do {
-			case 0: {
-				if ((random 1) < 0.30) then {
-					_weapons = DZAI_Pistols0;
-					_unit setVariable ["CanGivePistol",false];	//Prevent unit from being assigned a pistol after death.
-				} else {
-					_weapons = DZAI_rifles0;
-				};
-				_backpacks = DZAI_Backpacks0;
-				_gadgetsArray = DZAI_gadgets0;
-			};
-			case 1: {
-				_weapons = DZAI_rifles1;
-				_backpacks = DZAI_Backpacks1;
-				_gadgetsArray = DZAI_gadgets0;
-			};
-			case 2: {
-				_weapons = DZAI_rifles2;
-				_backpacks = DZAI_Backpacks2;
-				_gadgetsArray = DZAI_gadgets1;
-			};
-			case 3: {
-				_weapons = DZAI_rifles3;
-				_backpacks = DZAI_Backpacks3;
-				_gadgetsArray = DZAI_gadgets1;
-			};
-			case default {
-				_weapons = [DZAI_rifles0,DZAI_rifles1,DZAI_rifles2,DZAI_rifles3] call BIS_fnc_selectRandom2;
-				_backpacks = [DZAI_Backpacks0,DZAI_Backpacks1,DZAI_Backpacks2,DZAI_Backpacks3] call BIS_fnc_selectRandom2;
-				_gadgetsArray = [DZAI_gadgets0,DZAI_gadgets1] call BIS_fnc_selectRandom2;
-			};
-		};
-
-		//Select weapon and backpack
-		_weapon = _weapons call BIS_fnc_selectRandom2;
-		_backpack = _backpacks call BIS_fnc_selectRandom2;
-		
-		//Add weapon, ammunition, and backpack
-		_magazine = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") select 0;
-		_unit addMagazine _magazine;
-		_unit addWeapon _weapon;
-		_unit selectWeapon _weapon;
-		_unit addBackpack _backpack;
-		if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Created weapon %1 and backpack %3 for AI with weapongrade %2. (fn_unitSelectWeapon)",_weapon,_weapongrade,_backpack];};
-		
-		//diag_log format ["DEBUG :: Counted %1 tools in _gadgetsArray.",(count _gadgetsArray)];
-		for "_i" from 0 to ((count _gadgetsArray) - 1) do {
-			private["_chance"];
-			_chance = ((_gadgetsArray select _i) select 1);
-			//diag_log format ["DEBUG :: %1 chance to add gadget.",_chance];
-			if ((random 1) < _chance) then {
-				_gadget = ((_gadgetsArray select _i) select 0);
-				_unit addWeapon _gadget;
-				//diag_log format ["DEBUG :: Added gadget %1 as loot to AI inventory.",_gadget];
-			};
-		};
-		
-		//If unit has weapongrade 2 or 3 and was not given NVGs, give the unit temporary NVGs which will be removed at death. Set DZAI_tempNVGs to true in variables config to enable temporary NVGs.
-		if (DZAI_tempNVGs) then {
-			if (!(_unit hasWeapon "NVGoggles") && (_weapongrade > 1) && (daytime < 6 || daytime > 20)) then {
-				_unit addWeapon "NVGoggles";
-				_unit setVariable["removeNVG",1,false];
-				if (DZAI_debugLevel > 1) then {diag_log "DZAI Extended Debug: Generated temporary NVGs for AI.";};
-			};
-		};
-	} else {
-		diag_log format ["DZAI Error :: Invalid weapongrade value provided: %1",_weapongrade];
-	};
-	_unit setVariable ["loadoutDone",true];
-};
-
 DZAI_setTrigVars = {
 	private["_trigger"];
 
@@ -764,4 +548,15 @@ DZAI_setTrigVars = {
 	};
 
 	true
+};
+
+DZAI_getObjMon = {
+	private ["_objectMonitor"];
+	_objectMonitor = switch (true) do {
+		case ((!isNil "dayz_serverObjectMonitor")&&(isNil "PVDZE_serverObjectMonitor")): {dayz_serverObjectMonitor};
+		case (!isNil "PVDZE_serverObjectMonitor"): {PVDZE_serverObjectMonitor};
+		case default {[]};
+	};
+	
+	_objectMonitor
 };

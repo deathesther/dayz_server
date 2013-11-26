@@ -13,8 +13,8 @@ _timestamps = [];		//Array of timestamps for each corresponding playerUID
 
 _spawnThreshold = 3;	//Current number of dynamic spawns must fall below this number before more can be created.
 _spawnMax = 5;			//Maximum number of players to select each cycle. If number of online players is less than _spawnMax, all online players will be selected.
-_sleepDelay = 540;		//Frequency of each cycle
-_sleepVary = 300;		//Cycle frequency variance.
+_sleepDelay = 480;		//Frequency of each cycle
+_sleepVary = 240;		//Cycle frequency variance.
 
 while {true} do {
 	if ((count MAI_dynTriggerArray) < _spawnThreshold) then {
@@ -37,7 +37,7 @@ while {true} do {
 		sleep 3;
 		
 		for "_i" from 1 to ((ceil (0.25 * (count _allPlayers))) min _spawnMax) do {
-			_player = _allPlayers call BIS_fnc_selectRandom3;
+			_player = _allPlayers call BIS_fnc_selectRandom2;
 			_index = _playerUIDs find (getPlayerUID _player);
 			_lastSpawned = _timestamps select _index;
 			_spawnChance = ((time - _lastSpawned) / (_sleepDelay*3));
@@ -49,7 +49,7 @@ while {true} do {
 				_noNearbySpawns = if (({(_playerPos distance _x) < (2*(MAI_dynTriggerRadius - (MAI_dynTriggerRadius*MAI_dynOverlap)))} count MAI_dynTriggerArray) == 0) then {true} else {false};
 				_noNearbyTowns = if ((count nearestLocations [_playerPos,["NameCityCapital","NameCity","NameVillage"],500]) == 0) then {true} else {false};
 				_notInDebug = if ((_playerPos distance getMarkerpos "respawn_west") > 2000) then {true} else {false};
-				_noPlotpole = if ((count (_playerPos nearObjects ["Plastic_Pole_EP1_DZ",75])) == 0) then {true} else {false};
+				_noPlotpole = if ((count (_playerPos nearObjects ["Plastic_Pole_EP1_DZ",100])) == 0) then {true} else {false};
 				if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Player %1 - isLandUnit: %2, onLand: %3, noNearbySpawns: %4, noNearbyTowns: %5, notInDebug: %6, noPlotpole: %7.",name _player,_isLandUnit,_onLand,_noNearbySpawns,_noNearbyTowns,_notInDebug,_noPlotPole]};
 				if (_isLandUnit && _onLand && _noNearbySpawns && _noNearbyTowns && _noPlotpole && _notInDebug) then {
 					_timestamps set [_index,time];
@@ -57,7 +57,8 @@ while {true} do {
 					_trigger setTriggerArea [MAI_dynTriggerRadius, MAI_dynTriggerRadius, 0, false];
 					_trigger setTriggerActivation ["ANY", "PRESENT", true];
 					_trigger setTriggerTimeout [3, 3, 3, true];
-					_trigger setTriggerText "V2 Dynamic Trigger";
+					_triggerText = format ["Dynamic Trigger (Target: %1)",name _player];
+					_trigger setTriggerText _triggerText;
 					_trigger setVariable ["targetplayer",_player];
 					_trigActStatements = format ["0 = [225,thisTrigger,%1] call fnc_spawnmilitary_dynamic;",_spawnChance];
 					_trigger setTriggerStatements ["{isPlayer _x} count thisList > 0;",_trigActStatements, "[thisTrigger] spawn fnc_despawnmilitary_dynamic;"];

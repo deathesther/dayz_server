@@ -47,7 +47,10 @@ _grpArray = [];
 private ["_unitGroup","_spawnPos","_totalAI"];
 //Select spawn location
 
-if (_weapongrade < 0) then {_paradrop = true; _weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeightedmil;};
+if (_weapongrade < 0) then {
+	if (_weapongrade == -1) then {_paradrop = true}; 
+	_weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeighted_M;
+};
 _spawnPos = [(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos;
 _unitGroup = [_totalAI,(createGroup resistance),_spawnPos,_trigger,_weapongrade] call MAI_setup_AI;
 
@@ -80,11 +83,11 @@ _grpArray set [count _grpArray,_unitGroup];
 if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Spawned a group of %1 units in %2 seconds at %3 (spawnmilitary).",_totalAI,(diag_tickTime - _startTime),(triggerText _trigger)];};
 
 _gradeChances = switch (_weapongrade) do {
-	case 0: {[MAI_gradeChances0,MAI_gradeChances1] call BIS_fnc_selectRandom3};
-	case 1: {[MAI_gradeChances1,MAI_gradeChances2] call BIS_fnc_selectRandom3};
-	case 2: {[MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom3};
+	case 0: {[MAI_gradeChances0,MAI_gradeChances1] call BIS_fnc_selectRandom2};
+	case 1: {[MAI_gradeChances1,MAI_gradeChances2] call BIS_fnc_selectRandom2};
+	case 2: {[MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom2};
 	case 3: {MAI_gradeChances3};
-	case default {[MAI_gradeChances0,MAI_gradeChances1,MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom3};
+	case default {[MAI_gradeChances0,MAI_gradeChances1,MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom2};
 };
 
 0 = [_trigger,_grpArray,_patrolDist,_gradeChances,[],[_totalAI,0]] call MAI_setTrigVars;

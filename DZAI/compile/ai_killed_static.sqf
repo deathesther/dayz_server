@@ -39,7 +39,7 @@ if (_unitsAlive == 0) then {
 		_unitGroup setVariable ["dummyUnit",_dummy];
 		if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Spawned 1 dummy AI unit for group %1. (fnc_staticAIDeath)",_unitGroup];};
 		
-		0 = [(time + DZAI_respawnTime),_trigger,_unitGroup] spawn fnc_respawnHandler;
+		0 = [_trigger,_unitGroup] spawn fnc_respawnHandler;
 	} else {
 		if (DZAI_debugMarkers > 0) then {deleteMarker str(_trigger)};
 		if (DZAI_debugLevel > 0) then {diag_log format["DZAI Debug: Deleting custom-defined AI spawn %1 at %2. (fnc_staticAIDeath)",triggerText _trigger, mapGridPosition _trigger];};
@@ -60,3 +60,6 @@ if (_unitsAlive == 0) then {
 		DZAI_actTrigs = DZAI_actTrigs - 1;
 	};
 };
+
+sleep 3;
+_victim enableSimulation false;

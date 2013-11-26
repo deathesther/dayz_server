@@ -31,8 +31,7 @@ if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Group %1 h
 if (isPlayer _killer) then {
 	private ["_trigger","_gradeChances","_weapongrade"];
 
-	_unitGroup setBehaviour "COMBAT";
-	if (DZAI_findKiller) then {0 = [_victim,_killer,_unitGroup] spawn DZAI_huntKiller;};
+	if (DZAI_findKiller) then {_unitGroup setBehaviour "AWARE"; 0 = [_victim,_killer,_unitGroup] spawn DZAI_huntKiller} else {_unitGroup setBehaviour "COMBAT"};
 
 	_trigger = _unitGroup getVariable "trigger";
 	_gradeChances = _trigger getVariable ["gradeChances",DZAI_gradeChances1];
@@ -40,7 +39,9 @@ if (isPlayer _killer) then {
 
 	_weapongrade = [DZAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted;
 	0 = [_victim,_weapongrade] spawn DZAI_addLoot;
-
+	
+	0 = [[_victim,_killer],"banditKills"] call local_eventKill;
+	
 	if (DZAI_humanityGain > 0) then {
 		private ["_humanity"];
 		_humanity = _killer getVariable["humanity",0];
@@ -55,4 +56,5 @@ if (isPlayer _killer) then {
 };
 
 _nul = _victim spawn DZAI_deathFlies;
-_victim enableSimulation false;
+
+true

@@ -8,7 +8,7 @@
 	Last updated: 1:59 AM 11/9/2013
 */
 
-private ["_patrolDist","_trigger","_totalAI","_unitGroup","_targetPlayer","_playerPos","_playerDir","_playerCount","_spawnPos","_startTime","_baseDist","_distVariance","_dirVariance","_spawnChance"];
+private ["_patrolDist","_trigger","_totalAI","_unitGroup","_targetPlayer","_playerPos","_playerDir","_playerCount","_spawnPos","_startTime","_baseDist","_distVariance","_dirVariance","_spawnChance","_vehPlayer"];
 if (!isServer) exitWith {};
 
 _patrolDist = _this select 0;
@@ -21,8 +21,12 @@ _startTime = diag_tickTime;
 
 _targetPlayer = _trigger getVariable ["targetplayer",objNull];
 if (isNull _targetPlayer) exitWith {
-	_trigger setVariable ["forceDespawn",true];
-	[_trigger] spawn fnc_despawnBandits_dynamic;	//force despawning even if players are present in trigger area.
+	DZAI_dynTriggerArray = DZAI_dynTriggerArray - [_trigger];
+	DZAI_actDynTrigs = DZAI_actDynTrigs - 1;
+	DZAI_curDynTrigs = DZAI_curDynTrigs - 1;
+	if (DZAI_debugMarkers > 0) then {deleteMarker format["trigger_%1",_trigger]};
+
+	deleteVehicle _trigger;
 };
 
 /*
@@ -42,15 +46,16 @@ _startTime = diag_tickTime;
 _baseDist = 200;
 _distVariance = 50;
 
-if (_targetPlayer isKindOf "Man") then {
+_vehPlayer = vehicle _targetPlayer;
+if (_vehPlayer isKindOf "Man") then {
 	_dirVariance = if ((random 1) < 0.85) then {100} else {157.5};
 } else {
 	_dirVariance = if ((random 1) < 0.85) then {67.5} else {135};
 	_baseDist = _baseDist - 25;
 };
 
-_playerPos = getPosATL _targetPlayer;
-_playerDir = getDir _targetPlayer;
+_playerPos = getPosATL _vehPlayer;
+_playerDir = getDir _vehPlayer;
 
 if (DZAI_debugMarkers > 0) then {
 	private["_marker"];
@@ -67,13 +72,16 @@ _unitGroup = [_totalAI,grpNull,_spawnPos,_trigger,_weapongrade] call DZAI_setup_
 
 //Set group variables
 _unitGroup setVariable ["unitType","dynamic"];
+_unitGroup setBehaviour "AWARE";
+_unitGroup setCombatMode "RED";
+_unitGroup setSpeedMode "FULL";
 _unitGroup allowFleeing 0;
 	
 //Reveal target player and nearby players to AI.
-_unitGroup setFormDir ([(leader _unitGroup),_targetPlayer] call BIS_fnc_dirTo);
-_unitGroup reveal [_targetPlayer,(1.5 + random (2.5))];
-(units _unitGroup) doTarget _targetPlayer;
-(units _unitGroup) doFire _targetPlayer;
+_unitGroup setFormDir ([(leader _unitGroup),_vehPlayer] call BIS_fnc_dirTo);
+_unitGroup reveal [_vehPlayer,4];
+(units _unitGroup) doTarget _vehPlayer;
+(units _unitGroup) doFire _vehPlayer;
 
 //Update AI count
 DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;

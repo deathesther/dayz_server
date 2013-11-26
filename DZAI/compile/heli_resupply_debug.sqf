@@ -45,7 +45,7 @@ _startTime = time;
 
 if ((count _heliWeapons) > 0) then {
 	//For armed air vehicles
-	while {(alive _helicopter)&&(!(isNull _helicopter))} do {	
+	while {(alive _helicopter)&&(!(isNull _helicopter))&&(!(isNull (driver _helicopter)))} do {	
 		//Check if helicopter ammunition needs to be replenished
 		{
 			if ((_helicopter ammo _x) < 20) then {
@@ -65,17 +65,17 @@ if ((count _heliWeapons) > 0) then {
 		_wpmarker setMarkerPos (getWPPos [_unitGroup,0]);
 		
 		//Destroy helicopter if pilot is killed
-		if (!alive (driver _helicopter)) exitWith {
+		if ((!alive (driver _helicopter))&&(isEngineOn _helicopter)) exitWith {
 			if (DZAI_debugLevel > 0) then {diag_log "DZAI Debug: Patrol helicopter pilot killed, helicopter is going down!";};
-			_helicopter removeAllEventHandlers "LandedStopped";
 			_helicopter setFuel 0;
+			_helicopter setVehicleAmmo 0;
 			_helicopter setDamage 1;
 		};
 		
 		//Periodically vary the helicopter's altitude (DevNote: Change flying height every x script cycles instead of using chance?)
-		if ((random 1) < 0.3) then {
+		/*if ((random 1) < 0.3) then {
 			_helicopter flyInHeight (_baseHeight + (random 40));
-		};
+		};*/
 		
 		//Uncomment to test despawn/respawn process. Destroys helicopter after ~60 seconds of flight
 		/*
@@ -88,7 +88,7 @@ if ((count _heliWeapons) > 0) then {
 	};
 } else {
 	//For unarmed air vehicles
-	while {(alive _helicopter)&&(!(isNull _helicopter))} do {	
+	while {(alive _helicopter)&&(!(isNull _helicopter))&&(!(isNull (driver _helicopter)))} do {		
 		//Check if helicopter fuel is low
 		if (fuel _helicopter < 0.20) then {
 			_helicopter setFuel 1;
@@ -100,18 +100,18 @@ if ((count _heliWeapons) > 0) then {
 		_wpmarker setMarkerPos (getWPPos [_unitGroup,0]);
 		
 		//Destroy helicopter if pilot is killed
-		if (!alive (driver _helicopter)) exitWith {
+		if ((!alive (driver _helicopter))&&(isEngineOn _helicopter)) exitWith {
 			if (DZAI_debugLevel > 0) then {diag_log "DZAI Debug: Patrol helicopter pilot killed, helicopter is going down!";};
-			_helicopter removeAllEventHandlers "LandedStopped";
 			_helicopter setFuel 0;
 			_helicopter setVehicleAmmo 0;
 			_helicopter setDamage 1;
 		};
 		
 		//Periodically vary the helicopter's altitude
+		/*
 		if ((random 1) < 0.3) then {
 			_helicopter flyInHeight (_baseHeight + (random 40));
-		};
+		};*/
 		
 		//Uncomment to test despawn/respawn process. Destroys helicopter after ~60 seconds of flight
 		/*

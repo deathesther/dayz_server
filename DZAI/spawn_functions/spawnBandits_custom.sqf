@@ -47,7 +47,10 @@ _grpArray = [];
 private ["_unitGroup","_spawnPos","_totalAI"];
 //Select spawn location
 
-if (_weapongrade < 0) then {_paradrop = true; _weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;};
+if (_weapongrade < 0) then {
+	if (_weapongrade == -1) then {_paradrop = true}; 
+	_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
+};
 _spawnPos = [(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos;
 _unitGroup = [_totalAI,(createGroup east),_spawnPos,_trigger,_weapongrade] call DZAI_setup_AI;
 

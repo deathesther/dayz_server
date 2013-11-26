@@ -17,7 +17,11 @@ if (DZAI_verifyTables) then {
 	waitUntil {sleep 0.1; !isNil "DZAI_weaponsInitialized"};	//Wait for DZAI to finish building weapon classname arrays.
 };
 
-if (DZAI_aiHeliPatrols) then {if ((count DZAI_heliTypes) < 1) then {DZAI_heliTypes = ["UH1H_DZ"]}; _nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_heli_patrol.sqf';};
+if (DZAI_aiHeliPatrols) then {
+	if ((count DZAI_heliTypes) < 1) then {DZAI_heliTypes = ["UH1H_DZ"]}; 
+	_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_heli_patrol.sqf';
+	_objectMonitor = [] call DZAI_getObjMon;
+};
 
 if (DZAI_dynAISpawns) then {
 	if (!DZAI_V2dynSpawns) then {
@@ -45,11 +49,13 @@ while {true} do {
 		sleep 3;
 	};
 	
-	//Respawn any destroyed AI helicopters
 	if (DZAI_aiHeliPatrols) then {
+		//Respawn any destroyed AI helicopters
 		_helipatrols = [] spawn fnc_spawnHeliPatrol;
 		waitUntil {sleep 1; scriptDone _helipatrols};
 		sleep 3;
+		//Clean up server object monitor
+		_objectMonitor = _objectMonitor - [objNull];
 	};
 
 	//Clean up dead units spawned by DZAI.

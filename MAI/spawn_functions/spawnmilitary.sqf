@@ -92,7 +92,7 @@ for "_j" from 1 to _numGroups do {
 		_spawnPos = if ((count _spawnPositions) > 0) then {_spawnPositions call MAI_findSpawnPos} else {[(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos};
 		
 		//Spawn units
-		_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeightedmil;
+		_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted_M;
 		_unitGroup = [_totalAI,grpNull,_spawnPos,_trigger,_weapongrade] call MAI_setup_AI;
 
 		//Set group variables

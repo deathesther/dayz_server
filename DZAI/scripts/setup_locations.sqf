@@ -79,10 +79,11 @@ if (isNil "DZAI_newMap") then {
 				};
 				DZAI_locations set [(count DZAI_locations),[_placeName,_placePos,_placeType]];	//Location Name, Position, Type
 				_locCount = _locCount + 1;
-				//diag_log format ["DEBUG :: Found a location at %1 (%2, %3).",_placeName,_placeType,_placePos];
+				if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Created a static spawn at %1 (%2).",_placeName,_placeType];};
 			};
+			sleep 0.01;
 		} forEach _allPlaces;
-		if ((DZAI_dynAISpawns)&&(isNil "DZAI_dynTriggersMax")) then {
+		if ((DZAI_dynAISpawns)&&(isNil "DZAI_dynTriggersMax")&&(!DZAI_V2dynSpawns)) then {
 			DZAI_dynTriggersMax = ceil (0.2*_locCount);
 		};
 };

@@ -17,7 +17,11 @@ if (MAI_verifyTables) then {
 	waitUntil {sleep 0.1; !isNil "MAI_weaponsInitialized"};	//Wait for MAI to finish building weapon classname arrays.
 };
 
-if (MAI_aiHeliPatrols) then {if ((count MAI_heliTypes) < 1) then {MAI_heliTypes = ["UH1H_DZ"]}; _nul = [] execVM '\z\addons\dayz_server\MAI\scripts\setup_heli_patrol.sqf';};
+if (MAI_aiHeliPatrols) then {
+	if ((count MAI_heliTypes) < 1) then {MAI_heliTypes = ["UH1H_DZ"]}; 
+	_nul = [] execVM '\z\addons\dayz_server\MAI\scripts\setup_heli_patrol.sqf';
+	_objectMonitor = [] call MAI_getObjMon;
+};
 
 if (MAI_dynAISpawns) then {
 	if (!MAI_V2dynSpawns) then {
@@ -45,11 +49,13 @@ while {true} do {
 		sleep 3;
 	};
 	
-	//Respawn any destroyed AI helicopters
 	if (MAI_aiHeliPatrols) then {
-		_helipatrols = [] spawn fnc_spawnHeliPatrolmill;
+		//Respawn any destroyed AI helicopters
+		_helipatrols = [] spawn fnc_spawnHeliPatrol_M;
 		waitUntil {sleep 1; scriptDone _helipatrols};
 		sleep 3;
+		//Clean up server object monitor
+		_objectMonitor = _objectMonitor - [objNull];
 	};
 
 	//Clean up dead units spawned by MAI.

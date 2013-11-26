@@ -1,7 +1,7 @@
 /*
-	fnc_staticAIDeathmil
+	fnc_staticAIDeath_M
 
-	Usage: _victim call fnc_staticAIDeathmil;
+	Usage: _victim call fnc_staticAIDeath_M;
 	
 	Description: Script is called when an AI unit is killed, and waits for the specified amount of time before respawning the unit into the same group it was part of previously.
 	If the killed unit was the last surviving unit of its group, a dummy AI unit is created to occupy the group until a dead unit in the group is respawned.
@@ -22,7 +22,7 @@ if (!(_trigger getVariable ["respawn",true])) then {
 	private ["_maxUnits"];
 	_maxUnits = _trigger getVariable "maxUnits";
 	_maxUnits set [0,(_maxUnits select 0) - 1];
-	if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: MaxUnits variable for group %1 set to %2. (fnc_staticAIDeathmil)",_unitGroup,_maxUnits];};
+	if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: MaxUnits variable for group %1 set to %2. (fnc_staticAIDeath_M)",_unitGroup,_maxUnits];};
 };
 
 if (_unitsAlive == 0) then {
@@ -37,12 +37,12 @@ if (_unitsAlive == 0) then {
 		_dummy disableAI "TARGET";
 		_dummy disableAI "AUTOTARGET";
 		_unitGroup setVariable ["dummyUnit",_dummy];
-		if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: Spawned 1 dummy AI unit for group %1. (fnc_staticAIDeathmil)",_unitGroup];};
+		if (MAI_debugLevel > 1) then {diag_log format["MAI Extended Debug: Spawned 1 dummy AI unit for group %1. (fnc_staticAIDeath_M)",_unitGroup];};
 		
-		0 = [(time + MAI_respawnTime),_trigger,_unitGroup] spawn fnc_respawnHandlermill;
+		0 = [_trigger,_unitGroup] spawn fnc_respawnHandler_M;
 	} else {
 		if (MAI_debugMarkers > 0) then {deleteMarker str(_trigger)};
-		if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Deleting custom-defined AI spawn %1 at %2. (fnc_staticAIDeathmil)",triggerText _trigger, mapGridPosition _trigger];};
+		if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Deleting custom-defined AI spawn %1 at %2. (fnc_staticAIDeath_M)",triggerText _trigger, mapGridPosition _trigger];};
 		{
 			if (MAI_debugMarkers > 0) then {
 				{
@@ -60,3 +60,6 @@ if (_unitsAlive == 0) then {
 		MAI_actTrigs = MAI_actTrigs - 1;
 	};
 };
+
+sleep 3;
+_victim enableSimulation false;

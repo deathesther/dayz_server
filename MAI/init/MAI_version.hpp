@@ -3,4 +3,4 @@
 */
 
 #define MAI_TYPE "MAI"
-#define MAI_VERSION "1.8.0"
+#define MAI_VERSION "1.8.1"

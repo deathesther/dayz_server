@@ -5,22 +5,26 @@
 	
 	Description: Handles AI ammo reload, self-healing, zombie hostility. Called by fnc_createGroup upon AI unit creation.
 	
-	Last updated: 1:59 AM 11/9/2013
+	Last updated: 12:49 AM 11/19/2013
 */
-private["_unit","_currentWeapon","_weaponMagazine","_needsReload","_nearbyZeds","_marker","_markername","_lastBandage","_bandages","_unitGroup","_health","_lowblood","_brokenbones"];
+private["_unit","_currentWeapon","_weaponMagazine","_needsReload","_nearbyZeds","_marker","_markername","_lastBandage","_bandages","_unitGroup","_needsHeal"];
 if (!isServer) exitWith {};
 if (DZAI_debugLevel > 1) then {diag_log "DZAI Extended Debug: AI resupply script active.";};
 
 _unit = _this select 0;								//Unit to monitor/reload ammo
 _bandages = if ((count _this) > 1) then {_this select 1} else {1};	//Additional self-heals based on unit weapon grade. Each unit has 1 self-heal by default.
 
+//Initialize medical variables
 if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth",[12000,0,0]]};
+if (isNil {_unit getVariable "unconscious"}) then {_unit setVariable ["unconscious",false]};
+_lastBandage = 0;
+_needsHeal = false;
+
 _currentWeapon = currentWeapon _unit;				//Retrieve unit's current weapon
 waitUntil {sleep 0.1; !isNil "_currentWeapon"};
 _weaponMagazine = getArray (configFile >> "CfgWeapons" >> _currentWeapon >> "magazines") select 0;	//Retrieve ammo used by unit's current weapon
 waitUntil {sleep 0.1; !isNil "_weaponMagazine"};
 
-_lastBandage = 0;
 _unitGroup = (group _unit);
 
 while {(alive _unit)&&(!(isNull _unit))} do {	
@@ -47,20 +51,37 @@ while {(alive _unit)&&(!(isNull _unit))} do {
 			if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI ammo depleted, added magazine %1 to AI %2.",_weaponMagazine,_unit];};
 		};
 		if (_bandages > 0) then {
+			private ["_health"];
 			_health = _unit getVariable "unithealth";
-			_lowblood = ((_health select 0) < 7800);
-			_brokenbones = (((_health select 1) >= 1) or ((_health select 2) >= 1)); 
-			if ((_lowblood or _brokenbones) &&(time - _lastBandage) > 60) then {
-				if ((random 1) < 0.5) then {
-					_bandages = _bandages - 1;
-					_unit disableAI "FSM";
-					_unit playActionNow "Medic";
-					if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI %1 is healing. Remaining bandages: %2.",_unit,_bandages];};
-					sleep 4;
-					_unit setDamage 0;
-					_unit setVariable ["unithealth",[12000,0,0]];
-					_lastBandage = time;
-					_unit enableAI "FSM";
+			if (_needsHeal) then {
+				private ["_healTimes"];
+				_bandages = _bandages - 1;
+				_unit disableAI "TARGET"; _unit disableAI "AUTOTARGET"; _unit disableAI "MOVE";
+				_unit playActionNow "Medic";
+				_healTimes = 0;
+				while {(!(_unit getVariable ["unconscious",false]))&&(_healTimes < 3)&&(alive _unit)} do {
+					sleep 2;
+					_health set [0,(((_health select 0) + 2000) min 12000)];
+					if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI %1 is healing. Current Blood: %2.",_unit,(_health select 0)];};
+					_healTimes = _healTimes + 1;
+					if ((_healTimes == 3)) then {
+						_health set [1,0];
+						_health set [2,0];
+						_unit setDamage 0;
+						if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI %1 has completed full heal process.",_unit];};
+					};
+				};
+				
+				_unit enableAI "TARGET"; _unit enableAI "AUTOTARGET"; _unit enableAI "MOVE";
+				_lastBandage = time;
+				_needsHeal = false;
+			} else {
+				private ["_lowblood","_brokenbones"];
+				_lowblood = ((_health select 0) < 7200);
+				_brokenbones = (((_health select 1) >= 1) or ((_health select 2) >= 1)); 
+				if ((_lowblood or _brokenbones) && (time - _lastBandage) > 60) then {
+					_needsHeal = true;
+					if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI %1 needs to heal! Blood low: %2, Broken bones: %3.",_unit,_lowblood,_brokenbones];};
 				};
 			};
 		};

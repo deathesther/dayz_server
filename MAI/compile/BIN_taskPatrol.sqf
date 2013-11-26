@@ -51,11 +51,11 @@ if (isServer) then
 
 	//_grp setBehaviour _MAI_behavior;
 	_grp setBehaviour "AWARE";
-	//_grp setSpeedMode (["FULL","NORMAL"] call BIS_fnc_selectRandom3);
+	//_grp setSpeedMode (["FULL","NORMAL"] call BIS_fnc_selectRandom2);
 	_grp setSpeedMode "FULL";
-	//_grp setCombatMode (["YELLOW", "RED"] call BIS_fnc_selectRandom3);
+	//_grp setCombatMode (["YELLOW", "RED"] call BIS_fnc_selectRandom2);
 	_grp setCombatMode "RED";
-	//_grp setFormation (["STAG COLUMN", "WEDGE", "ECH LEFT", "ECH RIGHT", "VEE", "DIAMOND"] call BIS_fnc_selectRandom3);
+	//_grp setFormation (["STAG COLUMN", "WEDGE", "ECH LEFT", "ECH RIGHT", "VEE", "DIAMOND"] call BIS_fnc_selectRandom2);
 
 	_center_x = (_pos) select 0;
 	_center_y = (_pos) select 1;
@@ -123,7 +123,7 @@ if (isServer) then
 				};
 			} forEach _bldgs;
 			
-			if(count _bldgpos != 0) then {_wp_pos = _bldgpos call BIS_fnc_selectRandom3;};
+			if(count _bldgpos != 0) then {_wp_pos = _bldgpos call BIS_fnc_selectRandom2;};
 			_wp_array = _wp_array + [_wp_pos];
 
 			sleep 0.5;

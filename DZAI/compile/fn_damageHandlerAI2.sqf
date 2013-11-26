@@ -1,7 +1,8 @@
 private["_unit","_hit","_damage","_source","_ammo","_unithealth","_scale","_blooddamage","_newbloodlevel","_headShots","_partdamage"];
 /*
 	Damage Handler script modified for DZAI
-	Original credits: Celery, modifications by Nullkigan (for Body Armor script), Rocket (for original zombie damage handler script).
+	Simulates DayZ's player health system for individual AI units
+	
 */
 _unit = 		_this select 0;				//Object the event handler is assigned to. (the unit taking damage)
 _hit = 			_this select 1;				//Name of the selection where the unit was damaged. "" for over-all structural damage, "?" for unknown selections. 
@@ -40,7 +41,7 @@ if (_damage > 0.1) then {
 			_scale = _scale + 500;
 		};
 	};
-	if ((_ammo isKindof "B_127x107_Ball") or (_ammo isKindof "B_127x99_Ball")) then {_scale = _scale + 200};
+	if ((_ammo isKindOf "Grenade") or (_ammo isKindof "B_127x107_Ball") or (_ammo isKindof "B_127x99_Ball")) then {_scale = _scale + 200};
 	_blooddamage = (_damage * _scale);
 	_newbloodlevel = (_unithealth select 0) - _blooddamage;
 	_unithealth set [0,_newbloodlevel];

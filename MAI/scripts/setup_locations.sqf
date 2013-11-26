@@ -79,10 +79,11 @@ if (isNil "MAI_newMap") then {
 				};
 				MAI_locations set [(count MAI_locations),[_placeName,_placePos,_placeType]];	//Location Name, Position, Type
 				_locCount = _locCount + 1;
-				//diag_log format ["DEBUG :: Found a location at %1 (%2, %3).",_placeName,_placeType,_placePos];
+				if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Created a static spawn at %1 (%2).",_placeName,_placeType];};
 			};
+			sleep 0.01;
 		} forEach _allPlaces;
-		if ((MAI_dynAISpawns)&&(isNil "MAI_dynTriggersMax")) then {
+		if ((MAI_dynAISpawns)&&(isNil "MAI_dynTriggersMax")&&(!MAI_V2dynSpawns)) then {
 			MAI_dynTriggersMax = ceil (0.2*_locCount);
 		};
 };

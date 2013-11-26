@@ -24,7 +24,7 @@ _spawnPositions = _trigger getVariable ["locationArray",[]];
 _totalAI = ((_maxUnits select 0) + round(random (_maxUnits select 1)));
 
 if (_totalAI == 0) exitWith {
-	0 = [(time + DZAI_respawnTime),_trigger,_unitGroup] spawn fnc_respawnHandler;
+	0 = [_trigger,_unitGroup] spawn fnc_respawnHandler;
 	false
 };
 

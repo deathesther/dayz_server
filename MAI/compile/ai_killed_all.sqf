@@ -31,20 +31,21 @@ if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Group %1 has
 if (isPlayer _killer) then {
 	private ["_trigger","_gradeChances","_weapongrade"];
 
-	_unitGroup setBehaviour "COMBAT";
-	if (MAI_findKiller) then {0 = [_victim,_killer,_unitGroup] spawn MAI_huntKiller;};
+	if (MAI_findKiller) then {_unitGroup setBehaviour "AWARE"; 0 = [_victim,_killer,_unitGroup] spawn MAI_huntKiller} else {_unitGroup setBehaviour "COMBAT"};
 
 	_trigger = _unitGroup getVariable "trigger";
 	_gradeChances = _trigger getVariable ["gradeChances",MAI_gradeChances1];
 	if (isNil "_gradeChances") then {_gradeChances = MAI_gradeChances1};
 
-	_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeightedmil;
+	_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted_M;
 	0 = [_victim,_weapongrade] spawn MAI_addLoot;
-
+	
+	0 = [[_victim,_killer],"militaryKills"] call local_eventKill;
+	
 	if (MAI_humanityGain > 0) then {
 		private ["_humanity"];
 		_humanity = _killer getVariable["humanity",0];
-		_killer setVariable ["humanity",(_humanity - MAI_humanityGain),true];
+		_killer setVariable ["humanity",(_humanity + MAI_humanityGain),true];
 	};
 } else {
 	if (_killer != _victim) then {
@@ -55,4 +56,5 @@ if (isPlayer _killer) then {
 };
 
 _nul = _victim spawn MAI_deathFlies;
-_victim enableSimulation false;
+
+true

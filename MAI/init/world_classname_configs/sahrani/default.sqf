@@ -7,7 +7,7 @@
 
 private ["_craftingBooks","_newAISkins"];
 
-_newAISkins = ["Rocket_DZ","militarykin_DZ","SniperBandit_DZ","SniperBanditW_DZ","Sniper1W_DZ","militarykinW_DZ"];
+_newAISkins = ["Rocket_DZ","BanditSkin_DZ","SniperBandit_DZ","SniperBanditW_DZ","Sniper1W_DZ","BanditSkinW_DZ"];
 _craftingBooks = [["ItemCraftingBook",0.10],["ItemCraftingBook2",0.10],["ItemCraftingBook3",0.05]];
 
 for "_i" from 0 to ((count _newAISkins) - 1) do {MAI_militaryTypes set [(count MAI_militaryTypes),(_newAISkins select _i)];};

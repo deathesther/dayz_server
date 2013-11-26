@@ -16,6 +16,9 @@ _killer = _this select 1;
 _unitGroup = _helicopter getVariable "unitGroup";
 _crewCount = _helicopter getVariable ["crewCount",1];
 
+_helicopter removeAllEventHandlers "GetOut";
+_helicopter removeAllEventHandlers "Killed";
+
 {
 	deleteVehicle _x;
 } forEach (units _unitGroup);
@@ -64,9 +67,9 @@ if (DZAI_airLootMode > 0) then {
 			_dropTrigger = createTrigger ["EmptyDetector",_heliPos];
 			_dropTrigger setTriggerArea [600, 600, 0, false];
 			_dropTrigger setTriggerActivation ["ANY", "PRESENT", true];
-			_dropTrigger setTriggerTimeout [5, 5, 5, true];
+			_dropTrigger setTriggerTimeout [3, 4, 5, true];
 			_dropTrigger setTriggerText (format ["Paradrop%1",mapGridPosition _helicopter]);
-			_statements = format ["0 = [%1,0,100,thisTrigger,-1,'%2'] call fnc_spawnBandits_custom;",_crewCount,_dropMarker];
+			_statements = format ["0 = [%1,0,75,thisTrigger,-1,'%2'] call fnc_spawnBandits_custom;",_crewCount,_dropMarker];
 			_dropTrigger setTriggerStatements ["{isPlayer _x} count thisList > 0;",_statements,"0 = [thisTrigger] spawn fnc_despawnBandits;"];
 			_dropTrigger setVariable ["respawn",false];
 			_dropTrigger setVariable ["spawnmarker",_dropMarker];
@@ -84,7 +87,7 @@ if (DZAI_airLootMode > 0) then {
 				if (_deleteTrigger) then {deleteVehicle _this};
 			};
 			
-			if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Spawning AI paradrop at %1.",mapGridPosition _trigger];};
+			if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Spawning AI paradrop at %1.",mapGridPosition _dropTrigger];};
 		};
 	};
 };

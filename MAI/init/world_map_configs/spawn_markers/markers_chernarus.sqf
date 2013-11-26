@@ -233,39 +233,3 @@ _this setMarkerType "Empty";
 _this setMarkerBrush "Solid";
 _marker_113 = _this;
 //End markers
-//Custom
-// Sector FNG - Front Base Patrol Area
-_this = createMarker ["Sector_1", [6559, 14199, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_114 = _this;
-
-// Sector FNG - Back Base Patrol Area
-_this = createMarker ["Sector_2", [6736.28, 14204.5, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_115 = _this;
-
-// Sector FNG - Crate 1
-_this = createMarker ["Sector_c1", [6589.84, 14277.5, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_116 = _this;
-
-// Sector FNG - Crate 2
-_this = createMarker ["Sector_c2", [6785, 14319, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_117 = _this;
-
-// Sector FNG - Crate 3
-_this = createMarker ["Sector_c3", [6788, 14090, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_118 = _this;
-
-// Sector FNG - Crate 4
-_this = createMarker ["Sector_c4", [6668, 14128, 0]];
-_this setMarkerType "Empty";
-_this setMarkerBrush "Solid";
-_marker_119 = _this;

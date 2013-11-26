@@ -42,7 +42,7 @@ _playerArray = [];
 
 //if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: %1 units within trigger area. %2 are players. (spawnmilitary_dynamic)",(count _unitArray),_playerCount];};
 
-_targetPlayer = _playerArray call BIS_fnc_selectRandom3;
+_targetPlayer = _playerArray call BIS_fnc_selectRandom2;
 _playerPos = getPosATL _targetPlayer;
 
 //Count number of players close to the targeted player.
@@ -89,11 +89,14 @@ _distVariance = 50;
 
 //Spawn units
 _spawnPos = [_spawnPosition,(_baseDist + random (_distVariance)),random(360),false] call SHK_pos;
-_weapongrade = [MAI_weaponGrades,MAI_gradeChancesDyn] call fnc_selectRandomWeightedmil;
+_weapongrade = [MAI_weaponGrades,MAI_gradeChancesDyn] call fnc_selectRandomWeighted_M;
 _unitGroup = [_totalAI,grpNull,_spawnPos,_trigger,_weapongrade] call MAI_setup_AI;
 
 //Set group variables
 _unitGroup setVariable ["unitType","dynamic"];
+_unitGroup setBehaviour "AWARE";
+_unitGroup setCombatMode "RED";
+_unitGroup setSpeedMode "FULL";
 _unitGroup allowFleeing 0;
 	
 //Reveal target player and nearby players to AI.

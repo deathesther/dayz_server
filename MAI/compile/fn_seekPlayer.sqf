@@ -3,21 +3,16 @@
 	
 	Description: Used for dynamically spawned AI. Creates a MOVE waypoint directing AI to a random player's position, then uses BIN_taskPatrol to create a circular patrol path around player's position.
 	
-	Last updated: 9:08 PM 10/25/2013
+	Last updated: 8:41 PM 11/17/2013
 */
 
-private ["_unitGroup","_spawnPos","_waypoint","_patrolDist","_statement","_targetPlayer","_patrolCenter","_triggerPos"];
+private ["_unitGroup","_spawnPos","_waypoint","_patrolDist","_statement","_targetPlayer","_triggerPos","_canRadio"];
 
 _unitGroup = _this select 0;
 _spawnPos = _this select 1;
 _patrolDist = _this select 2;
 _targetPlayer = _this select 3;
 _triggerPos = _this select 4;
-
-//_smokeCover = _spawnPos spawn MAI_smokeCover;
-_unitGroup setBehaviour "AWARE";//"CARELESS"
-_unitGroup setSpeedMode "FULL";
-_unitGroup setCombatMode "RED";//"BLUE"
 
 deleteWaypoint [_unitGroup,0];
 
@@ -29,7 +24,15 @@ _waypoint setWaypointTimeout [5,5,5];
 _waypoint setWaypointStatements ["true","group this setCurrentWaypoint [group this,0]"];
 _unitGroup setCurrentWaypoint _waypoint;
 
-if ((_targetPlayer hasWeapon "ItemRadio")&&MAI_radioMsgs) then {
+//Check if we can send player radio messages (prevent message flooding).
+_canRadio = if ((_targetPlayer getVariable ["canRadio",true]) && MAI_radioMsgs) then {
+	_targetPlayer setVariable ["canRadio",false];
+	true
+} else {
+	false
+};
+	
+if ((_targetPlayer hasWeapon "ItemRadio") && _canRadio) then {
 	[nil,_targetPlayer,"loc",rTITLETEXT,"[RADIO] A military group is preparing an ambush...","PLAIN DOWN",5] call RE;
 };
 
@@ -48,7 +51,7 @@ while {(alive _targetPlayer) && !(isNull _targetPlayer) && (((vehicle _targetPla
 			{_x suppressFor 10} forEach (units _unitGroup);//Issue suppressive fire order if player is close by
 		};
 		//Warn player of AI military presence if they have a radio.
-		if ((_targetPlayer hasWeapon "ItemRadio")&&MAI_radioMsgs) then {
+		if ((_targetPlayer hasWeapon "ItemRadio" ) && _canRadio) then {
 			private ["_radioText"];
 			_radioText = format ["[RADIO] You are being followed by a military group. (Distance: %1m)",round(_targetPlayer distance (leader _unitGroup))];
 			[nil,_targetPlayer,"loc",rTITLETEXT,_radioText,"PLAIN DOWN",5] call RE;
@@ -67,8 +70,10 @@ _waypoint setWaypointStatements ["true","if ((random 1) < 0.50) then { group thi
 0 = [_unitGroup,_triggerPos,_patrolDist,MAI_debugMarkers] spawn MAI_BIN_taskPatrol;
 
 sleep 5;
-if ((_targetPlayer hasWeapon "ItemRadio") && !(_unitGroup getVariable ["inPursuit",false]) && MAI_radioMsgs) then {
+if ((_targetPlayer hasWeapon "ItemRadio") && _canRadio && !(_unitGroup getVariable ["inPursuit",false])) then {
 	[nil,_targetPlayer,"loc",rTITLETEXT,"[RADIO] You have successfully evaded the pursuing military.","PLAIN DOWN",5] call RE;
 };
+
+_targetPlayer setVariable ["canRadio",nil];
 	
 true

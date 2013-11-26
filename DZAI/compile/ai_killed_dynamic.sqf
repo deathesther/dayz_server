@@ -35,3 +35,6 @@ if (_unitsAlive == 0) then {
 };
 
 if (DZAI_debugLevel > 0) then {diag_log format["DZAI Debug: AI group %1 killed, %2 units left alive in group. (fnc_dynAIDeath).",_unitGroup,_unitsAlive];};
+
+sleep 3;
+_victim enableSimulation false;

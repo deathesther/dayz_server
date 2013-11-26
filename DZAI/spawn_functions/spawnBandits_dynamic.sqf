@@ -94,6 +94,9 @@ _unitGroup = [_totalAI,grpNull,_spawnPos,_trigger,_weapongrade] call DZAI_setup_
 
 //Set group variables
 _unitGroup setVariable ["unitType","dynamic"];
+_unitGroup setBehaviour "AWARE";
+_unitGroup setCombatMode "RED";
+_unitGroup setSpeedMode "FULL";
 _unitGroup allowFleeing 0;
 	
 //Reveal target player and nearby players to AI.

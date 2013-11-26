@@ -24,7 +24,7 @@ _spawnPositions = _trigger getVariable ["locationArray",[]];
 _totalAI = ((_maxUnits select 0) + round(random (_maxUnits select 1)));
 
 if (_totalAI == 0) exitWith {
-	0 = [(time + MAI_respawnTime),_trigger,_unitGroup] spawn fnc_respawnHandlermill;
+	0 = [_trigger,_unitGroup] spawn fnc_respawnHandler_M;
 	false
 };
 
@@ -32,7 +32,7 @@ if (_totalAI == 0) exitWith {
 _spawnPos = if ((count _spawnPositions) > 0) then {_spawnPositions call MAI_findSpawnPos} else {[(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos};
 
 //Respawn the group
-_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeightedmil;
+_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted_M;
 _aiGroup = [_totalAI,_unitGroup,_spawnPos,_trigger,_weapongrade] call MAI_setup_AI;
 if (isNull _unitGroup) then {diag_log "MAI Error :: Respawned group was null group. New group reassigned.";_unitGroup = _aiGroup};
 
@@ -41,7 +41,7 @@ MAI_numAIUnits = MAI_numAIUnits + _totalAI;
 if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Created group %1 of size %2.",_unitGroup,_totalAI];};
 
 if ((count (waypoints _unitGroup)) > 1) then {
-	_unitGroup setCurrentWaypoint ((waypoints _unitGroup) call BIS_fnc_selectRandom3);
+	_unitGroup setCurrentWaypoint ((waypoints _unitGroup) call BIS_fnc_selectRandom2);
 } else {
 	if ((count _spawnPositions) >= 100) then {
 			//diag_log format ["DEBUG :: Counted %1 spawn positions.",count _spawnPositions];

@@ -33,7 +33,6 @@ MAI_actTrigs = 0;											//Tracks current number of active static triggers.
 MAI_curHeliPatrols = 0;
 MAI_dynTriggerArray = [];									//List of all generated dynamic triggers.
 MAI_respawnQueue = [];										//Queue of AI groups that require respawning. Group ID is removed from queue after it is respawned.
-//MAI_dmgFactors = [0.33,0.495,0.33,1,1];					//AI health settings.
 
 //Set side relations
 createcenter east;
@@ -122,6 +121,6 @@ if (isNil "DDOPP_taser_handleHit") then {MAI_taserAI = false;} else {MAI_taserAI
 
 if (MAI_verifyTables) then {["MAI_Rifles0","MAI_Rifles1","MAI_Rifles2","MAI_Rifles3","MAI_Pistols0","MAI_Pistols1","MAI_Pistols2","MAI_Pistols3","MAI_Backpacks0","MAI_Backpacks1","MAI_Backpacks2","MAI_Backpacks3","MAI_Edibles","MAI_Medicals1","MAI_Medicals2","MAI_MiscItemS","MAI_MiscItemL","MAI_militaryTypes","MAI_heliTypes"] execVM "\z\addons\dayz_server\MAI\scripts\verifyTables.sqf";};
 [] execVM '\z\addons\dayz_server\MAI\scripts\MAI_scheduler.sqf';
-if (MAI_monitor) then {[] execVM '\z\addons\dayz_server\MAI\scripts\MAI_monitor.sqf';};
+if (MAI_monitorRate > 0) then {[] execVM '\z\addons\dayz_server\MAI\scripts\MAI_monitor.sqf';};
 diag_log format ["[MAI] MAI loaded with settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. MAI_dynamicWeaponList: %4. VerifyTables: %5.",MAI_debugLevel,MAI_debugMarkers,MAI_modName,MAI_dynamicWeaponList,MAI_verifyTables];
 diag_log format ["[MAI] MAI loading completed in %1 seconds.",(diag_tickTime - _startTime)];

@@ -17,19 +17,16 @@ MAI_debugLevel = 0;
 //Enable or disable debug markers. 0: Off, 1: Basic markers (Track AI position, locate patrol waypoints, locate dynamically-spawned triggers), 2: Extended markers (Basic markers + Static trigger markers and refreshing dynamic trigger markers) (Default: 0)										
 MAI_debugMarkers = 0;	
 
-//Enable or disable server monitor. Periodically reports number of max/current AI units and dynamically spawned triggers into RPT log. (Default: true)									
-MAI_monitor = true;
-
-//Frequency of server monitor update to RPT log in seconds. (Default: 300)										
+//Frequency of server monitor update to RPT log in seconds. The monitor periodically reports number of max/current AI units and dynamically spawned triggers into RPT log. (Default: 300, 0 = Disabled)										
 MAI_monitorRate = 300;
 
 //Enable or disable verification of classname tables used by MAI. If invalid entries are found, they are removed and logged into the RPT log.
-//If disabled, clients may crash upon looting AI bodies with invalid items. Disable ONLY if a previous scan shows no invalid classnames (Default: true).										
+//If disabled, any invalid classnames will not be removed and clients may crash upon looting AI bodies with invalid items. Disable ONLY if a previous scan shows no invalid classnames (Default: true).										
 MAI_verifyTables = true;
 
 //Enable to have server spawn in objects/buildings normally spawned clientside by DayZ's CfgTownGenerator. Prevents AI from walking/shooting through clutter and other objects. (Default: false)	
 //If running DayZ Mod ("vanilla DayZ") or DayZ Overwatch, it is highly recommended to enable this option, as many added buildings are handled by the CfgTownGenerator.								
-MAI_objPatch = true;
+MAI_objPatch = false;
 
 //Minimum seconds to pass until a dead AI body can be cleaned up by MAI's task scheduler. Affects both static and dynamic AI units (Default: 300).										
 MAI_cleanupDelay = 600;									
@@ -77,30 +74,31 @@ MAI_zombieEnemy = true;
 MAI_freeForAll = false;
 
 
-/*	AI Spawning Variables (Static AI spawns)
+/*	AI Spawning Settings (Static AI spawns)
 --------------------------------------------------------------------------------------------------------------------*/	
 
-//Enable or disable static AI spawns. If enabled, AI spawn points will be generated in cities, towns, and other predefined areas. Does not include custom-defined spawns (Default: true).
+//Enable or disable static AI spawns. If enabled, AI spawn points will be generated in cities, towns, and other predefined areas. Does not affect custom-defined spawns (Default: true).
 MAI_staticAI = true;
 
-//Time to wait before respawning an AI group once all units have been eliminated. (Default: 600)										
-MAI_respawnTime = 1800;
+//Set minimum and maximum wait time in seconds to respawn an AI group after all units have been killed. Applies to both static AI and custom spawned AI (Default: Min 300, Max 600).									
+MAI_respawnTimeMin = 900;
+MAI_respawnTimeMax = 1800;
 
-//Time to allow spawned AI units to exist in seconds before being despawned when no players are present in a trigger area. (Default: 120)										
+//Time to allow spawned AI units to exist in seconds before being despawned when no players are present in a trigger area. Applies to both static AI and custom spawned AI (Default: 120)										
 MAI_despawnWait = 600;										
 
 
-/*	Dynamic Trigger Settings (Dynamic AI spawns)
+/*	Dynamic AI Spawning Settings
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Enable or disable dynamic AI spawns. If enabled, AI spawn locations will be randomly placed around the map. (Default: true)									
-MAI_dynAISpawns = false;
+MAI_dynAISpawns = true;
 
 //Enable or disable V2 dynamic AI spawns. (Default: true)
 //If true: New system - With V2 dynamic AI spawns, dynamic triggers are not scattered around the map. Instead, a number of random players are chosen and dynamic triggers are placed directly on their positions.
 //If false: Old system - Dynamic triggers are spawned randomly around the map and periodically relocated. NOTE: This version of dynamic spawns is scheduled to be removed in MAI 1.9.0.
 //Note: The following settings will have no effect if MAI_V2dynSpawns is true: MAI_dynTriggersMax, MAI_dynBlacklist. MAI_dynAISpawns must be set true for this option to take effect.
-MAI_V2dynSpawns = false;
+MAI_V2dynSpawns = true;
 
 //(Optional) Leave as nil to have MAI spawn a predetermined number of dynamic triggers. Can be edited to specify max number of dynamic triggers to spawn. (Default: nil)
 MAI_dynTriggersMax = nil;
@@ -113,12 +111,12 @@ MAI_dynDespawnWait = 120;
 
 //List of marker-defined areas where dynamic AI spawns should NOT be created. These markers may be of any shape (rectangular or circular).
 //Markers can be defined in /world_map_configs/custom_markers/cust_markers_(mapname).sqf (Default: [])
+//Note: This has no effect if MAI_V2dynSpawns is set 'true'.
 MAI_dynBlacklist = [];									
 
 
 /*	AI Air Vehicle patrol settings
-IMPORTANT: Before enabling AI air vehicle patrols, make sure you have properly edited your server_cleanup.fsm file. Otherwise, the air vehicles will explode after spawning.
-For instructions, consult Step 5 of the Installation Instructions on the MAI Github page: https://github.com/dayzai/DayZBanditAI
+//Note: As of MAI 1.8.0, users of the missionfile version of MAI are able to use air vehicle patrols without editing the server_cleanup.fsm.
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Enable or disable AI air vehicle patrols. (Default: false)
@@ -148,9 +146,9 @@ MAI_airWeapons = [
 	]
 ];
 
-//Selects what action to take when an AI air vehicle is destroyed (Default: 1):
+//Selects what action to take when an AI air vehicle is destroyed (Default: 2):
 //0: Do nothing, 1: Dead lootable units are dropped out by parachute, 2: Live, highly-skilled, well-equipped units are dropped out by parachute.
-MAI_airLootMode = 1;		
+MAI_airLootMode = 2;		
 
 
 /*	Extra AI Settings
@@ -159,7 +157,7 @@ MAI_airLootMode = 1;
 //If enabled, AI group will attempt to track down player responsible for killing a group member. Players with radios will be given text warnings if they are being pursued (Default: true)
 MAI_findKiller = true;	
 
-//If normal probability check for spawning NVGs fails, then give AI temporary NVGs only if they are spawned with weapongrade 2 or 3 (applies only during nighttime hours). Temporary NVGs are unlootable and will be removed at death (Default: false).									
+//If normal probability check for spawning NVGs fails, then give AI temporary NVGs only if they are spawned with weapongrade 1 or higher (applies only during nighttime hours). Temporary NVGs are unlootable and will be removed at death (Default: false).									
 MAI_tempNVGs = false;	
 
 //Amount of humanity to reward player for killing an AI unit (Default: 0)									
@@ -211,13 +209,13 @@ MAI_numMiscItemL = 2;
 MAI_chanceMedicals = 0.70;	
 
 //Chance to add each edible item.								
-MAI_chanceEdibles = 0.85;
+MAI_chanceEdibles = 0.75;
 
 //Chance to add random item from MAI_MiscItemS table.									
-MAI_chanceMiscItemS = 0.60;
+MAI_chanceMiscItemS = 0.50;
 
 //Chance to add random item from MAI_MiscItemL table.								
-MAI_chanceMiscItemL = 0.15;								
+MAI_chanceMiscItemL = 0.10;								
 
 
 /*AI weapon/skill probabilities (gradeChances should add up to 1.00) - [Civilian, Military, MilitarySpecial, HeliCrash] - Note: AI with higher grade weaponry will also have higher skill settings.
@@ -251,74 +249,74 @@ MAI_gradeChancesHeli = [0.00,0.40,0.43,0.17];
 	HeliCrew: Maximum-skilled AI. Skills are intended to be extremely high as helicopters patrol alone and carry high-value loot.
 */
 
-//AI skill settings level 0 (Skill, Minimum skill, Maximum bonus amount).
+//AI skill settings level 0 (Skill, Minimum skill, Maximum skill).
 MAI_skill0 = [	
-	["aimingAccuracy",0.10,0.05],
-	["aimingShake",0.55,0.10],
-	["aimingSpeed",0.45,0.10],
-	["endurance",0.40,0.20],
-	["spotDistance",0.30,0.15],
-	["spotTime",0.40,0.15],
-	["courage",0.40,0.20],
-	["reloadSpeed",0.40,0.20],
-	["commanding",0.40,0.20],
-	["general",0.40,0.20]
+	["aimingAccuracy",0.10,0.15],
+	["aimingShake",0.50,0.60],
+	["aimingSpeed",0.50,0.60],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.50,0.65],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
-//AI skill settings level 1 (Skill, Minimum skill, Maximum bonus amount).
+//AI skill settings level 1 (Skill, Minimum skill, Maximum skill).
 MAI_skill1 = [	
-	["aimingAccuracy",0.125,0.05],
-	["aimingShake",0.65,0.10],
-	["aimingSpeed",0.60,0.10],
-	["endurance",0.55,0.20],
-	["spotDistance",0.45,0.15],
-	["spotTime",0.55,0.15],
-	["courage",0.55,0.20],
-	["reloadSpeed",0.55,0.20],
-	["commanding",0.55,0.20],
-	["general",0.55,0.20]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.65,0.80],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
-//AI skill settings level 2 (Skill, Minimum skill, Maximum bonus amount).
+//AI skill settings level 2 (Skill, Minimum skill, Maximum skill).
 MAI_skill2 = [	
-	["aimingAccuracy",0.15,0.05],
-	["aimingShake",0.75,0.10],
-	["aimingSpeed",0.75,0.10],
-	["endurance",0.70,0.20],
-	["spotDistance",0.60,0.15],
-	["spotTime",0.70,0.15],
-	["courage",0.70,0.20],
-	["reloadSpeed",0.70,0.20],
-	["commanding",0.70,0.20],
-	["general",0.70,0.20]
+	["aimingAccuracy",0.15,0.20],
+	["aimingShake",0.75,0.85],
+	["aimingSpeed",0.75,0.85],
+	["endurance",0.70,0.90],
+	["spotDistance",0.60,0.75],
+	["spotTime",0.80,0.95],
+	["courage",0.70,0.90],
+	["reloadSpeed",0.70,0.90],
+	["commanding",0.70,0.90],
+	["general",0.70,0.90]
 ];
 
-//AI skill settings level 3 (Skill, Minimum skill, Maximum bonus amount).
+//AI skill settings level 3 (Skill, Minimum skill, Maximum skill).
 MAI_skill3 = [	
-	["aimingAccuracy",0.20,0.05],
-	["aimingShake",0.85,0.10],
-	["aimingSpeed",0.85,0.10],
-	["endurance",0.80,0.20],
-	["spotDistance",0.70,0.15],
-	["spotTime",0.80,0.15],
-	["courage",0.80,0.20],
-	["reloadSpeed",0.80,0.20],
-	["commanding",0.80,0.20],
-	["general",0.80,0.20]
+	["aimingAccuracy",0.20,0.25],
+	["aimingShake",0.85,0.95],
+	["aimingSpeed",0.85,0.95],
+	["endurance",0.80,1.00],
+	["spotDistance",0.70,0.85],
+	["spotTime",0.90,1.00],
+	["courage",0.80,1.00],
+	["reloadSpeed",0.80,1.00],
+	["commanding",0.80,1.00],
+	["general",0.80,1.00]
 ];
 
-//AI skill settings level 4 (Skill, Minimum skill, Maximum bonus amount).
+//AI skill settings level 4 (Skill, Minimum skill, Maximum skill).
 MAI_heliCrewSkills = [	
-	["aimingAccuracy",0.50,0.00],
-	["aimingShake",0.85,0.10],
-	["aimingSpeed",0.85,0.10],
-	["endurance",0.60,0.20],
-	["spotDistance",0.90,0.10],
-	["spotTime",0.90,0.10],
-	["courage",0.90,0.10],
-	["reloadSpeed",0.90,0.10],
-	["commanding",0.90,0.10],
-	["general",0.90,0.10]
+	["aimingAccuracy",0.50,0.50],
+	["aimingShake",0.85,0.95],
+	["aimingSpeed",0.85,0.95],
+	["endurance",0.60,0.80],
+	["spotDistance",0.90,1.00],
+	["spotTime",0.90,1.00],
+	["courage",0.90,1.00],
+	["reloadSpeed",0.90,1.00],
+	["commanding",0.90,1.00],
+	["general",0.90,1.00]
 ];
 
 
