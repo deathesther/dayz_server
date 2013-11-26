@@ -92,13 +92,13 @@ MAI_despawnWait = 600;
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Enable or disable dynamic AI spawns. If enabled, AI spawn locations will be randomly placed around the map. (Default: true)									
-MAI_dynAISpawns = true;
+MAI_dynAISpawns = false;
 
 //Enable or disable V2 dynamic AI spawns. (Default: true)
 //If true: New system - With V2 dynamic AI spawns, dynamic triggers are not scattered around the map. Instead, a number of random players are chosen and dynamic triggers are placed directly on their positions.
 //If false: Old system - Dynamic triggers are spawned randomly around the map and periodically relocated. NOTE: This version of dynamic spawns is scheduled to be removed in MAI 1.9.0.
 //Note: The following settings will have no effect if MAI_V2dynSpawns is true: MAI_dynTriggersMax, MAI_dynBlacklist. MAI_dynAISpawns must be set true for this option to take effect.
-MAI_V2dynSpawns = true;
+MAI_V2dynSpawns = false;
 
 //(Optional) Leave as nil to have MAI spawn a predetermined number of dynamic triggers. Can be edited to specify max number of dynamic triggers to spawn. (Default: nil)
 MAI_dynTriggersMax = nil;
