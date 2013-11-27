@@ -40,7 +40,7 @@ if (isPlayer _killer) then {
 	_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted_M;
 	0 = [_victim,_weapongrade] spawn MAI_addLoot;
 	
-	0 = [[_victim,_killer],"militaryKills"] call local_eventKill;
+	0 = [[_victim,_killer],"humanKills"] call local_eventKill;
 	
 	if (MAI_humanityGain > 0) then {
 		private ["_humanity"];
