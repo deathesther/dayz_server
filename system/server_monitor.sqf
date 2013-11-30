@@ -13,9 +13,6 @@ waitUntil{initialized}; //means all the functions are now defined
 
 diag_log "HIVE: Starting";
 
-// ### BASE BUILDING 1.2 ### SERVER SIDE BUILD ARRAYS - START
-call build_baseBuilding_arrays;
-// ### BASE BUILDING 1.2 ### SERVER SIDE BUILD ARRAYS - END
 waituntil{isNil "sm_done"}; // prevent server_monitor be called twice (bug during login of the first player)
 
 //Set the Time
@@ -188,42 +185,6 @@ if (isServer and isNil "sm_done") then {
 			_object setdir _dir;
 			_object setposATL _pos;
 			_object setDamage _damage;
-// ##### BASE BUILDING 1.2 Server Side ##### - START
-// This sets objects to appear properly once server restarts
-		//if ((_object isKindOf "Static") && !(_object isKindOf "TentStorage")) then {
-		if (typeOf(_object) in allbuildables_class) then {		
-			_object setpos [(getposATL _object select 0),(getposATL _object select 1), 0];
-		};
-		//Set Variable
-		if (_object isKindOf "Infostand_2_EP1" && !(_object isKindOf "Infostand_1_EP1")) then {
-			_object setVariable ["ObjectUID", _worldspace call dayz_objectUID2, true];
-			_object enableSimulation false;
-		};
-
-
-		// Set whether or not buildable is destructable
-		if (typeOf(_object) in allbuildables_class) then {
-			diag_log ("SERVER: in allbuildables_class:" + typeOf(_object) + " !");
-			for "_i" from 0 to ((count allbuildables) - 1) do
-			{
-				_classname = (allbuildables select _i) select _i - _i + 1;
-				_result = [_classname,typeOf(_object)] call BIS_fnc_areEqual;
-				if (_result) exitWith {
-					_requirements = (allbuildables select _i) select _i - _i + 2;
-					_isDestructable = _requirements select 13;
-					diag_log ("SERVER: " + typeOf(_object) + " _isDestructable = " + str(_isDestructable));
-					if (!_isDestructable) then {
-						diag_log("Spawned: " + typeOf(_object) + " Handle Damage False");
-						_object addEventHandler ["HandleDamage", {false}];
-					};
-					if (typeOf(_object) == "Grave") then {
-						_object setVariable ["isBomb", true];
-					};
-				};
-			};
-			//gateKeypad = _object addaction ["Defuse", "\z\addons\dayz_server\compile\enterCode.sqf"];
-		};
-// ##### BASE BUILDING 1.2 Server Side ##### - END
 
 			if (count _intentory > 0) then {
 				if (_type in DZE_LockedStorage) then {
@@ -317,6 +278,7 @@ if (isServer and isNil "sm_done") then {
 	} forEach _objectArray;
 	// # END OF STREAMING #
 
+
 	// preload server traders menu data into cache
 	{
 		// get tids
@@ -387,7 +349,7 @@ if (isServer and isNil "sm_done") then {
 	if(isnil "OldHeliCrash") then {
 		OldHeliCrash = false;
 	};
-
+	
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\init\dzai_initserver.sqf";
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\MAI\init\mai_initserver.sqf";
 	allowConnection = true;

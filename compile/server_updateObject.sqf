@@ -10,7 +10,7 @@ if(isNull(_object)) exitWith {
 };
 
 _type = 	_this select 1;
-_parachuteWest = ((typeOf _object == "ParachuteWest") or (typeOf _object == "ParachuteC") or (typeOf _object == "ParachuteG") or (typeOf _object == "ParachuteEast") or (typeOf _object == "Parachute"));
+_parachuteWest = ((typeOf _object == "ParachuteWest") or (typeOf _object == "ParachuteC"));
 _isbuildable = (typeOf _object) in dayz_allowedObjects;
 _isNotOk = false;
 _firstTime = false;
@@ -25,9 +25,11 @@ if ((typeName _objectID != "string") || (typeName _uid != "string")) then
     _objectID = "0";
     _uid = "0";
 };
-if (_object getVariable "Mission" == 1) exitWith {};
+	
+    if (_object getVariable "Mission" == 1) exitWith {};
+	
 /*if (!_parachuteWest and !(locked _object)) then {
-	if (_objectID == "0" && _uid == "0" && (vehicle _object getVariable ["Sarge",0] !=1) && (vehicle _object getVariable ["axeBus",0] !=1)) then
+	if (_objectID == "0" && _uid == "0") then
 	{
 		_object_position = getPosATL _object;
     	_isNotOk = true;
@@ -60,81 +62,44 @@ _object_position = {
 		//diag_log ("HIVE: WRITE: "+ str(_key));
 		_key call server_hiveWrite;
 };
+
 _object_inventory = {
-// ### BASE BUILDING 1.2 ### START 
-//This forces object to write to database changing the inventory of the object twice 
-// so it updates the object from operate_gates.sqf 
-
 	private["_inventory","_previous","_key"];
-	// This writes to database if object is buildable
-	if (typeOf(_object) in allbuildables_class) then {
-	//First lets make inventory [[[],[]],[[],[]],[[],[]]] so it updates object in DB
-			_inventory = [[[],[]],[[],[]],[[],[]]];
-
-
-
-
-
-
-
-
-		if (_objectID == "0") then {
-			_key = format["CHILD:309:%1:%2:",_uid,_inventory];
-		} else {
-			_key = format["CHILD:303:%1:%2:",_objectID,_inventory];
+		_inventory = [
+			getWeaponCargo _object,
+			getMagazineCargo _object,
+			getBackpackCargo _object
+		];
+		_previous = str(_object getVariable["lastInventory",[]]);
+		if (str(_inventory) != _previous) then {
+			_object setVariable["lastInventory",_inventory];
+			if (_objectID == "0") then {
+				_key = format["CHILD:309:%1:%2:",_uid,_inventory];
+			} else {
+				_key = format["CHILD:303:%1:%2:",_objectID,_inventory];
+			};
+			//diag_log ("HIVE: WRITE: "+ str(_key));
+			_key call server_hiveWrite;
 		};
-		diag_log ("HIVE: Buildable: "+ str(_key));
-		_key call server_hiveWrite;
-	//Since we cant actually read from DB, lets make inventory this [], than write it again, to insure its updated to DB
-			_inventory = [];
-		if (_objectID == "0") then {
-			_key = format["CHILD:309:%1:%2:",_uid,_inventory];
-		} else {
-			_key = format["CHILD:303:%1:%2:",_objectID,_inventory];
-		};
-		diag_log ("HIVE: Buildable: "+ str(_key));
-		_key call server_hiveWrite;
-// DO DEFAULT server_updateObject if not a buildable
-        } else {
-                        _inventory = [
-                        getWeaponCargo _object,
-                        getMagazineCargo _object,
-                        getBackpackCargo _object
-                ];
-        
-
-                _previous = str(_object getVariable["lastInventory",[]]);
-                if (str(_inventory) != _previous) then {
-                        _object setVariable["lastInventory",_inventory];
-                        if (_objectID == "0") then {
-                                _key = format["CHILD:309:%1:%2:",_uid,_inventory];
-                        } else {
-                                _key = format["CHILD:303:%1:%2:",_objectID,_inventory];
-                        };
-                        diag_log ("HIVE: WRITE: "+ str(_key));
-                        _key call server_hiveWrite;
-                };
-        };
 };
-// ### BASE BUILDING 1.2 ### END
 
 _object_damage = {
-    private["_hitpoints","_array","_hit","_selection","_key","_damage"];
-    _hitpoints = _object call vehicle_getHitpoints;
-    _damage = damage _object;
-    _array = [];
-    {
-        _hit = [_object,_x] call object_getHit;
-        _selection = getText (configFile >> "CfgVehicles" >> (typeOf _object) >> "HitPoints" >> _x >> "name");
-        if (_hit > 0) then {_array set [count _array,[_selection,_hit]]};
-        _object setHit ["_selection", _hit]
-    } forEach _hitpoints;
-    _key = format["CHILD:306:%1:%2:%3:",_objectID,_array,_damage];
-    diag_log ("HIVE: WRITE: "+ str(_key));
-    _key call server_hiveWrite;
-    _object setVariable ["needUpdate",false,true];
-    if ( _damage >= 1 ) then { _object spawn { sleep 10; deleteVehicle _this; }; };
-};
+	private["_hitpoints","_array","_hit","_selection","_key","_damage"];
+		_hitpoints = _object call vehicle_getHitpoints;
+		_damage = damage _object;
+		_array = [];
+		{
+			_hit = [_object,_x] call object_getHit;
+			_selection = getText (configFile >> "CfgVehicles" >> (typeOf _object) >> "HitPoints" >> _x >> "name");
+			if (_hit > 0) then {_array set [count _array,[_selection,_hit]]};
+			_object setHit ["_selection", _hit]
+		} forEach _hitpoints;
+	
+		_key = format["CHILD:306:%1:%2:%3:",_objectID,_array,_damage];
+		//diag_log ("HIVE: WRITE: "+ str(_key));
+		_key call server_hiveWrite;
+	_object setVariable ["needUpdate",false,true];
+	};
 
 _object_killed = {
 	private["_hitpoints","_array","_hit","_selection","_key","_damage"];

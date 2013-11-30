@@ -1,6 +1,6 @@
 private ["_spawnChance", "_spawnMarker", "_spawnRadius", "_markerRadius", "_item", "_debug", "_start_time", "_loot", "_loot_amount", "_loot_box", "_wait_time", "_spawnRoll", "_position", "_event_marker", "_loot_pos", "_debug_marker","_loot_box", "_hint"];
 
-_spawnChance =  0.99; // Percentage chance of event happening
+_spawnChance =  0.45; // Percentage chance of event happening
 _markerRadius = 300; // Radius the loot can spawn and used for the marker
 _debug = false; // Puts a marker exactly were the loot spawns
 

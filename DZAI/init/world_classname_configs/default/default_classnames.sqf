@@ -24,7 +24,7 @@ if !(DZAI_dynamicWeaponList) then {
 	DZAI_weaponsInitialized = true;
 };
 
-	DZAI_BanditTypes = ["GUE_Soldier_MG_DZ", "GUE_Soldier_Sniper_DZ", "GUE_Soldier_Crew_DZ", "GUE_Soldier_CO_DZ", "GUE_Soldier_2_DZ", "GUE_Commander_DZ", "Ins_Soldier_GL_DZ", "BanditW1_DZ", "BanditW2_DZ", "Bandit1_DZ", "Bandit2_DZ"]; //List of skins for AI units to use
+DZAI_BanditTypes = ["Survivor2_DZ", "SurvivorW2_DZ", "Bandit1_DZ", "BanditW1_DZ", "Camo1_DZ", "Sniper1_DZ"]; //List of skins for AI units to use
 
 DZAI_Backpacks0 = ["DZ_Patrol_Pack_EP1","DZ_Czech_Vest_Puch","DZ_Assault_Pack_EP1"];
 DZAI_Backpacks1 = ["DZ_Patrol_Pack_EP1","DZ_Czech_Vest_Puch","DZ_Assault_Pack_EP1","DZ_British_ACU","DZ_TK_Assault_Pack_EP1","DZ_CivilBackpack_EP1","DZ_ALICE_Pack_EP1"];
