@@ -8,9 +8,9 @@ Script Version: 1.2 (added mass graves as per MadHatter's request)
 private["_timeAdjust","_timeToSpawn","_spawnRoll","_crash","_hasAdjustment","_newHeight","_adjustedPos","_useStatic","_crashDamage","_lootRadius","_preWaypoints","_preWaypointPos","_endTime","_startTime","_safetyPoint","_heliStart","_deadBody","_exploRange","_heliModel","_lootPos","_list","_craters","_dummy","_wp2","_wp3","_landingzone","_aigroup","_wp","_helipilot","_crash","_crashwreck","_smokerand","_staticcoords","_pos","_dir","_position","_num","_config","_itemType","_itemChance","_weights","_index","_iArray","_crashModel","_lootTable","_guaranteedLoot","_randomizedLoot","_frequency","_variance","_spawnChance","_spawnMarker","_spawnRadius","_spawnFire","_permanentFire","_crashName"];
 //############### //Config Start\\ ###############\\
 _SpawnMax 		= 100;				//Maximum percent chance of spawning a crash number between 0 - 100
-_SpawnMin 		= 50;				//Minimum percent chance of spawning a crash number between 0 - 100
-_guaranteedLoot = 10;				//Guaranteed Loot Spawns
-_randomizedLoot = 12;				//Random number of loot piles aswell as the guaranteed ones
+_SpawnMin 		= 99;				//Minimum percent chance of spawning a crash number between 0 - 100
+_guaranteedLoot = 6;				//Guaranteed Loot Spawns
+_randomizedLoot = 8;				//Random number of loot piles aswell as the guaranteed ones
 _spawnFire      = true;				//Spawn Smoke/Fire at the helicrash
 _fadeFire       = false;			//Fade the Smoke/Fire overtime
 _preWaypoints 	= 2;				//Amount of waypoints the heli flys to before crashing
@@ -63,7 +63,7 @@ if (_spawnRoll <= _spawnChance) then
 		_crash setVariable ["ObjectID","1",true];
 		_pos = getPos _crash;
 		_num = round(random _randomizedLoot) + _guaranteedLoot;
-		_config = 		configFile >> "CfgBuildingLoot" >> _lootTable;
+		_config = 		missionConfigFile >> "CfgBuildingLoot" >> _lootTable;
 		_itemTypes =	[] + getArray (_config >> "itemType");
 		_index =        dayz_CBLBase find toLower(_lootTable);
 		_weights =		dayz_CBLChances select _index;
@@ -183,7 +183,7 @@ if (_spawnRoll <= _spawnChance) then
 			_crash setVariable ["fadeFire",_fadeFire,true];
 		};
 		_num = round(random _randomizedLoot) + _guaranteedLoot;
-		_config = 		configFile >> "CfgBuildingLoot" >> _lootTable;
+		_config = 		missionConfigFile >> "CfgBuildingLoot" >> _lootTable;
 		_itemTypes =	[] + getArray (_config >> "itemType");
 		_index =        dayz_CBLBase find toLower(_lootTable);
 		_weights =		dayz_CBLChances select _index;
