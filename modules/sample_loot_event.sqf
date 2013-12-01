@@ -1,7 +1,7 @@
 private ["_spawnChance", "_spawnMarker", "_spawnRadius", "_markerRadius", "_item", "_debug", "_start_time", "_loot", "_loot_amount", "_loot_box", "_wait_time", "_spawnRoll", "_position", "_event_marker", "_loot_pos", "_debug_marker","_loot_box", "_hint"];
 
-_spawnChance =  1; // Percentage chance of event happening
-_markerRadius = 300; // Radius the loot can spawn and used for the marker
+_spawnChance =  0.35; // Percentage chance of event happening
+_markerRadius = 250; // Radius the loot can spawn and used for the marker
 _debug = false; // Puts a marker exactly were the loot spawns
 
 _loot_box = "RUBasicWeaponsBox";
@@ -34,7 +34,7 @@ _loot_lists = [
 _loot = _loot_lists call BIS_fnc_selectRandom;
 
 _loot_amount = 75;
-_wait_time = 1500; 
+_wait_time = 900; 
 
 // Dont mess with theses unless u know what yours doing
 _start_time = time;
@@ -75,20 +75,21 @@ if (_debug) then {
 	_debug_marker setMarkerAlpha 1;
 };
 
+_cratelootevent = createMarker ["cratelootevent", _loot_pos];
+_cratelootevent setMarkerShape "ELLIPSE";
+_cratelootevent setMarkerType "Empty";
+_cratelootevent setMarkerBrush "Solid";
+_cratelootevent setMarkerSize [100, 100];
+_cratelootevent setMarkerAlpha 0;
+
+["cratelootevent",5,3,false] call DZAI_spawn;
+
 diag_log(format["Creating ammo box at %1", _loot_pos]);
 
 // Create ammo box
 _loot_box = createVehicle [_loot_box,_loot_pos,[], 0, "NONE"];
 clearMagazineCargoGlobal _loot_box;
 clearWeaponCargoGlobal _loot_box;
-
-	_this = createTrigger ["EmptyDetector", _loot_pos];
-	_this setTriggerArea [600, 600, 0, false];
-	_this setTriggerActivation ["ANY", "PRESENT", true];
-	_this setTriggerTimeout [10, 15, 20, true];
-	_this setTriggerText "loot_event";
-	_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "0 = [5,5,200,thisTrigger,[],3] call fnc_spawnBandits;", "0 = [thisTrigger] spawn fnc_despawnBandits;"];
-	_trigger_251 = _this;
 
 // Cut the grass around the loot position
 _clutter = createVehicle ["ClutterCutter_small_2_EP1", _loot_pos, [], 0, "CAN_COLLIDE"];
@@ -104,7 +105,9 @@ _loot_box addMagazineCargoGlobal [_x,1];
 } forEach (_loot select 1);
 
 // Send message to users
-[nil,nil,rTitleText,"A PVP Area With A Supply Crate Has Spawned Check Your Map For Location!", "PLAIN",10] call RE;
+_hint = parseText format["<t align='center' color='#FF0000' shadow='2' size='1.75'>Military Crate</t><br/><t align='center' color='#ffffff'>A special forces unit lost a precious cargo, Check your Map for the Location!</t>"];
+customRemoteMessage = ['hint', _hint];
+publicVariable "customRemoteMessage";
 
 diag_log(format["Loot event setup, waiting for %1 seconds", _wait_time]);
 
@@ -113,9 +116,9 @@ sleep _wait_time;
 
 // Clean up
 EPOCH_EVENT_RUNNING = false;
-deleteVehicle _trigger_251
 deleteVehicle _loot_box;
 deleteMarker _event_marker;
+deleteMarker _cratelootevent;
 if (_debug) then {
 	deleteMarker _debug_marker;
 };

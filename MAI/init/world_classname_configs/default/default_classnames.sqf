@@ -24,7 +24,7 @@ if !(MAI_dynamicWeaponList) then {
 	MAI_weaponsInitialized = true;
 };
 
-	MAI_militaryTypes = ["FR_Miles","FR_Cooper","FR_Ohara","FR_Rodriguez","FR_Sykes","FR_AC","FR_AR","FR_Assault_GL","FR_Assault_R","FR_Commander","FR_Corpsman","FR_GL","FR_Light","FR_Marksman","FR_R","FR_Sapper","FR_TL","USMC_Soldier","USMC_Soldier2","USMC_SoldierM","USMC_SoldierS","USMC_SoldierS_Engineer","USMC_SoldierS_Sniper","USMC_SoldierS_SniperH","USMC_SoldierS_Spotter","USMC_Soldier_AA","USMC_Soldier_AR","USMC_Soldier_AT","USMC_Soldier_Crew","USMC_Soldier_GL","USMC_Soldier_HAT","USMC_Soldier_LAT","USMC_Soldier_Light","USMC_Soldier_MG","USMC_Soldier_Medic","USMC_Soldier_Officer","USMC_Soldier_Pilot","USMC_Soldier_SL","USMC_Soldier_TL","CDF_Soldier","CDF_Commander","CDF_Soldier_AR","CDF_Soldier_Engineer","CDF_Soldier_GL","CDF_Soldier_Light","CDF_Soldier_MG","CDF_Soldier_Marksman","CDF_Soldier_Medic","CDF_Soldier_Militia","CDF_Soldier_Officer","CDF_Soldier_RPG","CDF_Soldier_Sniper","CDF_Soldier_Spotter","CDF_Soldier_Strela","CDF_Soldier_TL"]; //List of skins for AI units to use
+	MAI_militaryTypes = ["Rocket_DZ","Soldier1_DZ","Sniper1_DZ","CZ_Soldier_Sniper_EP1_DZ","Camo1_DZ","FR_OHara_DZ","FR_Rodriguez_DZ","Graves Light DZ","CZ_Special_Forces_GL_DES_EP1_DZ","Soldier_Bodyguard_AA12_PMC_DZ","Soldier_Sniper_PMC_DZ","Soldier_Sniper_PMC_DZ"]; //List of skins for AI units to use
 
 MAI_Backpacks0 = ["DZ_Patrol_Pack_EP1","DZ_Czech_Vest_Puch","DZ_Assault_Pack_EP1"];
 MAI_Backpacks1 = ["DZ_Patrol_Pack_EP1","DZ_Czech_Vest_Puch","DZ_Assault_Pack_EP1","DZ_British_ACU","DZ_TK_Assault_Pack_EP1","DZ_CivilBackpack_EP1","DZ_ALICE_Pack_EP1"];

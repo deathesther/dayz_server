@@ -1,7 +1,7 @@
 private ["_spawnChance", "_spawnMarker", "_spawnRadius", "_markerRadius", "_item", "_debug", "_start_time", "_loot", "_loot_amount", "_loot_box", "_wait_time", "_spawnRoll", "_position", "_event_marker", "_loot_pos", "_debug_marker","_loot_box", "_hint"];
  
-_spawnChance =  0.1; // Percentage chance of event happening
-_markerRadius = 350; // Radius the loot can spawn and used for the marker
+_spawnChance =  0.35; // Percentage chance of event happening
+_markerRadius = 250; // Radius the loot can spawn and used for the marker
 _debug = false; // Puts a marker exactly were the loot spawns
 
 _loot_box = "SpecialWeaponsBox";
@@ -102,7 +102,16 @@ _debug_marker setMarkerType "mil_dot";
 _debug_marker setMarkerColor "ColorBlue";
 _debug_marker setMarkerAlpha 1;
 };
- 
+
+_cratesupplyitems = createMarker ["cratesupplyitems", _loot_pos];
+_cratesupplyitems setMarkerShape "ELLIPSE";
+_cratesupplyitems setMarkerType "Empty";
+_cratesupplyitems setMarkerBrush "Solid";
+_cratesupplyitems setMarkerSize [100, 100];
+_cratesupplyitems setMarkerAlpha 0;
+
+["cratesupplyitems",5,3,false] call DZAI_spawn;
+
 diag_log(format["Creating ammo box at %1", _loot_pos]);
  
 // Create ammo box
@@ -137,6 +146,7 @@ sleep _wait_time;
 EPOCH_EVENT_RUNNING = false;
 deleteVehicle _loot_box;
 deleteMarker _event_marker;
+deleteMarker _cratesupplyitems;
 if (_debug) then {
 deleteMarker _debug_marker;
 };

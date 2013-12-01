@@ -1,7 +1,7 @@
 private ["_spawnChance", "_spawnMarker", "_spawnRadius", "_markerRadius", "_item", "_debug", "_start_time", "_loot", "_loot_amount", "_loot_box", "_wait_time", "_spawnRoll", "_position", "_event_marker", "_loot_pos", "_debug_marker","_loot_box", "_hint"];
  
-_spawnChance =  99; // Percentage chance of event happening
-_markerRadius = 350; // Radius the loot can spawn and used for the marker
+_spawnChance =  0.35; // Percentage chance of event happening
+_markerRadius = 250; // Radius the loot can spawn and used for the marker
 _debug = false; // Puts a marker exactly were the loot spawns
  
 _loot_box = "RUVehicleBox";
@@ -103,14 +103,14 @@ _debug_marker setMarkerColor "ColorRed";
 _debug_marker setMarkerAlpha 1;
 };
 
-_Militarycrate1 = createMarker ["Militarycrate1", _loot_pos];
-_Militarycrate1 setMarkerShape "ELLIPSE";
-_Militarycrate1 setMarkerType "Empty";
-_Militarycrate1 setMarkerBrush "Solid";
-_Militarycrate1 setMarkerSize [100, 100];
-_Militarycrate1 setMarkerAlpha 0;
+_crateMilitary = createMarker ["crateMilitary", _loot_pos];
+_crateMilitary setMarkerShape "ELLIPSE";
+_crateMilitary setMarkerType "Empty";
+_crateMilitary setMarkerBrush "Solid";
+_crateMilitary setMarkerSize [100, 100];
+_crateMilitary setMarkerAlpha 0;
 
-["Militarycrate1",5,3,false] call DZAI_spawn;
+["crateMilitary",5,3,false] call DZAI_spawn;
 
 diag_log(format["Creating ammo box at %1", _loot_pos]);
  
@@ -146,7 +146,7 @@ sleep _wait_time;
 EPOCH_EVENT_RUNNING = false;
 deleteVehicle _loot_box;
 deleteMarker _event_marker;
-deleteMarker _Militarycrate1
+deleteMarker _crateMilitary;
 if (_debug) then {
 deleteMarker _debug_marker;
 };

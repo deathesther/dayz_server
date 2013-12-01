@@ -16,7 +16,7 @@ _fadeFire       = false;			//Fade the Smoke/Fire overtime
 _preWaypoints 	= 2;				//Amount of waypoints the heli flys to before crashing
 _crashDamage 	= 1;				//Amount of dammage the heli can take before crashing (between 0.1 and 1) Lower the number and the heli can take less damage before crashing 1 dammage is fully destroyed and 0.1 something like a DMR could one shot the heli
 _exploRange 	= 250;				//How far away from the predefined crash point should the heli start crashing
-_minLootRadius 	= 4;				//Minimum distance for loot to spawn from the crash site in meters
+_minLootRadius 	= 3;				//Minimum distance for loot to spawn from the crash site in meters
 _maxLootRadius 	= 6;				//Maximum distance for loot to spawn from the crash site in meters
 _lootTable 		= "HeliCrash";		//Name of the loot table the heli gets loot from (DO NOT edit unless you know what your doing)
 //############### \\Config End// ###############\\
@@ -206,3 +206,4 @@ if (_spawnRoll <= _spawnChance) then
 		diag_log(format["CRASHSPAWNER: Crash completed! Wreck at: %2 - Runtime: %1 Seconds || Distance from calculated POC: %3 meters", round(_endTime), str(getPos _crash), round(_position distance _crash)]); 
 	};
 };
+_crashsitemark = [_pos] execVM "\z\addons\dayz_server\modules\Crashsitetest.sqf";
