@@ -35,13 +35,13 @@ sleep 5;
 ////////////////////////////////////////////////////SETUP SETUP SETUP//SETUP SETUP SETUP//SETUP SETUP SETUP//SETUP SETUP SETUP//SETUP SETUP SETUP
 _repeat = 48;                             			//times to repeat//number of times to cycle complete code (pick new place to bomb)
 _break = 2760;                             			//time to break between attacks, in seconds (time between cycles)
-_choice = 3;                              			//type of bombing 1 light, 2 medium, 3 heavy
-_randomLyn = false;						  			//true if you want random locations (be sure to set static location otherwise!)
+_choice = 2;                              			//type of bombing 1 light, 2 medium, 3 heavy
+_randomLyn = true;						  			//true if you want random locations (be sure to set static location otherwise!)
 _loc = ["BalottaAirstrip",1.5,4829.9868,2450.1104];	//Set to static location format ["name",z,x,y]  //SKIP if using random locations
 _city = "BalottaAirstrip";				  			//Set to string name of static location//allows for custom name in rpt no spaces
-_useRandChoice = false;					  			//true if you want random choice of type of bomb per bomb
+_useRandChoice = true;					  			//true if you want random choice of type of bomb per bomb
 _useRandBomb = true;					  			//true if you want an extra random bomb
-_numbeofBombs = 40;                       			//how many bombs are dropped assuming 1 per cycle
+_numbeofBombs = 20;                       			//how many bombs are dropped assuming 1 per cycle
 _rmodyn = false;                           			//true if you have rMod, false if you don't (choice of heli bomber) //mmmyum - it may work even without rmod as reported by users!
 _preWaypoints = 2;                        			//add waypoints before arriving at location. //mmmyum testing now
 	_spawnMarker = 'center';							//change to 'name' if you want a custom waypoint, i made mine north (do it in mission.sqm!) only for prewaypoints
