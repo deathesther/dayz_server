@@ -206,4 +206,25 @@ if (_spawnRoll <= _spawnChance) then
 		diag_log(format["CRASHSPAWNER: Crash completed! Wreck at: %2 - Runtime: %1 Seconds || Distance from calculated POC: %3 meters", round(_endTime), str(getPos _crash), round(_position distance _crash)]); 
 	};
 };
-_crashsitemark = [_pos] execVM "\z\addons\dayz_server\modules\Crashsitetest.sqf";
+_crashsitemark = createMarker ["crashsitemark", _pos];
+_crashsitemark setMarkerShape "ICON";
+_crashsitemark setMarkerType "mil_unknown";
+_crashsitemark setMarkerColor "Colorblack";
+_crashsitemark setMarkerAlpha 1;
+
+_crashsitemarkAI = createMarker ["crashsitemarkAI", _pos];
+_crashsitemarkAI setMarkerShape "ELLIPSE";
+_crashsitemarkAI setMarkerType "Empty";
+_crashsitemarkAI setMarkerBrush "Solid";
+_crashsitemarkAI setMarkerSize [100, 100];
+_crashsitemarkAI setMarkerAlpha 0;
+
+["crashsitemarkAI",2,2,false] call DZAI_spawn;
+
+_hint = parseText format["<t align='center' color='#0D00FF' shadow='2' size='1.75'>Heli Crash</t><br/><t align='center' color='#ffffff'>Survivors Have Spoted a Heli Crash better loot it befor bandits do, Check your Map for the Location!</t>"];
+customRemoteMessage = ['hint', _hint];
+publicVariable "customRemoteMessage";
+
+sleep 300;
+deleteMarker _crashsitemark;
+deleteMarker _crashsitemarkAI;
