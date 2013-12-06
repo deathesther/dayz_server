@@ -270,6 +270,11 @@ if (isServer and isNil "sm_done") then {
 					// total each vehicle
 					serverVehicleCounter set [count serverVehicleCounter,_type];
 				};
+				if !(isNil "SAR_AI_VEH_EPOCH_FIX") then {
+						if (SAR_AI_VEH_EPOCH_FIX) then {
+								[_object] call SAR_AI_VEH_FIX;
+						};
+				};
 			};
 
 			//Monitor the object

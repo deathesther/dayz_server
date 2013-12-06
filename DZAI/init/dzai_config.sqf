@@ -92,13 +92,13 @@ DZAI_despawnWait = 600;
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Enable or disable dynamic AI spawns. If enabled, AI spawn locations will be randomly placed around the map. (Default: true)									
-DZAI_dynAISpawns = true;
+DZAI_dynAISpawns = false;
 
 //Enable or disable V2 dynamic AI spawns. (Default: true)
 //If true: New system - With V2 dynamic AI spawns, dynamic triggers are not scattered around the map. Instead, a number of random players are chosen and dynamic triggers are placed directly on their positions.
 //If false: Old system - Dynamic triggers are spawned randomly around the map and periodically relocated. NOTE: This version of dynamic spawns is scheduled to be removed in DZAI 1.9.0.
 //Note: The following settings will have no effect if DZAI_V2dynSpawns is true: DZAI_dynTriggersMax, DZAI_dynBlacklist. DZAI_dynAISpawns must be set true for this option to take effect.
-DZAI_V2dynSpawns = true;
+DZAI_V2dynSpawns = false;
 
 //(Optional) Leave as nil to have DZAI spawn a predetermined number of dynamic triggers. Can be edited to specify max number of dynamic triggers to spawn. (Default: nil)
 DZAI_dynTriggersMax = nil;
@@ -265,7 +265,7 @@ DZAI_skill0 = [
 
 //AI skill settings level 1 (Skill, Minimum skill, Maximum skill).
 DZAI_skill1 = [	
-	["aimingAccuracy",0.125,0.15],
+	["aimingAccuracy",0.12,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
 	["endurance",0.55,0.75],
@@ -293,30 +293,30 @@ DZAI_skill2 = [
 
 //AI skill settings level 3 (Skill, Minimum skill, Maximum skill).
 DZAI_skill3 = [	
-	["aimingAccuracy",0.20,0.25],
-	["aimingShake",0.85,0.95],
-	["aimingSpeed",0.85,0.95],
-	["endurance",0.80,1.00],
-	["spotDistance",0.70,0.85],
-	["spotTime",0.90,1.00],
-	["courage",0.80,1.00],
-	["reloadSpeed",0.80,1.00],
-	["commanding",0.80,1.00],
-	["general",0.80,1.00]
+	["aimingAccuracy",0.15,0.20],
+	["aimingShake",0.75,0.85],
+	["aimingSpeed",0.75,0.85],
+	["endurance",0.70,0.90],
+	["spotDistance",0.60,0.75],
+	["spotTime",0.80,0.95],
+	["courage",0.70,0.90],
+	["reloadSpeed",0.70,0.90],
+	["commanding",0.70,0.90],
+	["general",0.70,0.90]
 ];
 
 //AI skill settings level 4 (Skill, Minimum skill, Maximum skill).
 DZAI_heliCrewSkills = [	
-	["aimingAccuracy",0.50,0.50],
-	["aimingShake",0.85,0.95],
-	["aimingSpeed",0.85,0.95],
-	["endurance",0.60,0.80],
-	["spotDistance",0.90,1.00],
-	["spotTime",0.90,1.00],
-	["courage",0.90,1.00],
-	["reloadSpeed",0.90,1.00],
-	["commanding",0.90,1.00],
-	["general",0.90,1.00]
+	["aimingAccuracy",0.15,0.20],
+	["aimingShake",0.75,0.85],
+	["aimingSpeed",0.75,0.85],
+	["endurance",0.70,0.90],
+	["spotDistance",0.60,0.75],
+	["spotTime",0.80,0.95],
+	["courage",0.70,0.90],
+	["reloadSpeed",0.70,0.90],
+	["commanding",0.70,0.90],
+	["general",0.70,0.90]
 ];
 
 

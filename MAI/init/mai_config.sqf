@@ -123,7 +123,7 @@ MAI_dynBlacklist = [];
 MAI_aiHeliPatrols = true;		
 
 //Maximum number of active AI air vehicle patrols. (Default: 0).							
-MAI_maxHeliPatrols = 5;
+MAI_maxHeliPatrols = 2;
 
 //Classnames of air vehicles types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by MAI (see "MAI_airWeapons" setting below).								

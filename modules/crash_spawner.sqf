@@ -206,6 +206,8 @@ if (_spawnRoll <= _spawnChance) then
 		diag_log(format["CRASHSPAWNER: Crash completed! Wreck at: %2 - Runtime: %1 Seconds || Distance from calculated POC: %3 meters", round(_endTime), str(getPos _crash), round(_position distance _crash)]); 
 	};
 };
+_vehicle_spawn = false;
+
 _crashsitemark = createMarker ["crashsitemark", _pos];
 _crashsitemark setMarkerShape "ICON";
 _crashsitemark setMarkerType "mil_unknown";
@@ -221,9 +223,8 @@ _crashsitemarkAI setMarkerAlpha 0;
 
 ["crashsitemarkAI",2,2,false] call DZAI_spawn;
 
-_hint = parseText format["<t align='center' color='#0D00FF' shadow='2' size='1.75'>Heli Crash</t><br/><t align='center' color='#ffffff'>Survivors Have Spoted a Heli Crash better loot it befor bandits do, Check your Map for the Location!</t>"];
-customRemoteMessage = ['hint', _hint];
-publicVariable "customRemoteMessage";
+customMissionWarning = ["Crash", mission_warning_debug, crashsitemark, _pos, _vehicle_spawn, _crashModel];
+publicVariable "customMissionWarning";
 
 sleep 300;
 deleteMarker _crashsitemark;
