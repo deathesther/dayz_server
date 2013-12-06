@@ -127,7 +127,7 @@ DZAI_maxHeliPatrols = 5;
 
 //Classnames of air vehicles types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								
-DZAI_heliTypes = ["UH1H_DZ","AH6X_DZ","CH_47F_EP1_DZ"];	
+DZAI_heliTypes = ["UH1H_DZ","CH_47F_EP1_DZ"];	
 
 //Specify vehicle weapon for air vehicles that are unarmed by default. DZAI will arm these air vehicles with the specified weapons upon spawning each vehicle.
 //NOTE: These classnames are not verified by DZAI - it is the user's responsibility to make sure they are valid and unbanned.
