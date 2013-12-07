@@ -1,10 +1,15 @@
 /*
 	Custom Marker Requirements:
 	
-	1. Marker shape must be Ellipse (Could be rectangular but the function will consider the marker as elliptical regardless)
-	2. Marker should have identical x and y dimensions. If they are different, the smaller dimension will be used instead.
-		
-	The area covered by the marker will be used as the patrol and spawning area.
+	Spawn markers: The area covered by the marker will be used as the patrol and spawning area.
+	
+		1. Marker shape must be Ellipse (Could be rectangular but the function will consider the marker as elliptical regardless)
+		2. Marker should have identical x and y dimensions. If they are different, the smaller dimension will be used instead.
+	
+	Blacklist markers: If a player is within this area, they will not be selected as a target for dynamic AI spawns.
+	
+		1. Marker shape may be Ellipse or Rectangle
+		2. Marker dimensions should cover the area to be blacklisted.
 	
 	Example Marker (Note: the marker name must be unique! In this example, it's named "dzaicustomspawntest"):
 	
@@ -14,7 +19,8 @@
 	_this setMarkerBrush "Solid";
 	_this setMarkerSize [200, 200];
 	_this setMarkerAlpha 0;
-
+	_dzaicustomspawntest = _this;		//_dzaicustomspawntest must be a unique name
+	
 	Note: This marker will be used in the example further below.
 */
 
