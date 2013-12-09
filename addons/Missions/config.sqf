@@ -33,6 +33,39 @@ mission_blacklist_range = 200;
 mission_blacklist_players_range = 800;
 
 
+
+/* ********************************************************************************* */
+/* ********************************************************************************* */
+// Mission Buildings
+/* ********************************************************************************* */
+
+mission_buildings = [
+					["Land_Tovarna2",[]],
+					["Land_Panelak2",[]],
+					["Land_Panelak",[]],
+					["Land_HouseV2_02_Interier",[]],
+					["Land_A_Office01",[]],
+					["Land_A_BuildingWIP",[]]
+					];
+
+
+/* ********************************************************************************* */
+/* ********************************************************************************* */
+// RYD Hunter AI
+// 		This is just placeholder atm... Code is not yet working... Dont change the values
+/* ********************************************************************************* */
+
+mission_hunter_fps_check = 10;
+
+mission_hunter_chance = 10;  // 1-100 Chance of Hunter Spawning @ Mission Site
+
+mission_hunter_smell = 3;
+mission_hunter_eyes = [1.5,1.5]; // light factor,movement factor
+
+mission_hunter = false;  // Random Hunter on Map that will wander + try to ill players
+mission_hunter_random = false;  // Random Hunter on Map that will wander + try to ill players
+
+
 /* ********************************************************************************* */
 /* ********************************************************************************* */
 // LOOT
@@ -41,10 +74,13 @@ mission_blacklist_players_range = 800;
 // Type of Crates to Spawn with Loot
 mission_crates = ["GuerillaCacheBox","RUVehicleBox","UNBasicWeapons_EP1","USVehicleBox"];
 
-mission_loot_tables = ["Military", "MilitaryIndustrial", "MilitarySpecial", "Supermarket", "Industrial", "HeliCrash_No50s", "SupplyDrop"];
+mission_loot_tables = ["Military", "MilitaryIndustrial", "MilitarySpecial", "Supermarket", "Industrial", "HeliCrash_No50s", "SupplyDrop", "Farm"];
 
 // Number of Crates to Spawn
 mission_num_of_crates = 5;
+
+// Number of Crates to Spawn, when there is a vehicle spawn aswell
+mission_num_of_crates_plus_vehicle = 3;
 
 /* ********************************************************************************* */
 /* ********************************************************************************* */
@@ -54,14 +90,14 @@ mission_num_of_crates = 5;
 // Type of Land Vehicles to AI
 mission_patrol_land_vehicles = [
 "HMMWV_M1035_DES_EP1",
-"HMMWV_M1151_M2_CZ_DES_EP1_DZE",
-"HMMWV_M998A2_SOV_DES_EP1_DZE",
-"LandRover_MG_TK_EP1_DZE",
-"LandRover_Special_CZ_EP1_DZE",
-"Pickup_PK_GUE_DZE",
+"HMMWV_M1151_M2_CZ_DES_EP1_DZ",
+"HMMWV_M998A2_SOV_DES_EP1_DZ",
+"LandRover_MG_TK_EP1_DZ",
+"LandRover_Special_CZ_EP1_DZ",
+"Pickup_PK_GUE_DZ",
 "Pickup_PK_INS_DZ",
 "Pickup_PK_TK_GUE_EP1_DZ",
-"UAZ_MG_TK_EP1_DZE"
+"UAZ_MG_TK_EP1_DZ"
 ];
 
 // Type of Vehicles to Spawn @ Missions to Loot
@@ -99,8 +135,8 @@ mission_dynamic_ai_vehicles = [
 ["Offroad_DSHKM_Gue_DZ",1],
 ["Pickup_PK_GUE_DZ",1],
 ["Pickup_PK_INS_DZ",1],
-["Pickup_PK_TK_GUE_EP1_DZE",1],
-["UAZ_MG_TK_EP1_DZE",1],
+["Pickup_PK_TK_GUE_EP1_DZ",1],
+["UAZ_MG_TK_EP1_DZ",1],
 ["UH1H_DZ",1],
 ["UH1Y_DZ",1],
 ["UH60M_EP1_DZ",1],
@@ -108,18 +144,3 @@ mission_dynamic_ai_vehicles = [
 ["Ural_TK_CIV_EP1",1],
 ["Ural_UN_EP1",1]
 ];
-
-
-/* ********************************************************************************* */
-/* ********************************************************************************* */
-// Mission Buildings
-/* ********************************************************************************* */
-
-mission_buildings = [
-					["Land_Tovarna2",[]],
-					["Land_Panelak2",[]],
-					["Land_Panelak",[]],
-					["Land_HouseV2_02_Interier",[]],
-					["Land_A_Office01",[]],
-					["Land_A_BuildingWIP",[]]
-					];
