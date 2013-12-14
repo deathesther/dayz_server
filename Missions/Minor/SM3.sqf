@@ -32,11 +32,6 @@ _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 3, _coords select 1
 
 _crate setVariable ["Mission",1,true];
 
-_crate = createVehicle ["USVehicleBox",[(_coords select 0) - 6, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesP.sqf";
-
-_crate setVariable ["Mission",1,true];
-
 [[(_coords select 0) - 20, (_coords select 1) - 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
 sleep 3;
 [[(_coords select 0) + 20, (_coords select 1) + 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards

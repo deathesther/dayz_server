@@ -41,24 +41,24 @@ mission_spawn_crash = {
 	_group_4_info = objNull;
 	_group_4 = objNull;
 
-	_chance = (random 3);
+	_chance = (random 10);
 	switch (true) do {
         
-        case (_chance <= 1):
+        case (_chance <= 2):
         {
 			_group_4_info = [(_mission_id + "-AIGroup4"), "SAR_AI_HELI", _position, 650, 1, 4, _ai_patrols] call mission_spawn_ai;
 			_group_4 = _group_4_info select 1;
 			[_group4] call mission_kill_vehicle_group;
         };
         
-        case (_chance <= 2):
+        case (_chance <= 4):
         {
 			_group_4_info = [(_mission_id + "-AIGroup4"), "SAR_AI_HELI", _position, 300, 1, 4, _ai_patrols] call mission_spawn_ai;
 			_group_4 = _group_4_info select 1;
             [_group4] call mission_kill_vehicle_group;
         };
         
-        case (_chance <= 3):
+        case (_chance <= 7):
         {
 			_group_4_info = [(_mission_id + "-AIGroup4"), "SAR_AI_LAND", _position, 300, 1, 4, _ai_patrols] call mission_spawn_ai;
 			_group_4 = _group_4_info select 1;

@@ -89,7 +89,6 @@ _key call server_hiveWrite;
 	if(!_donotusekey) then {
 		// Lock vehicle
 		_object setvehiclelock "locked";
-		_object setVariable ["BTC_Cannot_Lift",true,true];
 	};
 
 	clearWeaponCargoGlobal  _object;

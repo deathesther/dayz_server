@@ -6,7 +6,7 @@ WaitUntil {MissionGo == 1};
 
 _coords = [getMarkerPos "center",0,5500,30,0,2000,0] call BIS_fnc_findSafePos;
 
-[nil,nil,rTitleText,"A Parts supply crate has been secured by bandits! Check your map for the location!", "PLAIN",10] call RE;
+[nil,nil,rTitleText,"A medical supply crate has been secured by bandits! Check your map for the location!", "PLAIN",10] call RE;
 
 
 Ccoords = _coords;
@@ -20,7 +20,7 @@ _hummer setVariable ["Mission",1,true];
 _hummer1 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 1, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesP.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
 _crate setVariable ["Mission",1,true];
 
 _crate2 = createVehicle ["USLaunchersBox",[(_coords select 0) - 3, _coords select 1,0],[], 0, "CAN_COLLIDE"];

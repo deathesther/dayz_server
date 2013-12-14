@@ -233,19 +233,18 @@ if (isServer and isNil "sm_done") then {
 					
 					if(_ownerID != "0" and !(_object isKindOf "Bicycle")) then {
 						_object setvehiclelock "locked";
-						_object setVariable ["BTC_Cannot_Lift",true,true];
 					};
 					
 					_totalvehicles = _totalvehicles + 1;
 
 					// total each vehicle
 					serverVehicleCounter set [count serverVehicleCounter,_type];
-				if !(isNil "SAR_AI_VEH_EPOCH_FIX") then {
+					if !(isNil "SAR_AI_VEH_EPOCH_FIX") then {
 						if (SAR_AI_VEH_EPOCH_FIX) then {
-								[_object] call SAR_AI_VEH_FIX;
+							[_object] call SAR_AI_VEH_FIX;
 						};
+					};
 				};
-			};
 			};
 
 			//Monitor the object
@@ -328,15 +327,14 @@ if (isServer and isNil "sm_done") then {
 
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\init\dzai_initserver.sqf";
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\MAI\init\mai_initserver.sqf";
+
 	allowConnection = true;
 
 	// [_guaranteedLoot, _randomizedLoot, _frequency, _variance, _spawnChance, _spawnMarker, _spawnRadius, _spawnFire, _fadeFire]
 	if(OldHeliCrash) then {
 		_nul = [3, 4, (50 * 60), (15 * 60), 0.75, 'center', HeliCrashArea, true, false] spawn server_spawnCrashSite;
 	};
-	//Airraid
-	nul = [] spawn server_airRaid;
-	nul = [7, 5, 700, 0, 0.99, 'center', 4000, true, false, true, 5, 1]spawn server_spawnC130CrashSite;
+
 	if (isDedicated) then {
 		// Epoch Events
 		_id = [] spawn server_spawnEvents;

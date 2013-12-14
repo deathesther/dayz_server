@@ -177,7 +177,7 @@ mission_spawn_crates = {
     clearWeaponCargoGlobal _crate;
     clearMagazineCargoGlobal _crate;
     [_crate, _loot_type] execVM "\z\addons\dayz_server\addons\missions\misc\fillBoxes.sqf";
-    _crate setVariable ["permaLoot", 1, true];  // Stop Server Cleanup Killing Box
+    _crate setVariable ["permaLoot", true];  // Stop Server Cleanup Killing Box
     _crate
 };
 
