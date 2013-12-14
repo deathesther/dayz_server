@@ -28,7 +28,7 @@ _hummer2 setVariable ["Mission",1,true];
 _hummer3 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 3, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesT.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 
 _crate setVariable ["Mission",1,true];
 
