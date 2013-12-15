@@ -67,7 +67,7 @@ for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
 			_gunner = _unitGroup createUnit [(MAI_militaryTypes call BIS_fnc_selectRandom2), [0,0,0], [], 1, "NONE"];
 			_gunner assignAsGunner _helicopter;
 			_gunner moveInTurret [_helicopter,[_i]];
-			0 = [_x,"helicrew"] call MAI_setSkills;
+			0 = [_gunner,"helicrew"] call MAI_setSkills;
 			_gunner setVariable ["unithealth",[12000,0,0]];
 			_gunner setVariable ["removeNVG",1];
 			_gunner setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious

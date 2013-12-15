@@ -136,7 +136,7 @@ _cntWeights = count _weights;
 
 
 _num = 50;
-_amount = round(random 50);
+_amount = round(random 10);
 
 
 for "_x" from 1 to (_num + _amount) do {
