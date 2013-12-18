@@ -23,10 +23,19 @@ _crate3 = createVehicle ["RULaunchersBox",[(_coords select 0) - 14, _coords sele
 [_crate3] execVM "\z\addons\dayz_server\missions\misc\fillBoxesH.sqf";
 _crate3 setVariable ["Mission",1,true];
 
-[_coords,40,4,3,1] execVM "\z\addons\dayz_server\missions\add_unit_server.sqf";//AI Guards
+	_this = createMarker ["DZAI_marker_Minor", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Empty";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [150, 150];
+	_this setMarkerAlpha 0;
+    DZAI_marker_Minor = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-[_coords,40,4,3,1] execVM "\z\addons\dayz_server\missions\add_unit_server.sqf";//AI Guards
-sleep 1;
+	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
+sleep 1
+	["DZAI_marker_Minor",3,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
 waitUntil{{isPlayer _x && _x distance _humveecrash < 30  } count playableunits > 0}; 
 
@@ -34,6 +43,8 @@ waitUntil{{isPlayer _x && _x distance _humveecrash < 30  } count playableunits >
 [nil,nil,rTitleText,"The crash site has been secured by survivors!", "PLAIN",6] call RE;
 [nil,nil,rGlobalRadio,"The crash site has been secured by survivors!"] call RE;
 [nil,nil,rHINT,"The crash site has been secured by survivors!"] call RE;
+
+deleteMarker "DZAI_marker_Minor";
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

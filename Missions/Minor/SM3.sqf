@@ -36,11 +36,19 @@ _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 3, _coords select 1
 
 _crate setVariable ["Mission",1,true];
 
-[[(_coords select 0) - 20, (_coords select 1) - 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
-sleep 3;
-[[(_coords select 0) + 20, (_coords select 1) + 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
-sleep 3;
-
+	_this = createMarker ["DZAI_marker_Minor", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Empty";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [150, 150];
+	_this setMarkerAlpha 0;
+    DZAI_marker_Minor = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
+sleep 1;
+	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
+sleep 1
+	["DZAI_marker_Minor",3,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
 waitUntil{{isPlayer _x && _x distance _baserunover < 30  } count playableunits > 0}; 
 
@@ -48,6 +56,8 @@ waitUntil{{isPlayer _x && _x distance _baserunover < 30  } count playableunits >
 [nil,nil,rTitleText,"The stash house is under survivor control!", "PLAIN",6] call RE;
 [nil,nil,rGlobalRadio,"The stash house is under survivor control!"] call RE;
 [nil,nil,rHINT,"The stash house is under survivor control!"] call RE;
+
+deleteMarker "DZAI_marker_Minor";
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

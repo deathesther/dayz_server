@@ -29,26 +29,22 @@ publicVariable "Ccoords";
 
 box = createVehicle ["USLaunchersBox",[(_coords select 0) - 3, (_coords select 1) - 3,0],[], 0, "NONE"];
 [BOX] execVM "\z\addons\dayz_server\missions\misc\fillConstructionMajor.sqf";
-/*
-_aispawn = [_coords,20,3,6,1] execVM "\z\addons\dayz_server\missions\add_unit_server4.sqf";//AI Guards
-sleep 2;
-_aispawn = [_coords,40,3,6,1] execVM "\z\addons\dayz_server\missions\add_unit_server4.sqf";//AI Guards
-sleep 2;
-_aispawn = [_coords,60,4,6,1] execVM "\z\addons\dayz_server\missions\add_unit_server4.sqf";//AI Guards
-sleep 2;
-_aispawn = [_coords,80,6,6,1] execVM "\z\addons\dayz_server\missions\add_unit_server4.sqf";//AI Guards
-*/
-    _ai_marker = createMarker ["SAR_marker_major", _coords];
-    _ai_marker setMarkerShape "RECTANGLE";
-    _ai_marker setMarkeralpha 0;
-    _ai_marker setMarkerType "Flag";
-    _ai_marker setMarkerBrush "Solid";
-    _ai_marker setMarkerSize [100,100];
-    SAR_marker_major = _ai_marker;
-   diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
-sleep 1; //just in case to prevent the marker from not being found in time due to server low fps
-    [SAR_marker_major,3,6,4,"patrol",false] call SAR_AI;
-   diag_log("Mission-DEBUG - SPAWNED MISSION SARGE AI");
+
+	_this = createMarker ["DZAI_marker_major", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Empty";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [150, 150];
+	_this setMarkerAlpha 0;
+    DZAI_marker_major = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
+sleep 1;
+	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+sleep 1
+	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+sleep 1
+	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
    
 waitUntil{{isPlayer _x && _x distance box < 30  } count playableunits > 0}; 
 
@@ -57,7 +53,7 @@ waitUntil{{isPlayer _x && _x distance box < 30  } count playableunits > 0};
 [nil,nil,rGlobalRadio,"Survivors have eliminated the bandit construction team."] call RE;
 [nil,nil,rHINT,"Survivors have eliminated the bandit construction team."] call RE;
 
-deleteMarker "SAR_marker_major";
+deleteMarker "DZAI_marker_major";
 
 [] execVM "debug\remmarkers.sqf";
 MissionGo = 0;

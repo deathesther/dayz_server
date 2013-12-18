@@ -18,8 +18,17 @@ publicVariable "MCoords";
 uralcrash = createVehicle ["uralwreck",_coords,[], 0, "CAN_COLLIDE"];
 uralcrash setVariable ["Mission",1,true];
 
-[_coords,40,4,3,0] execVM "\z\addons\dayz_server\Missions\add_unit_server4.sqf";//AI Guards
+	_this = createMarker ["DZAI_marker_Minor", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Empty";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [80, 80];
+	_this setMarkerAlpha 0;
+    DZAI_marker_Minor = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
+	["DZAI_marker_Minor",4,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
 if (isDedicated) then {
 
@@ -61,6 +70,8 @@ sleep 1;
 [nil,nil,rTitleText,"Crashed Truck secured by survivors!", "PLAIN",6] call RE;
 [nil,nil,rGlobalRadio,"Crashed Truck secured by survivors!"] call RE;
 [nil,nil,rHINT,"Crashed Truck secured by survivors!"] call RE;
+
+deleteMarker "DZAI_marker_Minor";
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;
