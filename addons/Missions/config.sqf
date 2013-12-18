@@ -48,24 +48,6 @@ mission_buildings = [
 					["Land_A_BuildingWIP",[]]
 					];
 
-
-/* ********************************************************************************* */
-/* ********************************************************************************* */
-// RYD Hunter AI
-// 		This is just placeholder atm... Code is not yet working... Dont change the values
-/* ********************************************************************************* */
-
-mission_hunter_fps_check = 10;
-
-mission_hunter_chance = 10;  // 1-100 Chance of Hunter Spawning @ Mission Site
-
-mission_hunter_smell = 3;
-mission_hunter_eyes = [1.5,1.5]; // light factor,movement factor
-
-mission_hunter = false;  // Random Hunter on Map that will wander + try to ill players
-mission_hunter_random = false;  // Random Hunter on Map that will wander + try to ill players
-
-
 /* ********************************************************************************* */
 /* ********************************************************************************* */
 // LOOT

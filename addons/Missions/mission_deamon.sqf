@@ -13,12 +13,6 @@ call compile preprocessFileLineNumbers "\z\addons\dayz_server\addons\Missions\mi
 call compile preprocessFileLineNumbers "\z\addons\dayz_server\addons\Missions\missions\standard.sqf";
 call compile preprocessFileLineNumbers "\z\addons\dayz_server\addons\Missions\missions\crash.sqf";
 
-if (mission_hunter) then {
-	call compile preprocessFile "Predator_fnc.sqf";	
-	call compile preprocessFile "Predator_aux_fnc.sqf";
-};
-
-
 // Initialize Building Array
 /*
 mission_buildings_pos = [];

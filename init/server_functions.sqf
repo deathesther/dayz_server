@@ -597,16 +597,16 @@ dayz_recordLogin = {
 	_key call server_hiveWrite;
 };
 
-	//----------InitMissions--------//
-    MissionGo = 0;
-    MissionGoMinor = 0;
-    if (isServer) then { 
-    SMarray = ["SM1","SM2","SM3","SM4","SM5","SM6"];
-    [] execVM "\z\addons\dayz_server\missions\major\SMfinder.sqf"; //Starts major mission system
-    SMarray2 = ["SM1","SM2","SM3","SM4","SM5","SM6"];
-    [] execVM "\z\addons\dayz_server\missions\minor\SMfinder.sqf"; //Starts minor mission system
-    };
-    //---------EndInitMissions------//
+//----------InitMissions--------//
+MissionGo = 0;
+MissionGoMinor = 0;
+if (isServer) then { 
+SMarray = ["SM1","SM2","SM3","SM4","SM5","SM6","SM7","SM8","SM9","SM10","SM11","SM12","SM13"];
+[] execVM "\z\addons\dayz_server\missions\major\SMfinder.sqf"; //Starts major mission system
+SMarray2 = ["SM1","SM2","SM3","SM4","SM5","SM6","SM7","SM8","SM9","SM10","SM11","SM12","SM13"];
+[] execVM "\z\addons\dayz_server\missions\minor\SMfinder.sqf"; //Starts minor mission system
+};
+//---------EndInitMissions------//
 
 dayz_perform_purge = {
 	if(!isNull(_this)) then {
@@ -818,7 +818,7 @@ server_spawnCleanLoot = {
 	_delQty = 0;
 	_dateNow = (DateToNumber date);
 	{
-		_keep = _x getVariable ["permaLoot",false];
+		_keep = (_x getVariable ["permaLoot",false]) || (_x getVariable ["Mission",0] == 1) ;
 		if (!_keep) then {
 			_created = _x getVariable ["created",-0.1];
 			if (_created == -0.1) then {

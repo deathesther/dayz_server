@@ -123,7 +123,7 @@ DZAI_dynBlacklist = [];
 DZAI_aiHeliPatrols = true;		
 
 //Maximum number of active AI air vehicle patrols. (Default: 0).							
-DZAI_maxHeliPatrols = 5;
+DZAI_maxHeliPatrols = 3;
 
 //Classnames of air vehicles types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								

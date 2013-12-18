@@ -1,13 +1,17 @@
 //Medical Outpost by lazyink (Full credit for code to TheSzerdi & TAW_Tonic)
+//edited for [EMS] by Fuchs
 
 private ["_coords","_wait","_MainMarker75"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMinor.sqf";
 WaitUntil {MissionGoMinor == 1};
 
-
 _coords =  [getMarkerPos "center",0,5500,10,0,20,0] call BIS_fnc_findSafePos;
 
+//Mission start
 [nil,nil,rTitleText,"A group of bandits have taken over a Medical Outpost! Check your map for the location!", "PLAIN",10] call RE;
+[nil,nil,rGlobalRadio,"A group of bandits have taken over a Medical Outpost! Check your map for the location!"] call RE;
+[nil,nil,rHINT,"A group of bandits have taken over a Medical Outpost! Check your map for the location!"] call RE;
+
 
 MCoords = _coords;
 publicVariable "MCoords";
@@ -49,9 +53,13 @@ sleep 3;
 sleep 3;
 
 
-waitUntil{{isPlayer _x && _x distance _baserunover < 5  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _baserunover < 30  } count playableunits > 0}; 
 
+//Mission completed
 [nil,nil,rTitleText,"The Medical Outpost is under survivor control!", "PLAIN",6] call RE;
+[nil,nil,rGlobalRadio,"The Medical Outpost is under survivor control!"] call RE;
+[nil,nil,rHINT,"The Medical Outpost is under survivor control!"] call RE;
+
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

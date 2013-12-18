@@ -1,4 +1,5 @@
 //Bandit Stash House by lazyink (Full credit for code to TheSzerdi & TAW_Tonic)
+
 private ["_coords","_wait","_MainMarker75"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMinor.sqf";
 WaitUntil {MissionGoMinor == 1};
@@ -6,7 +7,10 @@ publicVariable "MissionGoMinor";
 
 _coords =  [getMarkerPos "center",0,5000,10,0,20,0] call BIS_fnc_findSafePos;
 
+//Mission start
 [nil,nil,rTitleText,"A group of bandits have set up a stash house! Check your map for the location!", "PLAIN",10] call RE;
+[nil,nil,rGlobalRadio,"A group of bandits have set up a stash house! Check your map for the location!"] call RE;
+[nil,nil,rHINT,"A group of bandits have set up a stash house! Check your map for the location!"] call RE;
 
 MCoords = _coords;
 publicVariable "MCoords";
@@ -38,9 +42,12 @@ sleep 3;
 sleep 3;
 
 
-waitUntil{{isPlayer _x && _x distance _baserunover < 10  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _baserunover < 30  } count playableunits > 0}; 
 
+//Mission completed
 [nil,nil,rTitleText,"The stash house is under survivor control!", "PLAIN",6] call RE;
+[nil,nil,rGlobalRadio,"The stash house is under survivor control!"] call RE;
+[nil,nil,rHINT,"The stash house is under survivor control!"] call RE;
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

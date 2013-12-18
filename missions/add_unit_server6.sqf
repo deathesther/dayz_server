@@ -1,4 +1,4 @@
-//Created by axeman Edited by TheSzerdi
+//Created by Axeman Edited by TheSzerdi
 private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits","_rndLOut","_ailoadout","_aispawnpos","_aiwep1","_aiammo1","_aiwep2","_aiammo2"];
  
     _aiunit = objNull;
@@ -22,7 +22,7 @@ private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits"
         {
             if ((x == 1) || (x == 3) || (x == 5)) then //troop soldiers
             {
-                "Bandit1_DZ" createUnit [_unitpos, _aiGroup, "_aiunit=this;",1,"PRIVATE"];
+                "TK_INS_Soldier_EP1" createUnit [_unitpos, _aiGroup, "_aiunit=this;",1,"PRIVATE"];
                 _rndLOut=floor(random 4);
                 _ailoadout=
                 switch (_rndLOut) do
@@ -35,7 +35,7 @@ private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits"
             };
             if ((x == 2) || (x == 4) || (x >= 6)) then //troops snipers
             {
-                "Bandit1_DZ" createUnit [_unitpos, _aiGroup, "_aiunit=this;",1,"PRIVATE"];
+                "TK_INS_Soldier_EP1" createUnit [_unitpos, _aiGroup, "_aiunit=this;",1,"PRIVATE"];
                 _rndLOut=floor(random 3);
                 _ailoadout=
                 switch (_rndLOut) do
@@ -50,50 +50,48 @@ private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits"
         {
             if (x == 1) then //one troops comander
             {
-                "Bandit1_DZ" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"LIEUTENANT"];
+                "Ins_Soldier_1" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"LIEUTENANT"];
                 _rndLOut=floor(random 7);
                 _ailoadout=
                 switch (_rndLOut) do
                 {
                   case 0: {["AK_47_M","30Rnd_762x39_AK47"]};
-                  case 1: {["M4A1_RCO_GL","30Rnd_762x39_AK47"]};
+                  case 1: {["AK_47_S","30Rnd_762x39_AK47"]};
                   case 2: {["Sa58P_EP1","30Rnd_762x39_SA58"]};
                   case 3: {["Sa58V_CCO_EP1","30Rnd_762x39_SA58"]};
-                  case 4: {["Sa58V_EP1","30Rnd_762x39_SA58"};
-                  case 5: {["M4SPR","30Rnd_556x45_Stanag"]};
-                  case 6: {["G36_C_SD_camo","30Rnd_556x45_StanagSD"]};
+                  case 4: {["Sa58V_EP1","30Rnd_762x39_SA58"]};
+                  case 5: {["FN_FAL","20Rnd_762x51_FNFAL"]};
+                  case 6: {["FN_FAL_ANPVS4","20Rnd_762x51_FNFAL"]};
                 };
             };
             if ((x == 2) || (x == 3)) then //troops sergeant
             {
-                "Bandit1_DZ" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"SERGEANT"];
-                _rndLOut=floor(random 4);
+                "Ins_Soldier_1" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"SERGEANT"];
+                _rndLOut=floor(random 3);
                 _ailoadout=
                 switch (_rndLOut) do
                 {
-                  case 0: {["BAF_L85A2_RIS_SUSAT","30Rnd_556x45_Stanag"]};
+                  case 0: {["M249_DZ","200Rnd_556x45_M249"]};
                   case 1: {["G36_C_SD_camo","30Rnd_556x45_StanagSD"]};
-                  case 2: {["G36A_camo","30Rnd_556x45_G36"]};
-                  case 3: {["M4A1_HWS_GL_SD_Camo","30Rnd_556x45_StanagSD"]};
+                  case 2: {["G36_C_SD_camo","30Rnd_556x45_StanagSD"]};
                 };
             };
             if (x > 3) then //troops soldiers
             {
-                "BAF_Soldier_Sniper_MTP" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"CORPORAL"];
+                "Ins_Soldier_1" createUnit [_unitpos, LandingParty, "_aiunit=this;",1,"CORPORAL"];
          
-                _rndLOut=floor(random 5);
+                _rndLOut=floor(random 4);
                 _ailoadout=
                 switch (_rndLOut) do
                 {
-                  case 0: {["SVD_CAMO","10Rnd_762x54_SVD"]};
-                  case 1: {["M24","5Rnd_762x51_M24"]};
-                  case 2: {["M24_des_EP1","5Rnd_762x51_M24"]};
-                  case 3: {["SVD","10Rnd_762x54_SVD"]};
-			      case 4: {["AK_107_pso","30Rnd_545x39_AK"]};
+                  case 0: {["SVD_CAMO","10Rnd_762x54_SVD","Sa61_EP1","20Rnd_B_765x17_Ball"]};
+                  case 1: {["M24","5Rnd_762x51_M24","Sa61_EP1","20Rnd_B_765x17_Ball"]};
+                  case 2: {["M40A3","5Rnd_762x51_M24","Sa61_EP1","20Rnd_B_765x17_Ball"]};
+                  case 3: {["G36_C_SD_camo","30Rnd_556x45_StanagSD""Sa61_EP1","20Rnd_B_765x17_Ball"]};
                 };
             };
         };
-        diag_log format ["AIUNIT: Creating BAF_Soldier_L_DDPM by %1 at %2. Result:%3 | Loadout:%4 / Num:%5",player,_unitpos,_aiunit,_ailoadout,_rndLOut];
+        diag_log format ["AIUNIT: Creating NVGoggles by %1 at %2. Result:%3 | Loadout:%4 / Num:%5",player,_unitpos,_aiunit,_ailoadout,_rndLOut];
  
         _aiunit enableAI "TARGET";
         _aiunit enableAI "AUTOTARGET";
@@ -121,7 +119,6 @@ private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits"
         _aiunit addweapon _aiwep2;
         _aiunit addMagazine _aiammo2;
         _aiunit addMagazine _aiammo2;
-		_aiunit removeWeapon "ItemRadio","NVGoggles";
       //add some garbage
         if (x == 1) then {
         _aiunit addMagazine "SmokeShellGreen";
@@ -156,4 +153,3 @@ private ["_aiunit","_xpos","_ypos","_unitpos","_aiGroup","_levelnum","_numunits"
         _aiunit setSkill ["general",1];
         //sleep 0.5;
     };
-
