@@ -17,7 +17,6 @@
 	
 	//Add your preferred settings below this line.
 	
-	DZAI_aiHeliPatrols = true;									//Enable or disable AI helicopter patrols. (Default: false)
 	DZAI_maxHeliPatrols = 5;									//Maximum number of active AI helicopters patrols. (Default: 0).
 	DZAI_heliTypes = ["UH1H_DZ","Mi17_DZ"];						//Classnames of helicopter types to use. Helicopter types must have at least 2 gunner seats (Default: "UH1H_DZ").
 

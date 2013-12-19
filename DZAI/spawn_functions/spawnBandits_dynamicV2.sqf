@@ -15,7 +15,7 @@ _patrolDist = _this select 0;
 _trigger = _this select 1;
 _spawnChance = _this select 2;
 
-if (count (_trigger getVariable ["GroupArray",[]]) > 0) exitWith {if (DZAI_debugLevel > 0) then {diag_log "DZAI Debug: Active groups found. Exiting spawn script (spawnBandits_dynamic)";};};	
+if ((count (_trigger getVariable ["GroupArray",[]]) > 0) or (_trigger getVariable ["forceDespawn",false])) exitWith {if (DZAI_debugLevel > 0) then {diag_log "DZAI Debug: Active groups found. Exiting spawn script (spawnBandits_dynamic)";};};	
 
 _startTime = diag_tickTime;
 

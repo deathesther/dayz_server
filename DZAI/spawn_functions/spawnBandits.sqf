@@ -121,6 +121,11 @@ for "_j" from 1 to _numGroups do {
 
 if (DZAI_debugLevel > 0) then {diag_log format["DZAI Debug: Spawned %1 new AI groups (%2 units total) in %3 seconds at %4 (spawnBandits).",_numGroups,_totalSpawned,(diag_tickTime - _startTime),(triggerText _trigger)];};
 
-0 = [_trigger,_grpArray,_patrolDist,_gradeChances,_spawnPositions,[_minAI,_addAI]] call DZAI_setTrigVars;
+if (!(_trigger getVariable ["initialized",false])) then {
+	0 = [_trigger,_grpArray,_patrolDist,_gradeChances,_spawnPositions,[_minAI,_addAI]] call DZAI_setTrigVars;
+} else {
+	_trigger setVariable ["GroupArray",_grpArray];
+	_trigger setVariable ["isCleaning",false];
+};
 
 true
