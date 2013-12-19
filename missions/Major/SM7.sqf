@@ -26,11 +26,11 @@ _coords = [_coord1, _coord2, _coord3, _coord4, _coord5, _coord6, _coord7, _coord
 
 Ccoords = _coords;
 publicVariable "Ccoords";
-
 [] execVM "debug\addmarkers.sqf";
-box = createVehicle ["USVehicleBox",_coords,[], 0, "NONE"];
 
-[BOX] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+_crate = createVehicle ["USVehicleBox",_coords,[], 0, "NONE"];
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+_crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
 	_this setMarkerShape "ELLIPSE";
@@ -41,12 +41,10 @@ box = createVehicle ["USVehicleBox",_coords,[], 0, "NONE"];
     DZAI_marker_major = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	["DZAI_marker_major",9,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance box < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"The gear cache has been found, nice work, enjoy the spoils.", "PLAIN",6] call RE;

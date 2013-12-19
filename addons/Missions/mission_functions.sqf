@@ -121,46 +121,6 @@ mission_vehicle_pool = {
     _veh_pool
 };
 
-
-mission_spawn_ai = {
-    private ["_position","_snipers","_soldiers","_ai_setting","_marker2","_group2","_id1","_id2","_id3","_group1","_group3","_marker1","_marker3","_chance"];
-    
-	_marker_name = "SAR_mission_" + (_this select 0);
-	_type = _this select 1;
-    _position = _this select 2;
-	_range = _this select 3;
-    _snipers = _this select 4;
-    _soldiers = _this select 5;
-    _ai_setting = (_this select 6) call BIS_fnc_selectRandom;
-	_group = objNull;
-
-    _marker = createMarker [_marker_name, _position];
-    _marker setMarkerShape "RECTANGLE";
-    _marker setMarkeralpha 0;
-    _marker setMarkerType "Flag";
-    _marker setMarkerBrush "Solid";
-    _marker setMarkerSize [_range, _range];
-    missionNamespace setVariable [_marker_name, _marker];  
-	
-	switch (_type) do {
-		case ("SAR_AI") :
-		{
-			_group = [missionNameSpace getVariable _marker_name, 4, _snipers, _soldiers, _ai_setting, false] call SAR_AI;
-		};
-		case ("SAR_AI_HELI"):
-		{
-			_group = [missionNameSpace getVariable _marker_name, 4, false] call SAR_AI_heli;
-		};
-		case ("SAR_AI_LAND"):
-		{
-			_group = [missionNameSpace getVariable _marker_name, 4, [(mission_patrol_land_vehicles call BIS_fnc_selectRandom)], [[1,1,1]], false] call SAR_AI_land;
-		};
-	};
-	[_marker_name, _group]
-};
-	
-
-
 mission_spawn_crates = {
     private ["_position", "_type", "_loot_type", "_crate"];
     

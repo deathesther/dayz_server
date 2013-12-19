@@ -28,12 +28,15 @@ Ccoords = _coords;
 publicVariable "Ccoords";
 [] execVM "debug\addmarkers.sqf";
 
-c130wreck = createVehicle ["C130J_wreck_EP1",[(_coords select 0) + 30, (_coords select 1) - 5,0],[], 0, "NONE"];
-box = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "NONE"];
-box2 = createVehicle ["USVehicleBox",[(_coords select 0) - 10, (_coords select 1) - 10,0],[], 0, "NONE"];
+_c130wreck = createVehicle ["C130J_wreck_EP1",[(_coords select 0) + 30, (_coords select 1) - 5,0],[], 0, "NONE"];
+_c130wreck setVariable ["Mission",1,true];
 
-[BOX] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
-[BOX2] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+_crate = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "NONE"];
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+_crate setVariable ["permaLoot",true];
+_crate2 = createVehicle ["USVehicleBox",[(_coords select 0) - 10, (_coords select 1) - 10,0],[], 0, "NONE"];
+[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+_crate2 setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
 	_this setMarkerShape "ELLIPSE";
@@ -44,16 +47,10 @@ box2 = createVehicle ["USVehicleBox",[(_coords select 0) - 10, (_coords select 1
     DZAI_marker_major = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	["DZAI_marker_major",12,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-deleteMarker "DZAI_marker_major";
-
-waitUntil{{isPlayer _x && _x distance c130wreck < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _c130wreck < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"Survivors secured the crash site! We'll done.", "PLAIN",6] call RE;

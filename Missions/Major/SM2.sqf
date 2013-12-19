@@ -28,11 +28,11 @@ _hummer2 setVariable ["Mission",1,true];
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "CAN_COLLIDE"];
 [_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
 
-_crate setVariable ["Mission",1,true];
+_crate setVariable ["permaLoot",true];
 
 _crate2 = createVehicle ["USLaunchersBox",[(_coords select 0) - 6, _coords select 1,0],[], 0, "CAN_COLLIDE"];
 [_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxesS.sqf";
-_crate2 setVariable ["Mission",1,true];
+_crate2 setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
 	_this setMarkerShape "ELLIPSE";
@@ -43,13 +43,10 @@ _crate2 setVariable ["Mission",1,true];
     DZAI_marker_major = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	["DZAI_marker_major",12,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
-waitUntil{{isPlayer _x && _x distance _c130wreck < 30 } count playableunits > 0}; 
+	
+waitUntil{{isPlayer _x && _x distance _c130wreck < 10 } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"The crash site has been secured by survivors!", "PLAIN",6] call RE;
@@ -57,12 +54,11 @@ waitUntil{{isPlayer _x && _x distance _c130wreck < 30 } count playableunits > 0}
 [nil,nil,rHINT,"The crash site has been secured by survivors!"] call RE;
 
 deleteMarker "DZAI_marker_major";
+
 [] execVM "debug\remmarkers.sqf";
 MissionGo = 0;
 Ccoords = 0;
 publicVariable "Ccoords";
 
 SM1 = 1;
-
-
 [0] execVM "\z\addons\dayz_server\missions\major\SMfinder.sqf";

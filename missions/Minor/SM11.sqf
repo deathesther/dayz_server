@@ -54,7 +54,7 @@ if (isDedicated) then {
 			_iArray call spawn_loot;
 			_nearby = _coords nearObjects ["WeaponHolder",20];
 			{
-				_x setVariable ["permaLoot",true];
+				_x setVariable ["Mission",1,true];
 			} forEach _nearBy;
 		};
 	};

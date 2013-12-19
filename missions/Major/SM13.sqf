@@ -27,8 +27,9 @@ Ccoords = _coords;
 publicVariable "Ccoords";
 [] execVM "debug\addmarkers.sqf";
 
-box = createVehicle ["USLaunchersBox",[(_coords select 0) - 3, (_coords select 1) - 3,0],[], 0, "NONE"];
-[BOX] execVM "\z\addons\dayz_server\missions\misc\fillConstructionMajor.sqf";
+_crate = createVehicle ["USLaunchersBox",[(_coords select 0) - 3, (_coords select 1) - 3,0],[], 0, "NONE"];
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillConstructionMajor.sqf";
+_crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
 	_this setMarkerShape "ELLIPSE";
@@ -39,14 +40,10 @@ box = createVehicle ["USLaunchersBox",[(_coords select 0) - 3, (_coords select 1
     DZAI_marker_major = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	["DZAI_marker_major",12,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
    
-waitUntil{{isPlayer _x && _x distance box < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"Survivors have eliminated the bandit construction team.", "PLAIN",6] call RE;

@@ -30,26 +30,24 @@ publicVariable "Ccoords";
 
 _chopper = ["AH64D_EP1","CH_47F_EP1_DZ","AH1Z"] call BIS_fnc_selectRandom;
 
-hueychop = createVehicle [_chopper,_coords,[], 0, "NONE"];
-hueychop setVariable ["Mission",1,true];
-hueychop setFuel 0;
-hueychop setVehicleAmmo 0.5;
+_hueychop = createVehicle [_chopper,_coords,[], 0, "NONE"];
+_hueychop setFuel 0;
+_hueychop setVehicleAmmo 0.5;
+_hueychop setVariable ["Mission",1,true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
 	_this setMarkerShape "ELLIPSE";
 	_this setMarkerType "Empty";
 	_this setMarkerBrush "Solid";
-	_this setMarkerSize [150, 150];
+	_this setMarkerSize [100, 100];
 	_this setMarkerAlpha 0;
     DZAI_marker_major = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_major",6,2,False] call DZAI_spawn;
+	["DZAI_marker_major",9,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance hueychop < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _hueychop < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"The Helicopter is under survivor control!", "PLAIN",6] call RE;

@@ -48,7 +48,7 @@ if (isDedicated) then {
 			_iArray call spawn_loot;
 			_nearby = _coords nearObjects ["WeaponHolder",20];
 			{
-				_x setVariable ["permaLoot",true];
+				_x setVariable ["Mission",1,true];
 			} forEach _nearBy;
 		};
 	};
@@ -56,7 +56,7 @@ if (isDedicated) then {
 
 [] execVM "debug\hillbilly.sqf";
 
-waitUntil{{isPlayer _x && _x distance baserunover < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance baserunover < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"Survivors killed all Hillies! Loot their corpses!", "PLAIN",6] call RE;

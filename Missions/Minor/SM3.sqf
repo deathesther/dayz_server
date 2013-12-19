@@ -34,7 +34,7 @@ _hummer3 setVariable ["Mission",1,true];
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 3, _coords select 1,0],[], 0, "CAN_COLLIDE"];
 [_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 
-_crate setVariable ["Mission",1,true];
+_crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_Minor", _coords];
 	_this setMarkerShape "ELLIPSE";
@@ -50,7 +50,7 @@ sleep 1
 	["DZAI_marker_Minor",3,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance _baserunover < 30  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _baserunover < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"The stash house is under survivor control!", "PLAIN",6] call RE;
