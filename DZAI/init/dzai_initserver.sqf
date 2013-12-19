@@ -25,12 +25,13 @@ _startTime = diag_tickTime;
 #include "world_classname_configs\default\default_classnames.sqf"
 
 //Set internal-use variables
-DZAI_weaponGrades = [0,1,2,3];								//All possible weapon grades. A "weapon grade" is a tiered classification of gear. 0: Civilian, 1: Military, 2: MilitarySpecial, 3: Heli Crash. Weapon grade also influences the general skill level of the AI unit.
+DZAI_weaponGrades = [0,1,2,3];								//All possible weapon grades (does not include custom weapon grades). A "weapon grade" is a tiered classification of gear. 0: Civilian, 1: Military, 2: MilitarySpecial, 3: Heli Crash. Weapon grade also influences the general skill level of the AI unit.
 DZAI_numAIUnits = 0;										//Tracks current number of currently active AI units, including dead units waiting for respawn.
 DZAI_actDynTrigs = 0;										//Tracks current number of active dynamically-spawned triggers
 DZAI_curDynTrigs = 0;										//Tracks current number of inactive dynamically-spawned triggers.
 DZAI_actTrigs = 0;											//Tracks current number of active static triggers.	
-DZAI_curHeliPatrols = 0;
+DZAI_curHeliPatrols = 0;									//Current number of active air patrols
+DZAI_curLandPatrols = 0;									//Current number of active land patrols
 DZAI_dynTriggerArray = [];									//List of all generated dynamic triggers.
 DZAI_respawnQueue = [];										//Queue of AI groups that require respawning. Group ID is removed from queue after it is respawned.
 
@@ -60,7 +61,6 @@ if (DZAI_modName == "") then {
 	switch (_modVariant) do {
 		case "@DayZ_Epoch":{
 			DZAI_modName = "epoch"; 
-			_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_trader_areas.sqf';
 		};
 		case "DayzOverwatch":{DZAI_modName = "overwatch"};
 		case "@DayzOverwatch":{DZAI_modName = "overwatch"};
@@ -74,14 +74,8 @@ if (DZAI_modName == "") then {
 	};
 };
 
-//If serverside object patch enabled, then spawn in serverside objects.
-if (DZAI_objPatch) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\buildingpatch_all.sqf';};
-
-//Build DZAI weapon classname tables from CfgBuildingLoot data if DZAI_dynamicWeapons = true;
-if (DZAI_dynamicWeaponList) then {[DZAI_banAIWeapons] execVM '\z\addons\dayz_server\DZAI\scripts\buildWeaponArrays.sqf';};
-
 //Create reference marker for dynamic triggers and set default values. These values are modified on a per-map basis.
-if (DZAI_aiHeliPatrols or DZAI_dynAISpawns) then {
+if ((DZAI_maxHeliPatrols > 0) or (DZAI_maxLandPatrols > 0) or DZAI_dynAISpawns) then {
 	DZAI_centerMarker = createMarker ["DZAI_centerMarker", (getMarkerPos 'center')];
 	DZAI_centerMarker setMarkerShape "ELLIPSE";
 	DZAI_centerMarker setMarkerType "Empty";
@@ -103,24 +97,19 @@ if (_worldname in ["chernarus","utes","zargabad","fallujah","takistan","tavi","l
 } else {
 	"DZAI_centerMarker" setMarkerSize [7000, 7000];
 	if (DZAI_modName == "epoch") then {
-		#include "world_classname_configs\epoch\dayz_epoch.sqf"
-		_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_trader_areas.sqf';
+		call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\init\world_classname_configs\epoch\dayz_epoch.sqf";
 	};
 	DZAI_newMap = true;
-	diag_log "[DZAI] Unrecognized worldname found. Generating settings for new map...";
+	diag_log "[DZAI] Unrecognized worldname found. Static AI spawns will be generated automatically if enabled.";
 };
-
-//Build map location list. If using an unknown map, DZAI will automatically generate basic static triggers at cities and towns.
-[] execVM '\z\addons\dayz_server\DZAI\scripts\setup_locations.sqf';
 
 //Initialize AI settings
 if (DZAI_zombieEnemy) then {diag_log "[DZAI] AI to zombie hostility is enabled.";
 	if (DZAI_weaponNoise > 0) then {DZAI_zAggro = true; diag_log "[DZAI] Zombie hostility to AI is enabled.";} else {DZAI_zAggro = false;diag_log "[DZAI] Zombie hostility to AI is disabled.";};
 } else {diag_log "[DZAI] AI to zombie hostility is disabled.";};
 if (isNil "DDOPP_taser_handleHit") then {DZAI_taserAI = false;} else {DZAI_taserAI = true;diag_log "[DZAI] DDOPP Taser Mod detected.";};
-
-if (DZAI_verifyTables) then {["DZAI_Rifles0","DZAI_Rifles1","DZAI_Rifles2","DZAI_Rifles3","DZAI_Pistols0","DZAI_Pistols1","DZAI_Pistols2","DZAI_Pistols3","DZAI_Backpacks0","DZAI_Backpacks1","DZAI_Backpacks2","DZAI_Backpacks3","DZAI_Edibles","DZAI_Medicals1","DZAI_Medicals2","DZAI_MiscItemS","DZAI_MiscItemL","DZAI_BanditTypes","DZAI_heliTypes"] execVM "\z\addons\dayz_server\DZAI\scripts\verifyTables.sqf";};
 [] execVM '\z\addons\dayz_server\DZAI\scripts\DZAI_scheduler.sqf';
-if (DZAI_monitorRate > 0) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\DZAI_monitor.sqf';};
-diag_log format ["[DZAI] DZAI loaded with settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. DZAI_dynamicWeaponList: %4. VerifyTables: %5.",DZAI_debugLevel,DZAI_debugMarkers,DZAI_modName,DZAI_dynamicWeaponList,DZAI_verifyTables];
+diag_log format ["[DZAI] DZAI settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. DZAI_dynamicWeaponList: %4. VerifyTables: %5.",DZAI_debugLevel,DZAI_debugMarkers,DZAI_modName,DZAI_dynamicWeaponList,DZAI_verifyTables];
+diag_log format ["[DZAI] AI spawn settings: Static: %1. Dynamic: %2. Air: %3. Land: %4.",DZAI_staticAI,DZAI_dynAISpawns,(DZAI_maxHeliPatrols>0),(DZAI_maxLandPatrols>0)];
+diag_log format ["[DZAI] AI behavior settings: DZAI_findKiller: %1. DZAI_tempNVGs: %2. DZAI_weaponNoise: %3. DZAI_zombieEnemy: %4. DZAI_freeForAll: %5.",DZAI_findKiller,DZAI_tempNVGs,DZAI_weaponNoise,DZAI_zombieEnemy,DZAI_freeForAll];
 diag_log format ["[DZAI] DZAI loading completed in %1 seconds.",(diag_tickTime - _startTime)];

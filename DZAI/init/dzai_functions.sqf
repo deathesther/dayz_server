@@ -258,7 +258,7 @@ DZAI_spawn = {
 //DZAI group side assignment function. Detects when East side has too many groups, then switches to Resistance side.
 DZAI_getFreeSide = {
 	private["_groupSide"];
-	_groupSide = (if (({(side _x) == east} count allGroups) <= 140) then {east} else {resistance});
+	_groupSide = east;
 	//diag_log format ["Assigned side %1 to AI group",_groupSide];
 	
 	_groupSide
