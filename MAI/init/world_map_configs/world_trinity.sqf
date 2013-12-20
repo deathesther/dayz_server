@@ -8,10 +8,9 @@
 #include "spawn_markers\markers_trinity.sqf"	//Load manual spawn point definitions file.
 #include "spawn_areas\areas_trinity.sqf"		//Load spawn area definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [7183.8403, 7067.4727];
 	"MAI_centerMarker" setMarkerSize [5250, 5250];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 10;};
 };
 
 if (MAI_verifyTables) then {

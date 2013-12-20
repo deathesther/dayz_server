@@ -7,19 +7,21 @@
 	
 */
 
-private ["_objectMonitor"];
+private ["_objectMonitor","_amount"];
 
 if (MAI_curHeliPatrols >= MAI_maxHeliPatrols) exitWith {};
 
+_amount = _this;
+
 _objectMonitor = [] call MAI_getObjMon;
 
-for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
-	private ["_heliType","_startPos","_helicopter","_unitGroup","_pilot","_turretCount","_crewCount","_weapongrade"];
+for "_i" from 1 to _amount do {
+	private ["_heliType","_startPos","_helicopter","_unitGroup","_pilot","_turretCount","_crewCount","_weapongrade","_waypoint"];
 	_heliType = MAI_heliTypes call BIS_fnc_selectRandom2;
 	
 	//If chosen classname isn't an air-type vehicle, then use UH1H as default.
-	if !(_heliType isKindOf "Air") then {_heliType = "UH1H_DZ"};
-	_startPos = [(getMarkerPos "MAI_centerMarker"),(600 + random((getMarkerSize "MAI_centerMarker") select 0)),random(360),false] call SHK_pos;
+	if !(_heliType isKindOf "air") then {_heliType = "UH1H_DZ"};
+	_startPos = [(getMarkerPos "MAI_centerMarker"),(random((getMarkerSize "MAI_centerMarker") select 0)),random(360),false] call SHK_pos;
 	//_startPos = ["MAI_centerMarker",true] call SHK_pos;
 	
 	//Create the patrol group
@@ -45,18 +47,24 @@ for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
 	_objectMonitor set [count _objectMonitor, _helicopter];
 	_helicopter setVariable ["ObjectID",""];
 	_helicopter setVariable ["unitGroup",_unitGroup];
+	_helicopter setVariable ["durability",[0,0]];	//[structural, engine]
 	if (MAI_debugLevel > 0) then {diag_log format ["Spawned helicopter type %1 for group %2 at %3.",_heliType,_unitGroup,mapGridPosition _helicopter];};
 
 	//Add helicopter pilot
 	_crewCount = 1;
+	_weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeighted_M;
 	_pilot assignAsDriver _helicopter;
 	_pilot moveInDriver _helicopter;
 	0 = [_pilot,"helicrew"] call MAI_setSkills;
-	_pilot setVariable ["unithealth",[12000,0,0]];
-	_pilot setVariable ["removeNVG",1];
+	0 = [_pilot, _weapongrade] call MAI_setupLoadout;
+	_pilot setVariable ["unithealth",[12000,0,0,false,false]];
 	_pilot setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious
 	_pilot setVariable ["MAI_deathTime",time];
-	_pilot addWeapon "NVGoggles";
+	_pilot setVariable ["bodyName",(name _pilot)];
+	if (!(_pilot hasWeapon "NVGoggles")) then {
+		_pilot addWeapon "NVGoggles";
+		_pilot setVariable ["removeNVG",1];
+	};
 	_pilot addEventHandler ["HandleDamage",{_this call MAI_AI_handledamage}];
 	
 	//Fill all available helicopter gunner seats.
@@ -68,11 +76,15 @@ for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
 			_gunner assignAsGunner _helicopter;
 			_gunner moveInTurret [_helicopter,[_i]];
 			0 = [_gunner,"helicrew"] call MAI_setSkills;
-			_gunner setVariable ["unithealth",[12000,0,0]];
-			_gunner setVariable ["removeNVG",1];
+			0 = [_gunner,_weapongrade] call MAI_setupLoadout;
+			_gunner setVariable ["unithealth",[12000,0,0,false,false]];
 			_gunner setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious
 			_gunner setVariable ["MAI_deathTime",time];
-			_gunner addWeapon "NVGoggles";
+			_gunner setVariable ["bodyName",(name _gunner)];
+			if (!(_gunner hasWeapon "NVGoggles")) then {
+				_gunner addWeapon "NVGoggles";
+				_gunner setVariable ["removeNVG",1];
+			};
 			_gunner addEventHandler ["HandleDamage",{_this call MAI_AI_handledamage}];
 			[_gunner] joinSilent _unitGroup;
 			_crewCount = _crewCount + 1;
@@ -92,11 +104,12 @@ for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
 		};
 	};
 	//Add eventhandlers
-	_helicopter addEventHandler ["Killed",{_this spawn fnc_heliDespawn_M;}];					//Begin despawn process when heli is destroyed.
-	//_helicopter addEventHandler ["LandedTouchDown",{(_this select 0) setFuel 0;(_this select 0) setDamage 1;}];			//Destroy helicopter if it is forced to land.
+	_helicopter addEventHandler ["Killed",{_this call MAI_heliDestroyed;}];					//Begin despawn process when heli is destroyed.
 	_helicopter addEventHandler ["GetOut",{_this call MAI_airLanding;}];	//Converts AI crew to ground AI units.
+	_helicopter addEventHandler ["HandleDamage",{_this call MAI_hHandleDamage}];
 	_helicopter setVariable ["crewCount",_crewCount];
 	_helicopter setVehicleAmmo 1;
+	_helicopter flyInHeight 125;
 	[_helicopter] spawn MAI_autoRearm_heli;
 
 	//Set group behavior and waypoint
@@ -118,13 +131,21 @@ for "_i" from 1 to (MAI_maxHeliPatrols - MAI_curHeliPatrols) do {
 
 	//Set initial waypoint and begin patrol
 	[_unitGroup,0] setWaypointType "MOVE";
-	[_unitGroup,0] setWaypointTimeout [5,10,15];
+	[_unitGroup,0] setWaypointTimeout [1,1,1];
 	[_unitGroup,0] setWaypointCompletionRadius 150;
-	[_unitGroup,0] setWaypointStatements ["true","[(group this)] spawn MAI_heliRandomPatrol;"];
+	[_unitGroup,0] setWaypointStatements ["true","[(group this)] spawn MAI_heliDetectPlayers;"];
+	
+	_waypoint = _unitGroup addWaypoint [_startPos,0];
+	_waypoint setWaypointType "MOVE";
+	_waypoint setWaypointTimeout [3,6,9];
+	_waypoint setWaypointCompletionRadius 150;
+	_waypoint setWaypointStatements ["true","[(group this)] spawn MAI_heliRandomPatrol;"];
+	
 	[_unitGroup] spawn MAI_heliRandomPatrol;
 
-	if (!isNull _helicopter) then {MAI_curHeliPatrols = MAI_curHeliPatrols + 1};
-	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Created AI helicopter crew group %1 is now active and patrolling.",_unitGroup];};
-
-	if (_i <= (MAI_maxHeliPatrols - MAI_curHeliPatrols)) then {sleep 20};
+	if ((!isNull _helicopter)&&(!isNull _unitGroup)) then {
+		MAI_curHeliPatrols = MAI_curHeliPatrols + 1;
+		if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Created AI helicopter crew group %1 is now active and patrolling.",_unitGroup];};
+	};
+	if (_i < _amount) then {sleep 20};
 };

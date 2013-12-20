@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_isladuala.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [4945.3438, 4919.6616];
 	"MAI_centerMarker" setMarkerSize [4000, 4000];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 8;};
 };
 
 if (MAI_verifyTables) then {

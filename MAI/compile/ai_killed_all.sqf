@@ -8,7 +8,7 @@
 		Last updated: 2:52 AM 11/9/2013
 */
 
-private["_victim","_killer","_unitGroup","_groupSize"];
+private["_victim","_killer","_unitGroup","_groupSize","_launchWeapon"];
 _victim = _this select 0;
 _killer = _this select 1;
 _unitGroup = _this select 2;
@@ -22,20 +22,20 @@ _victim setVariable ["deathType",_victim getVariable ["deathType","bled"],true];
 _victim setVariable ["MAI_deathTime",time];
 
 //Update AI count
-_groupSize = _unitGroup getVariable "groupSize";
+_groupSize = _unitGroup getVariable "GroupSize";
 _groupSize = _groupSize - 1;
 MAI_numAIUnits = MAI_numAIUnits - 1;
-_unitGroup setVariable ["groupSize",_groupSize];
+_unitGroup setVariable ["GroupSize",_groupSize];
 if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Group %1 has group size: %2.",_unitGroup,_groupSize];};
 
 if (isPlayer _killer) then {
 	private ["_trigger","_gradeChances","_weapongrade"];
 
+	_unitGroup reveal [vehicle _killer,4];
 	if (MAI_findKiller) then {_unitGroup setBehaviour "AWARE"; 0 = [_victim,_killer,_unitGroup] spawn MAI_huntKiller} else {_unitGroup setBehaviour "COMBAT"};
 
 	_trigger = _unitGroup getVariable "trigger";
-	_gradeChances = _trigger getVariable ["gradeChances",MAI_gradeChances1];
-	if (isNil "_gradeChances") then {_gradeChances = MAI_gradeChances1};
+	_gradeChances = if (!isNil "_trigger") then {_trigger getVariable ["gradeChances",MAI_gradeChances1]} else {MAI_gradeChances1};
 
 	_weapongrade = [MAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted_M;
 	0 = [_victim,_weapongrade] spawn MAI_addLoot;
@@ -50,9 +50,17 @@ if (isPlayer _killer) then {
 } else {
 	if (_killer != _victim) then {
 		{
-			_victim removeMagazine _x;
+			_victim removeMagazines _x;
 		} forEach (magazines _victim);
 	};
+};
+
+_launchWeapon = (secondaryWeapon _victim);
+if (_launchWeapon in MAI_launcherTypes) then {
+	private ["_launchAmmo"];
+	_launchAmmo = getArray (configFile >> "CfgWeapons" >> _launchWeapon >> "magazines") select 0;
+	_victim removeMagazines _launchAmmo;
+	_victim removeWeapon _launchWeapon;
 };
 
 _nul = _victim spawn MAI_deathFlies;

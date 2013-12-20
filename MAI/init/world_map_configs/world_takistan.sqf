@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_takistan.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [6368.2764, 6624.2744];
 	"MAI_centerMarker" setMarkerSize [6000, 6000];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 16;};
 };
 		
 if (MAI_verifyTables) then {

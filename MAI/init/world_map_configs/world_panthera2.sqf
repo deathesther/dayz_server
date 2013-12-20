@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_panthera2.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [5343.6953, 4366.2534];
 	"MAI_centerMarker" setMarkerSize [3500, 3500];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 9;};
 };
 
 if (MAI_verifyTables) then {

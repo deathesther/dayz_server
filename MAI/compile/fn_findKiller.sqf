@@ -1,5 +1,5 @@
 /*
-	fn_findKiller
+	fn_findKiller_M
 	
 	Description: If an AI unit is killed, surviving members of their group will aggressively pursue the killer for a set amount of time. After this amount of time has passed, the group will return to their patrol state.
 	
@@ -11,17 +11,17 @@ _victim = _this select 0;
 _killer = _this select 1;
 _unitGroup = _this select 2;
 
-_groupSize = _unitGroup getVariable ["groupSize",0];
-if (_groupSize == 0) exitWith {if (MAI_debugLevel > 0) then {diag_log "MAI Debug: All units in group are dead. (fn_findKiller)";};};
+_groupSize = _unitGroup getVariable ["GroupSize",0];
+if (_groupSize == 0) exitWith {if (MAI_debugLevel > 0) then {diag_log "MAI Debug: All units in group are dead. (fn_findKiller_M)";};};
 
 //If group is already pursuing player and target player has killed another group member, then extend pursuit time.
 if (((_unitGroup getVariable ["pursuitTime",0]) > 0)&&((_unitGroup getVariable ["targetKiller",objNull]) == _killer)) exitWith {
 	_unitGroup setVariable ["pursuitTime",((_unitGroup getVariable ["pursuitTime",0]) + 20)];
-	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Pursuit time +20 sec for Group %1 (Target: %2) to %3 seconds (fn_findKiller).",_unitGroup,name _killer,_unitGroup getVariable ["pursuitTime",0]]};
+	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Pursuit time +20 sec for Group %1 (Target: %2) to %3 seconds (fn_findKiller_M).",_unitGroup,name _killer,(_unitGroup getVariable ["pursuitTime",0]) - time]};
 };
 
 //Reveal killer to AI group and order units to target and fire.
-_unitGroup reveal [(vehicle _killer),4];
+//_unitGroup reveal [(vehicle _killer),4];
 (units _unitGroup) doTarget (vehicle _killer);
 (units _unitGroup) doFire (vehicle _killer);
 
@@ -31,7 +31,7 @@ _trigger = (group _victim) getVariable ["trigger",_victim];
 _detectRange = 400;
 	
 if (((_victim distance _killer) < _detectRange) && (_killer isKindOf "Man")) then {
-	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Group %1 has entered pursuit state. Target: %2. (fn_findKiller)",_unitGroup,_killer];};
+	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Group %1 has entered pursuit state. Target: %2. (fn_findKiller_M)",_unitGroup,_killer];};
 
 	//Calculate maximum pursuit range, using victim's location as origin.
 	_chaseDist = _detectRange;
@@ -52,7 +52,7 @@ if (((_victim distance _killer) < _detectRange) && (_killer isKindOf "Man")) the
 	};
 	
 	//Begin pursuit state.
-	while {(time < (_unitGroup getVariable ["pursuitTime",0])) && (alive _killer) && ((_unitGroup getVariable ["groupSize",0]) > 0) && !(isNull _killer) && ((_trigger distance _killer) < _chaseDist) && (((vehicle _killer) isKindOf "Man") or ((vehicle _killer) isKindOf "Motorcycle"))} do {
+	while {(time < (_unitGroup getVariable ["pursuitTime",0])) && (alive _killer) && ((_unitGroup getVariable ["GroupSize",0]) > 0) && !(isNull _killer) && ((_trigger distance _killer) < _chaseDist) && (((vehicle _killer) isKindOf "Man") or ((vehicle _killer) isKindOf "Motorcycle"))} do {
 		_killerPos = getPosATL _killer;
 		(units _unitGroup) doMove _killerPos;
 		{if (alive _x) then {_x moveTo _killerPos;/*diag_log "AI unit in pursuit.";*/};} forEach (units _unitGroup);
@@ -70,7 +70,7 @@ if (((_victim distance _killer) < _detectRange) && (_killer isKindOf "Man")) the
 	_unitGroup setVariable ["targetKiller",objNull];
 	_unitGroup lockWP false;
 	_unitGroup setCurrentWaypoint ((waypoints _unitGroup) call BIS_fnc_selectRandom2);
-	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Pursuit state ended for group %1. Returning to patrol state. (fn_findKiller)",_unitGroup];};
+	if (MAI_debugLevel > 0) then {diag_log format ["MAI Debug: Pursuit state ended for group %1. Returning to patrol state. (fn_findKiller_M)",_unitGroup];};
 	
 	sleep 5;
 	if ((_killer hasWeapon "ItemRadio") && _canRadio) then {

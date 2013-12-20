@@ -8,7 +8,7 @@
 	Last updated: 6:00 PM 10/24/2013
 */
 
-private ["_patrolDist","_trigger","_grpArray","_triggerPos","_gradeChances","_weapongrade","_totalAI","_startTime","_tMarker","_spawnMarker","_paradrop"];
+private ["_patrolDist","_trigger","_grpArray","_triggerPos","_gradeChances","_weapongrade","_totalAI","_startTime","_tMarker","_spawnMarker"];
 if (!isServer) exitWith {};
 
 _startTime = diag_tickTime;
@@ -41,33 +41,10 @@ if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Processed static trigg
 
 _startTime = diag_tickTime;
 
-_grpArray = [];
-
-//Spawn group
 private ["_unitGroup","_spawnPos","_totalAI"];
-//Select spawn location
 
-_paradrop = false;
-if (_weapongrade < 0) then {
-	if (_weapongrade == -1) then {_paradrop = true}; 
-	_weapongrade = [MAI_weaponGrades,MAI_gradeChancesHeli] call fnc_selectRandomWeighted_M;
-};
 _spawnPos = [(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos;
 _unitGroup = [_totalAI,(createGroup resistance),_spawnPos,_trigger,_weapongrade] call MAI_setup_AI;
-
-//Enable paradrop spawn
-if (_paradrop) then {
-	private ["_areaPlayers","_dropPos","_parachute"];
-	{
-		_dropPos = [((_spawnPos select 0) + (random 10) - (random 10)),((_spawnPos select 1) + (random 10) - (random 10)),90];
-		_parachute = createVehicle ["ParachuteWest", _dropPos, [], 0, "FLY"];
-		_x moveInDriver _parachute;
-	} forEach (units _unitGroup);
-	
-	//Reveal nearby player units
-	_areaPlayers = (getPosATL _trigger) nearEntities [["AllVehicles","CAManBase"],150];
-	{_unitGroup reveal [_x,4]} forEach _areaPlayers;
-};
 
 //Set group variables
 _unitGroup setVariable ["unitType","static"];
@@ -79,8 +56,6 @@ if (MAI_debugLevel > 1) then {diag_log format ["MAI Extended Debug: Group %1 has
 
 0 = [_unitGroup,_triggerPos,_patrolDist,MAI_debugMarkers] spawn MAI_BIN_taskPatrol;
 
-_grpArray set [count _grpArray,_unitGroup];
-
 if (MAI_debugLevel > 0) then {diag_log format["MAI Debug: Spawned a group of %1 units in %2 seconds at %3 (spawnmilitary).",_totalAI,(diag_tickTime - _startTime),(triggerText _trigger)];};
 
 _gradeChances = switch (_weapongrade) do {
@@ -88,9 +63,10 @@ _gradeChances = switch (_weapongrade) do {
 	case 1: {[MAI_gradeChances1,MAI_gradeChances2] call BIS_fnc_selectRandom2};
 	case 2: {[MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom2};
 	case 3: {MAI_gradeChances3};
+	case 4; case 5; case 6; case 7; case 8; case 9: {MAI_gradeChances3};
 	case default {[MAI_gradeChances0,MAI_gradeChances1,MAI_gradeChances2,MAI_gradeChances3] call BIS_fnc_selectRandom2};
 };
 
-0 = [_trigger,_grpArray,_patrolDist,_gradeChances,[],[_totalAI,0]] call MAI_setTrigVars;
+0 = [_trigger,[_unitGroup],_patrolDist,_gradeChances,[],[_totalAI,0]] call MAI_setTrigVars;
 
 _unitGroup

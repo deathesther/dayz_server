@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_mbg_celle2.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [6163.52, 6220.3984];
 	"MAI_centerMarker" setMarkerSize [6000, 6000];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 15;};
 };
 
 if (MAI_verifyTables) then {

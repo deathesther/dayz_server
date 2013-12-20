@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_oring.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [5191.1069, 5409.1938];
 	"MAI_centerMarker" setMarkerSize [4750, 4750];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 15;};
 };
 
 if (MAI_verifyTables) then {

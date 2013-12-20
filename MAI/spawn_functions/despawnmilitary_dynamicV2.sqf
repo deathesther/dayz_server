@@ -55,7 +55,7 @@ if ((triggerActivated _trigger) && (!_forceDespawn)) exitWith {
 		} forEach (waypoints _x);
 		sleep 0.1;
 	};
-	MAI_numAIUnits = MAI_numAIUnits - (_x getVariable ["groupSize",0]);	//Update active AI count
+	MAI_numAIUnits = MAI_numAIUnits - (_x getVariable ["GroupSize",0]);	//Update active AI count
 	{deleteVehicle _x} forEach (units _x);							//Delete live units
 	sleep 0.5;
 	deleteGroup _x;													//Delete the group after its units are deleted.

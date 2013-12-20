@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_namalsk.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [5880.1313, 8889.1045];
 	"MAI_centerMarker" setMarkerSize [3000, 3000];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 6;};
 };
 
 if (MAI_verifyTables) then {

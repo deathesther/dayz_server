@@ -7,10 +7,9 @@
 
 #include "spawn_markers\markers_tavi.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [10887.825, 11084.657, 1.5322094];
 	"MAI_centerMarker" setMarkerSize [8500, 8500];
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 15;};
 };
 	
 if (MAI_verifyTables) then {

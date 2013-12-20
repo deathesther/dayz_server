@@ -7,11 +7,9 @@
 
 #include "spawn_markers\markers_zargabad.sqf"	//Load manual spawn point definitions file.
 
-if (MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	"MAI_centerMarker" setMarkerPos [3917.6201, 3800.0376];
 	"MAI_centerMarker" setMarkerSize [2000, 2000];
-	MAI_dynTriggersMax = 5;
-	if (isNil "MAI_dynTriggersMax") then {MAI_dynTriggersMax = 5;};
 };
 
 if (MAI_verifyTables) then {

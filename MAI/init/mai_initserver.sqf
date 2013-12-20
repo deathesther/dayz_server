@@ -25,12 +25,13 @@ _startTime = diag_tickTime;
 #include "world_classname_configs\default\default_classnames.sqf"
 
 //Set internal-use variables
-MAI_weaponGrades = [0,1,2,3];								//All possible weapon grades. A "weapon grade" is a tiered classification of gear. 0: Civilian, 1: Military, 2: MilitarySpecial, 3: Heli Crash. Weapon grade also influences the general skill level of the AI unit.
+MAI_weaponGrades = [0,1,2,3];								//All possible weapon grades (does not include custom weapon grades). A "weapon grade" is a tiered classification of gear. 0: Civilian, 1: Military, 2: MilitarySpecial, 3: Heli Crash. Weapon grade also influences the general skill level of the AI unit.
 MAI_numAIUnits = 0;										//Tracks current number of currently active AI units, including dead units waiting for respawn.
 MAI_actDynTrigs = 0;										//Tracks current number of active dynamically-spawned triggers
 MAI_curDynTrigs = 0;										//Tracks current number of inactive dynamically-spawned triggers.
 MAI_actTrigs = 0;											//Tracks current number of active static triggers.	
-MAI_curHeliPatrols = 0;
+MAI_curHeliPatrols = 0;									//Current number of active air patrols
+MAI_curLandPatrols = 0;									//Current number of active land patrols
 MAI_dynTriggerArray = [];									//List of all generated dynamic triggers.
 MAI_respawnQueue = [];										//Queue of AI groups that require respawning. Group ID is removed from queue after it is respawned.
 
@@ -60,7 +61,6 @@ if (MAI_modName == "") then {
 	switch (_modVariant) do {
 		case "@DayZ_Epoch":{
 			MAI_modName = "epoch"; 
-			_nul = [] execVM '\z\addons\dayz_server\MAI\scripts\setup_trader_areas.sqf';
 		};
 		case "DayzOverwatch":{MAI_modName = "overwatch"};
 		case "@DayzOverwatch":{MAI_modName = "overwatch"};
@@ -74,14 +74,8 @@ if (MAI_modName == "") then {
 	};
 };
 
-//If serverside object patch enabled, then spawn in serverside objects.
-if (MAI_objPatch) then {[] execVM '\z\addons\dayz_server\MAI\scripts\buildingpatch_all.sqf';};
-
-//Build MAI weapon classname tables from CfgBuildingLoot data if MAI_dynamicWeapons = true;
-if (MAI_dynamicWeaponList) then {[MAI_banAIWeapons] execVM '\z\addons\dayz_server\MAI\scripts\buildWeaponArrays.sqf';};
-
 //Create reference marker for dynamic triggers and set default values. These values are modified on a per-map basis.
-if (MAI_aiHeliPatrols or MAI_dynAISpawns) then {
+if ((MAI_maxHeliPatrols > 0) or (MAI_maxLandPatrols > 0) or MAI_dynAISpawns) then {
 	MAI_centerMarker = createMarker ["MAI_centerMarker", (getMarkerPos 'center')];
 	MAI_centerMarker setMarkerShape "ELLIPSE";
 	MAI_centerMarker setMarkerType "Empty";
@@ -103,24 +97,19 @@ if (_worldname in ["chernarus","utes","zargabad","fallujah","takistan","tavi","l
 } else {
 	"MAI_centerMarker" setMarkerSize [7000, 7000];
 	if (MAI_modName == "epoch") then {
-		#include "world_classname_configs\epoch\dayz_epoch.sqf"
-		_nul = [] execVM '\z\addons\dayz_server\MAI\scripts\setup_trader_areas.sqf';
+		call compile preprocessFileLineNumbers "\z\addons\dayz_server\MAI\init\world_classname_configs\epoch\dayz_epoch.sqf";
 	};
 	MAI_newMap = true;
-	diag_log "[MAI] Unrecognized worldname found. Generating settings for new map...";
+	diag_log "[MAI] Unrecognized worldname found. Static AI spawns will be generated automatically if enabled.";
 };
-
-//Build map location list. If using an unknown map, MAI will automatically generate basic static triggers at cities and towns.
-[] execVM '\z\addons\dayz_server\MAI\scripts\setup_locations.sqf';
 
 //Initialize AI settings
 if (MAI_zombieEnemy) then {diag_log "[MAI] AI to zombie hostility is enabled.";
 	if (MAI_weaponNoise > 0) then {MAI_zAggro = true; diag_log "[MAI] Zombie hostility to AI is enabled.";} else {MAI_zAggro = false;diag_log "[MAI] Zombie hostility to AI is disabled.";};
 } else {diag_log "[MAI] AI to zombie hostility is disabled.";};
 if (isNil "DDOPP_taser_handleHit") then {MAI_taserAI = false;} else {MAI_taserAI = true;diag_log "[MAI] DDOPP Taser Mod detected.";};
-
-if (MAI_verifyTables) then {["MAI_Rifles0","MAI_Rifles1","MAI_Rifles2","MAI_Rifles3","MAI_Pistols0","MAI_Pistols1","MAI_Pistols2","MAI_Pistols3","MAI_Backpacks0","MAI_Backpacks1","MAI_Backpacks2","MAI_Backpacks3","MAI_Edibles","MAI_Medicals1","MAI_Medicals2","MAI_MiscItemS","MAI_MiscItemL","MAI_militaryTypes","MAI_heliTypes"] execVM "\z\addons\dayz_server\MAI\scripts\verifyTables.sqf";};
 [] execVM '\z\addons\dayz_server\MAI\scripts\MAI_scheduler.sqf';
-if (MAI_monitorRate > 0) then {[] execVM '\z\addons\dayz_server\MAI\scripts\MAI_monitor.sqf';};
-diag_log format ["[MAI] MAI loaded with settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. MAI_dynamicWeaponList: %4. VerifyTables: %5.",MAI_debugLevel,MAI_debugMarkers,MAI_modName,MAI_dynamicWeaponList,MAI_verifyTables];
+diag_log format ["[MAI] MAI settings: Debug Level: %1. DebugMarkers: %2. ModName: %3. MAI_dynamicWeaponList: %4. VerifyTables: %5.",MAI_debugLevel,MAI_debugMarkers,MAI_modName,MAI_dynamicWeaponList,MAI_verifyTables];
+diag_log format ["[MAI] AI spawn settings: Static: %1. Dynamic: %2. Air: %3. Land: %4.",MAI_staticAI,MAI_dynAISpawns,(MAI_maxHeliPatrols>0),(MAI_maxLandPatrols>0)];
+diag_log format ["[MAI] AI behavior settings: MAI_findKiller: %1. MAI_tempNVGs: %2. MAI_weaponNoise: %3. MAI_zombieEnemy: %4. MAI_freeForAll: %5.",MAI_findKiller,MAI_tempNVGs,MAI_weaponNoise,MAI_zombieEnemy,MAI_freeForAll];
 diag_log format ["[MAI] MAI loading completed in %1 seconds.",(diag_tickTime - _startTime)];
