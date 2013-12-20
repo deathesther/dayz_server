@@ -107,7 +107,7 @@ mission_spawn_standard = {
 	// SPAWN AI
 	_this = createMarker ["DZAI_marker_booms", _position];
 	_this setMarkerShape "ELLIPSE";
-	_this setMarkerType "Empty";
+	_this setMarkerType "Flag";
 	_this setMarkerBrush "Solid";
 	_this setMarkerSize [200, 200];
 	_this setMarkerAlpha 0;

@@ -25,7 +25,7 @@ _crate2 setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_Minor", _coords];
 	_this setMarkerShape "ELLIPSE";
-	_this setMarkerType "Empty";
+	_this setMarkerType "Flag";
 	_this setMarkerBrush "Solid";
 	_this setMarkerSize [150, 150];
 	_this setMarkerAlpha 0;
