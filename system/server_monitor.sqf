@@ -326,7 +326,6 @@ if (isServer and isNil "sm_done") then {
 	};
 
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\init\dzai_initserver.sqf";
-	call compile preprocessFileLineNumbers "\z\addons\dayz_server\MAI\init\mai_initserver.sqf";
 
 	allowConnection = true;
 

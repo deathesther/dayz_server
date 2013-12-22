@@ -40,14 +40,10 @@ _crate3 setVariable ["permaLoot",true];
     DZAI_marker_Minor = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
+	["DZAI_marker_Minor",12,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance _uralcrash < 10  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
 
 //Mission accomplished
 [nil,nil,rTitleText,"The crash site has been secured by survivors!", "PLAIN",6] call RE;

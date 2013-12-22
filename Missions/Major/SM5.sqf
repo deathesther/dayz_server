@@ -44,7 +44,7 @@ sleep 1;
 	["DZAI_marker_major",6,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance _hummer < 10  } count playableunits > 0};
+waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0};
 
 //Mission completed
 [nil,nil,rTitleText,"The medical supplies have been secured by survivors!", "PLAIN",6] call RE;

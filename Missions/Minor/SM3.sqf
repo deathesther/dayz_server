@@ -46,11 +46,9 @@ _crate setVariable ["permaLoot",true];
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
 	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
-sleep 1
-	["DZAI_marker_Minor",3,2,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{{isPlayer _x && _x distance _baserunover < 10  } count playableunits > 0}; 
+waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
 
 //Mission completed
 [nil,nil,rTitleText,"The stash house is under survivor control!", "PLAIN",6] call RE;
