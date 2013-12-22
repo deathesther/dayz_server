@@ -7,19 +7,20 @@
 */
 
 diag_log "DZAI Scheduler is running required script files...";
-_objectMonitor = [];
+
 _vehiclesEnabled = ((DZAI_maxHeliPatrols > 0) or (DZAI_maxLandPatrols > 0));
+
+[] call compile preprocessFile "\z\addons\dayz_server\DZAI\scripts\buildWeightedTables.sqf";
 
 //If serverside object patch enabled, then spawn in serverside objects.
 if (DZAI_objPatch) then {
-	[] execVM '\z\addons\dayz_server\DZAI\scripts\buildingpatch_all.sqf';
-	sleep 5;
+	_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\buildingpatch_all.sqf';
 };
 
 //Build DZAI weapon classname tables from CfgBuildingLoot data if DZAI_dynamicWeapons = true;
 if (DZAI_dynamicWeaponList) then {
 	_weaponlist = [DZAI_banAIWeapons] execVM '\z\addons\dayz_server\DZAI\scripts\buildWeaponArrays.sqf';
-	waitUntil {sleep 0.005; scriptDone _weaponlist};
+	//waitUntil {sleep 0.005; scriptDone _weaponlist};
 };
 
 if (DZAI_verifyTables) then {
@@ -30,20 +31,23 @@ if (DZAI_verifyTables) then {
 };
 
 //Build map location list. If using an unknown map, DZAI will automatically generate basic static triggers at cities and towns.
-[] execVM '\z\addons\dayz_server\DZAI\scripts\setup_locations.sqf';
+_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_locations.sqf';
+sleep 0.1;
 
-if ((count DZAI_dynAreaBlacklist) > 0) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\setup_blacklist_areas.sqf';};
+if ((count DZAI_dynAreaBlacklist) > 0) then {
+	_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_blacklist_areas.sqf';
+	sleep 0.1;
+};
 
 if (_vehiclesEnabled) then {
 	_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_veh_patrols.sqf';
-	_objectMonitor = [] call DZAI_getObjMon;
 };
 
 if (DZAI_dynAISpawns) then {
-	_dynManagerV2 = [] execVM '\z\addons\dayz_server\DZAI\scripts\dynamicSpawn_manager.sqf';
 	if (DZAI_modName == "epoch") then {
 		_nul = [] execVM '\z\addons\dayz_server\DZAI\scripts\setup_trader_areas.sqf';
 	};
+	_dynManagerV2 = [] execVM '\z\addons\dayz_server\DZAI\scripts\dynamicSpawn_manager.sqf';
 };
 
 sleep 10;
@@ -53,14 +57,10 @@ if (DZAI_monitorRate > 0) then {[] execVM '\z\addons\dayz_server\DZAI\scripts\DZ
 diag_log "DZAI Scheduler will continue tasks in 15 minutes.";
 sleep 900;
 
+_objectMonitor = [] call DZAI_getObjMon;
+
 while {true} do {
 	if (DZAI_debugLevel > 0) then {diag_log "DZAI Scheduler is now running.";};
-	
-	if (_vehiclesEnabled) then {
-		//Clean up server object monitor
-		_objectMonitor = _objectMonitor - [objNull];
-		sleep 3;
-	};
 
 	//Clean up dead units spawned by DZAI.
 	{
@@ -72,6 +72,10 @@ while {true} do {
 				_soundFlies = _x getVariable "sound_flies";
 				deleteVehicle _soundFlies;
 				deleteVehicle _x;
+			};
+		} else {
+			if ((_vehiclesEnabled)&&(_x in _objectMonitor)) then {
+				_objectMonitor = _objectMonitor - [_x];
 			};
 		};
 		sleep 0.005;

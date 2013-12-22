@@ -3,13 +3,14 @@
 		
 		Description: Called when AI air vehicle performs a landing. Converts onboard AI crew into static-type units.
 		
-        Usage: [_helicopter] call DZAI_airLanding;
-		
-		Last updated: 12:02 AM 11/21/2013
+		Last updated: 1:49 PM 12/18/2013
 */
 
 private ["_helicopter","_trigger","_heliPos","_weapongrade","_unitsAlive","_unitGroup"];
 _helicopter = _this select 0;
+
+if (_helicopter getVariable ["heli_disabled",false]) exitWith {};
+_helicopter setVariable ["heli_disabled",true];
 
 _helicopter removeAllEventHandlers "GetOut";
 _helicopter removeAllEventHandlers "Killed";

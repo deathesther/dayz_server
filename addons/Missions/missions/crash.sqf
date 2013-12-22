@@ -73,6 +73,7 @@ sleep 1;
 	[_marker_name, true] call mission_delete_marker;
 
 	diag_log ("DEBUG: Mission Code: Removing AI + Crates");
+	deleteMarker "DZAI_marker_boomc";
 	// Remove Crates
 	{
 		deleteVehicle _x;

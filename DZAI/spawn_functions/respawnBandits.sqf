@@ -8,7 +8,7 @@
 	Last updated: 8:38 AM 10/23/2013
 */
 
-private ["_unitGroup","_trigger","_grpArray","_patrolDist","_gradeChances","_spawnPositions","_spawnPos","_unit","_pos","_startTime","_maxUnits","_totalAI","_aiGroup","_weapongrade"];
+private ["_unitGroup","_trigger","_grpArray","_patrolDist","_equipType","_spawnPositions","_spawnPos","_unit","_pos","_startTime","_maxUnits","_totalAI","_aiGroup","_weapongrade"];
 if (!isServer) exitWith {};
 
 _startTime = diag_tickTime;
@@ -18,7 +18,7 @@ _trigger = _this select 1;
 _maxUnits = _this select 2;
 
 _patrolDist = _trigger getVariable ["patrolDist",150];
-_gradeChances = _trigger getVariable ["gradeChances",DZAI_gradeChances1];
+_equipType = _trigger getVariable ["equipType",1];
 _spawnPositions = _trigger getVariable ["locationArray",[]];
 
 _totalAI = ((_maxUnits select 0) + round(random (_maxUnits select 1)));
@@ -32,7 +32,8 @@ if (_totalAI == 0) exitWith {
 _spawnPos = if ((count _spawnPositions) > 0) then {_spawnPositions call DZAI_findSpawnPos} else {[(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos};
 
 //Respawn the group
-_weapongrade = [DZAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted;
+//_weapongrade = [DZAI_weaponGrades,_gradeChances] call fnc_selectRandomWeighted;
+_weapongrade = _equipType call DZAI_getWeapongrade;
 _aiGroup = [_totalAI,_unitGroup,_spawnPos,_trigger,_weapongrade] call DZAI_setup_AI;
 if (isNull _unitGroup) then {diag_log format ["DZAI Error :: Respawned group was null group. New group reassigned: %1.",_aiGroup]; _unitGroup = _aiGroup};
 

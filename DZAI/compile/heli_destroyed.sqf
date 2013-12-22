@@ -1,8 +1,18 @@
+/*
+		DZAI_heliDestroyed
+		
+		Description: Called when AI air vehicle is destroyed by collision damage.
+		
+		Last updated: 1:49 PM 12/18/2013
+*/
+
 private ["_helicopter","_unitGroup","_cleanupTime","_deleteQueue","_units"];
 _helicopter = _this select 0;
 
-_unitGroup = _helicopter getVariable "unitGroup";
+if (_helicopter getVariable ["heli_disabled",false]) exitWith {};
+_helicopter setVariable ["heli_disabled",true];
 
+_unitGroup = _helicopter getVariable "unitGroup";
 _helicopter removeAllEventHandlers "GetOut";
 _helicopter removeAllEventHandlers "HandleDamage";
 _helicopter removeAllEventHandlers "Killed";

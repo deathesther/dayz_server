@@ -7,13 +7,11 @@
 	
 */
 
-private ["_objectMonitor","_amount"];
+private ["_amount"];
 
 if (DZAI_curHeliPatrols >= DZAI_maxHeliPatrols) exitWith {};
 
 _amount = _this;
-
-_objectMonitor = [] call DZAI_getObjMon;
 
 for "_i" from 1 to _amount do {
 	private ["_heliType","_startPos","_helicopter","_unitGroup","_pilot","_turretCount","_crewCount","_weapongrade","_waypoint"];
@@ -25,12 +23,13 @@ for "_i" from 1 to _amount do {
 	//_startPos = ["DZAI_centerMarker",true] call SHK_pos;
 	
 	//Create the patrol group
-	_unitGroup = createGroup east;
+	_unitGroup = createGroup resistance;
 	//diag_log format ["Created group %1",_unitGroup];
 	
 	//Create helicopter crew
 	_pilot = _unitGroup createUnit [(DZAI_BanditTypes call BIS_fnc_selectRandom2), [0,0,0], [], 1, "NONE"];
 	[_pilot] joinSilent _unitGroup;
+	_unitGroup selectLeader _pilot;
 		
 	//Create the helicopter and set variables
 	_helicopter = createVehicle [_heliType, [_startPos select 0, _startPos select 1, 180], [], 0, "FLY"];
@@ -44,15 +43,15 @@ for "_i" from 1 to _amount do {
 		_helicopter setDir _heliDir;
 		_helicopter setVelocity [(sin _heliDir * _heliSpd),(cos _heliDir * _heliSpd), 0];
 	};
-	_objectMonitor set [count _objectMonitor, _helicopter];
-	_helicopter setVariable ["ObjectID",""];
+	_nul = _helicopter call DZAI_protectObject;
 	_helicopter setVariable ["unitGroup",_unitGroup];
 	_helicopter setVariable ["durability",[0,0]];	//[structural, engine]
 	if (DZAI_debugLevel > 0) then {diag_log format ["Spawned helicopter type %1 for group %2 at %3.",_heliType,_unitGroup,mapGridPosition _helicopter];};
 
 	//Add helicopter pilot
 	_crewCount = 1;
-	_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
+	//_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
+	_weapongrade = DZAI_heliEquipType call DZAI_getWeapongrade;
 	_pilot assignAsDriver _helicopter;
 	_pilot moveInDriver _helicopter;
 	0 = [_pilot,"helicrew"] call DZAI_setSkills;

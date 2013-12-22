@@ -67,7 +67,8 @@ if (DZAI_debugMarkers > 0) then {
 
 //Spawn units
 _spawnPos = [_playerPos,(_baseDist + random (_distVariance)),[(_playerDir-_dirVariance),(_playerDir+_dirVariance)],false] call SHK_pos;
-_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesDyn] call fnc_selectRandomWeighted;
+//_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesDyn] call fnc_selectRandomWeighted;
+_weapongrade = DZAI_dynEquipType call DZAI_getWeapongrade;
 _unitGroup = [_totalAI,grpNull,_spawnPos,_trigger,_weapongrade] call DZAI_setup_AI;
 
 //Set group variables

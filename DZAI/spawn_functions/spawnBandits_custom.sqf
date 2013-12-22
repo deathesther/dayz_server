@@ -8,7 +8,7 @@
 	Last updated: 6:00 PM 10/24/2013
 */
 
-private ["_patrolDist","_trigger","_grpArray","_triggerPos","_gradeChances","_weapongrade","_totalAI","_startTime","_tMarker","_spawnMarker"];
+private ["_patrolDist","_trigger","_grpArray","_triggerPos","_equipType","_weapongrade","_totalAI","_startTime","_tMarker","_spawnMarker"];
 if (!isServer) exitWith {};
 
 _startTime = diag_tickTime;
@@ -44,7 +44,7 @@ _startTime = diag_tickTime;
 private ["_unitGroup","_spawnPos","_totalAI"];
 
 _spawnPos = [(getPosATL _trigger),random (_patrolDist),random(360),false] call SHK_pos;
-_unitGroup = [_totalAI,(createGroup east),_spawnPos,_trigger,_weapongrade] call DZAI_setup_AI;
+_unitGroup = [_totalAI,(createGroup resistance),_spawnPos,_trigger,_weapongrade] call DZAI_setup_AI;
 
 //Set group variables
 _unitGroup setVariable ["unitType","static"];
@@ -58,15 +58,15 @@ if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Group %1 h
 
 if (DZAI_debugLevel > 0) then {diag_log format["DZAI Debug: Spawned a group of %1 units in %2 seconds at %3 (spawnBandits).",_totalAI,(diag_tickTime - _startTime),(triggerText _trigger)];};
 
-_gradeChances = switch (_weapongrade) do {
-	case 0: {[DZAI_gradeChances0,DZAI_gradeChances1] call BIS_fnc_selectRandom2};
-	case 1: {[DZAI_gradeChances1,DZAI_gradeChances2] call BIS_fnc_selectRandom2};
-	case 2: {[DZAI_gradeChances2,DZAI_gradeChances3] call BIS_fnc_selectRandom2};
-	case 3: {DZAI_gradeChances3};
-	case 4; case 5; case 6; case 7; case 8; case 9: {DZAI_gradeChances3};
-	case default {[DZAI_gradeChances0,DZAI_gradeChances1,DZAI_gradeChances2,DZAI_gradeChances3] call BIS_fnc_selectRandom2};
+_equipType = switch (_weapongrade) do {
+	case 0: {[0,1] call BIS_fnc_selectRandom2};
+	case 1: {[1,2] call BIS_fnc_selectRandom2};
+	case 2: {[2,3] call BIS_fnc_selectRandom2};
+	case 3: {3};
+	case 4; case 5; case 6; case 7; case 8; case 9: {3};
+	case default {[0,1,2,3] call BIS_fnc_selectRandom2};
 };
 
-0 = [_trigger,[_unitGroup],_patrolDist,_gradeChances,[],[_totalAI,0]] call DZAI_setTrigVars;
+0 = [_trigger,[_unitGroup],_patrolDist,_equipType,[],[_totalAI,0]] call DZAI_setTrigVars;
 
 _unitGroup

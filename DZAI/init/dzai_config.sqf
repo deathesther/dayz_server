@@ -31,6 +31,9 @@ DZAI_objPatch = false;
 //Minimum seconds to pass until a dead AI body can be cleaned up by DZAI's task scheduler. Affects both static and dynamic AI units (Default: 300).										
 DZAI_cleanupDelay = 600;									
 
+//Enable or disable DZAI reading from dzai_settings_override.sqf file (Default: true)
+DZAI_readOverrideFile = true;
+
 /*
 
 	DZAI_modName value		Enables extra features (ie: Items, AI skins, loot rates, etc.) for...
@@ -95,6 +98,7 @@ DZAI_despawnWait = 600;
 DZAI_dynAISpawns = false;
 
 //Array of area blacklist markers. Players within marker areas will not be targeted for dynamic AI spawns (Example: ["BlacklistArea1","BlacklistArea2","BlacklistArea3"])
+//Epoch: DZAI will automatically set up 200m-radius blacklist areas around each trader area.
 DZAI_dynAreaBlacklist = [];
 
 //Time to wait before force-despawning trigger area after all spawned units have been killed.(Default: 300)									
@@ -105,11 +109,11 @@ DZAI_dynDespawnWait = 120;
 
 
 /*	AI Air Vehicle patrol settings
-//Note: As of DZAI 1.8.0, users of the missionfile version of DZAI are able to use air vehicle patrols without editing the server_cleanup.fsm.
+//Note: As of DZAI 1.8.0, all users are able to use air vehicle patrols without editing the server_cleanup.fsm.
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Maximum number of active AI air vehicle patrols. Set at 0 to disable (Default: 0).							
-DZAI_maxHeliPatrols = 3;
+DZAI_maxHeliPatrols = 5;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
 DZAI_respawnTMinA = 600;
@@ -117,7 +121,7 @@ DZAI_respawnTMaxA = 900;
 
 //Classnames of air vehicle types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								
-DZAI_heliTypes = ["UH1H_DZ","CH_47F_EP1_DZ"];	
+DZAI_heliTypes = ["UH1H_DZ"];	
 
 //Specify vehicle weapon for air vehicles that are unarmed by default. DZAI will arm these air vehicles with the specified weapons upon spawning each vehicle.
 //NOTE: These classnames are not verified by DZAI - it is the user's responsibility to make sure they are valid and unbanned.
@@ -234,23 +238,26 @@ DZAI_chanceMiscItemL = 0.10;
 /*AI weapon/skill probabilities (gradeChances should add up to 1.00) - [Civilian, Military, MilitarySpecial, HeliCrash] - Note: AI with higher grade weaponry will also have higher skill settings.
 --------------------------------------------------------------------------------------------------------------------*/
 
+//equipType = -1 - most AI will have pistols, sometimes basic rifles.
+DZAI_gradeChancesNewbie = [0.90,0.10,0.00,0.00,0.00];	
+
 //equipType = 0 - most AI will have basic pistols or rifles, and occasionally common military weapons.
-DZAI_gradeChances0 = [0.90,0.10,0.00,0.00];	
+DZAI_gradeChances0 = [0.00,0.90,0.10,0.00,0.00];	
 
 //equipType = 1 - most AI will have common rifles, many will have common military weapons. Very rarely, AI will spawn with high-grade military or helicrash weapons.				
-DZAI_gradeChances1 = [0.60,0.35,0.04,0.01];	
+DZAI_gradeChances1 = [0.00,0.60,0.35,0.04,0.01];	
 
 //equipType = 2 - most AI carry military weapons, and occasionally high-grade military weapons.				
-DZAI_gradeChances2 = [0.20,0.60,0.15,0.05];
+DZAI_gradeChances2 = [0.00,0.20,0.60,0.15,0.05];
 
 //equipType = 3 - All AI will carry at least a military-grade weapon. Many will be carrying high-grade military weapons.					
-DZAI_gradeChances3 = [0.00,0.50,0.38,0.12];	
+DZAI_gradeChances3 = [0.00,0.00,0.50,0.38,0.12];	
 
 //Weapongrade chances for AI spawned from dynamic triggers.				
-DZAI_gradeChancesDyn = [0.00,0.88,0.09,0.03];				
+DZAI_gradeChancesDyn = [0.00,0.00,0.88,0.09,0.03];				
 
 //Weapongrade chances for dead AI ejected from destroyed helicopter patrols.					
-DZAI_gradeChancesHeli = [0.00,0.40,0.43,0.17];	
+DZAI_gradeChancesHeli = [0.00,0.00,0.40,0.43,0.17];	
 
 /*
 	AI skill settings
@@ -359,6 +366,6 @@ DZAI_heliCrewSkills = [
 //NOTHING TO EDIT BEYOND THIS POINT
 
 //Load custom DZAI settings file.
-call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\DZAI_settings_override.sqf";
+if (DZAI_readOverrideFile) then {call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\DZAI_settings_override.sqf"};
 
 diag_log "[DZAI] DZAI configuration file loaded.";

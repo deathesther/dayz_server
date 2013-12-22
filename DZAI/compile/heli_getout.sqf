@@ -1,14 +1,22 @@
+/*
+		DZAI_heliGetOut
+		
+		Description: Called when AI air vehicle suffers critical damage. Onboard units are ejected if the vehicle is not above water.
+		
+		Last updated: 1:49 PM 12/18/2013
+*/
 
 private ["_vehicle","_vehPos","_unitGroup"];
 _vehicle = _this select 0;
 
-_vehPos = getPosATL _vehicle;
-if (_vehicle getVariable ["paradropped",false]) exitWith {};
-_vehicle setVariable ["paradropped",true];
+if (_vehicle getVariable ["heli_disabled",false]) exitWith {};
+_vehicle setVariable ["heli_disabled",true];
 
 //_vehicle removeAllEventHandlers "Killed";
 //_vehicle removeAllEventHandlers "GetOut";
 //_vehicle removeAllEventHandlers "HandleDamage";
+
+_vehPos = getPosATL _vehicle;
 _unitGroup = _vehicle getVariable "unitGroup";
 
 if ((!surfaceIsWater _vehPos)&&(!isNil "_unitGroup")) then {

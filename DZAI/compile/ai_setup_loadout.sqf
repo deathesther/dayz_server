@@ -14,11 +14,20 @@ if ((typeName _weapongrade) == "SCALAR") then {
 	};
 	
 	switch (_weapongrade) do {
-		case 0: {
-			if ((random 1) < 0.25) then {
-				_weapons = [DZAI_Pistols0,DZAI_Pistols1] call BIS_fnc_selectRandom2;
+		case -1: {
+			if ((random 1) < 0.8) then {
+				_weapons = DZAI_Pistols0;
 			} else {
+				_weapons = [DZAI_rifles0,DZAI_Pistols1] call BIS_fnc_selectRandom2;;
+			};
+			_backpacks = DZAI_Backpacks0;
+			_gadgetsArray = DZAI_gadgets0;
+		};
+		case 0: {
+			if ((random 1) > 0.25) then {
 				_weapons = DZAI_rifles0;
+			} else {
+				_weapons = [DZAI_Pistols0,DZAI_Pistols1] call BIS_fnc_selectRandom2;
 			};
 			_backpacks = DZAI_Backpacks0;
 			_gadgetsArray = DZAI_gadgets0;

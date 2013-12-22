@@ -8,13 +8,11 @@
 */
 #define MAX_CARGO_COUNT 3
 #define MAX_GUNNER_COUNT 2
-private ["_objectMonitor","_amount"];
+private ["_amount"];
 
 if (DZAI_curLandPatrols >= DZAI_maxLandPatrols) exitWith {};
 
 _amount = _this;
-
-_objectMonitor = [] call DZAI_getObjMon;
 
 for "_i" from 1 to _amount do {
 	private ["_vehType","_startPos","_vehicle","_unitGroup","_driver","_cargoSpots","_gunnerSpots","_weapongrade","_cargo","_gunner"];
@@ -24,11 +22,12 @@ for "_i" from 1 to _amount do {
 	_startPos = [(getMarkerPos "DZAI_centerMarker"),300 + random((getMarkerSize "DZAI_centerMarker") select 0),random(360),false,[1,300]] call SHK_pos;
 	
 	//Create the patrol group
-	_unitGroup = createGroup east;
+	_unitGroup = createGroup resistance;
 	//diag_log format ["Created group %1",_unitGroup];
 	
 	//Create vehicle crew
-	_weapongrade = [DZAI_weaponGrades,DZAI_gradeChances3] call fnc_selectRandomWeighted;
+	//_weapongrade = [DZAI_weaponGrades,DZAI_gradeChances3] call fnc_selectRandomWeighted;
+	_weapongrade = DZAI_vehEquipType call DZAI_getWeapongrade;
 	_driver = _unitGroup createUnit [(DZAI_BanditTypes call BIS_fnc_selectRandom2), [0,0,0], [], 1, "NONE"];
 	[_driver] joinSilent _unitGroup;
 		
@@ -37,8 +36,7 @@ for "_i" from 1 to _amount do {
 	_vehicle setFuel 1;
 	_vehicle engineOn true;
 
-	_objectMonitor set [count _objectMonitor, _vehicle];
-	_vehicle setVariable ["ObjectID",""];
+	_nul = _vehicle call DZAI_protectObject;
 	_vehicle setVariable ["unitGroup",_unitGroup];
 	if (DZAI_debugLevel > 0) then {diag_log format ["Spawned vehicle type %1 for group %2 at %3.",_vehType,_unitGroup,mapGridPosition _vehicle];};
 
