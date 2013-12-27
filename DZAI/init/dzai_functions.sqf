@@ -394,8 +394,7 @@ DZAI_findSpawnPos = {
 	while {((_attempts <= 5)&&_continue)} do {
 		_spawnPos = _spawnpool select floor (random count _spawnpool);
 		_spawnpool = _spawnpool - _spawnPos;	//Prevent this position from being reused if player distance check fails.
-		if ((typeName _spawnPos) == "OBJECT") then {_spawnPos = getPosATL _spawnPos}; 
-		if (({isPlayer _x} count (_spawnPos nearEntities [["AllVehicles","CAManBase"],50])) == 0) then {_continue = false};
+		if ((({isPlayer _x} count (_spawnPos nearEntities [["AllVehicles","CAManBase"],50])) == 0) or ((count _spawnpool) == 0)) then {_continue = false};
 		_attempts = _attempts + 1;
 		if ((DZAI_debugLevel > 0)&&(_attempts > 1)) then {diag_log format ["DZAI Debug: Player found within 50m of chosen spawn position. (attempt %1/5).",_attempts];};
 	};

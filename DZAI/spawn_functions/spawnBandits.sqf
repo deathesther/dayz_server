@@ -127,6 +127,7 @@ if (!(_trigger getVariable ["initialized",false])) then {
 } else {
 	_trigger setVariable ["GroupArray",_grpArray];
 	_trigger setVariable ["isCleaning",false];
+	DZAI_actTrigs = DZAI_actTrigs + 1;
 };
 
 true
