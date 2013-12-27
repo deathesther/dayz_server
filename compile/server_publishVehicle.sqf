@@ -47,11 +47,6 @@ if (_spawnDMG) then {
 		_fuel = (random(DynamicVehicleFuelHigh-DynamicVehicleFuelLow)+DynamicVehicleFuelLow) / 100;
 
 	};
-	if !(isNil "SAR_AI_VEH_EPOCH_FIX") then {
-		if (SAR_AI_VEH_EPOCH_FIX) then {
-			[_object] call SAR_AI_VEH_FIX;
-		};
-	};
 };
 
 // TODO: check if uid already exists and if so increment by 1 and check again as soon as we find nothing continue.

@@ -152,10 +152,6 @@ if (isServer and isNil "sm_done") then {
 			_object setposATL _pos;
 			_object setDamage _damage;
 
-			if (_type == "Plastic_Pole_EP1_DZ") then {
-				[_object] call server_add_plotpole_list;
-			};
-
 			if (count _intentory > 0) then {
 				if (_type in DZE_LockedStorage) then {
 					// Fill variables with loot
@@ -239,11 +235,6 @@ if (isServer and isNil "sm_done") then {
 
 					// total each vehicle
 					serverVehicleCounter set [count serverVehicleCounter,_type];
-					if !(isNil "SAR_AI_VEH_EPOCH_FIX") then {
-						if (SAR_AI_VEH_EPOCH_FIX) then {
-							[_object] call SAR_AI_VEH_FIX;
-						};
-					};
 				};
 			};
 
@@ -324,9 +315,9 @@ if (isServer and isNil "sm_done") then {
 	if(isnil "OldHeliCrash") then {
 		OldHeliCrash = false;
 	};
-
+	
 	call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\init\dzai_initserver.sqf";
-
+	
 	allowConnection = true;
 
 	// [_guaranteedLoot, _randomizedLoot, _frequency, _variance, _spawnChance, _spawnMarker, _spawnRadius, _spawnFire, _fadeFire]
