@@ -103,14 +103,15 @@ _debug_marker setMarkerColor "ColorRed";
 _debug_marker setMarkerAlpha 1;
 };
 
-_crateMilitary = createMarker ["crateMilitary", _loot_pos];
-_crateMilitary setMarkerShape "ELLIPSE";
-_crateMilitary setMarkerType "Empty";
-_crateMilitary setMarkerBrush "Solid";
-_crateMilitary setMarkerSize [100, 100];
-_crateMilitary setMarkerAlpha 0;
+	_this = createMarker ["EV_crateMilitary", _loot_pos];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Flag";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [100, 100];
+	_this setMarkerAlpha 0;
+    EV_crateMilitary = _this;
 
-["crateMilitary",5,3,false] call DZAI_spawn;
+["EV_crateMilitary",5,3,false] call DZAI_spawn;
 
 diag_log(format["Creating ammo box at %1", _loot_pos]);
  
@@ -146,7 +147,7 @@ sleep _wait_time;
 EPOCH_EVENT_RUNNING = false;
 deleteVehicle _loot_box;
 deleteMarker _event_marker;
-deleteMarker _crateMilitary;
+deleteMarker EV_crateMilitary;
 if (_debug) then {
 deleteMarker _debug_marker;
 };

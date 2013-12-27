@@ -95,14 +95,15 @@ _debug_marker setMarkerColor "ColorGreen";
 _debug_marker setMarkerAlpha 1;
 };
 
-_crateconst = createMarker ["crateconst", _loot_pos];
-_crateconst setMarkerShape "ELLIPSE";
-_crateconst setMarkerType "Empty";
-_crateconst setMarkerBrush "Solid";
-_crateconst setMarkerSize [100, 100];
-_crateconst setMarkerAlpha 0;
+	_this = createMarker ["EV_crateconst", _loot_pos];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Flag";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [100, 100];
+	_this setMarkerAlpha 0;
+    EV_crateconst = _this;
 
-["crateconst",5,3,false] call DZAI_spawn;
+["EV_crateconst",5,3,false] call DZAI_spawn;
 
 diag_log(format["Creating ammo box at %1", _loot_pos]);
  
@@ -138,7 +139,7 @@ sleep _wait_time;
 EPOCH_EVENT_RUNNING = false;
 deleteVehicle _loot_box;
 deleteMarker _event_marker;
-deleteMarker _crateconst;
+deleteMarker EV_crateconst;
 if (_debug) then {
 deleteMarker _debug_marker;
 };
