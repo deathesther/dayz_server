@@ -200,7 +200,7 @@ if (DZAI_staticAI) then {
 	_this setTriggerActivation ["ANY", "PRESENT", true];
 	_this setTriggerTimeout [10, 15, 20, true];
 	_this setTriggerText "Vorkuta North";
-	_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "nul = [2,0,125,thisTrigger,['Vorkuta1','Vorkuta2','Vorkuta3','Vorkuta4','Vorkuta5'],1] call fnc_spawnBandits;", "nul = [thisTrigger] spawn fnc_despawnBandits;"];
+	_this setTriggerStatements ["{isPlayer _x} count thisList > 0;", "nul = [2,0,125,thisTrigger,[],1] call fnc_spawnBandits;", "nul = [thisTrigger] spawn fnc_despawnBandits;"];
 	_trigger_75 = _this;
 
 	_this = createTrigger ["EmptyDetector", [5777.3901, 10784.223, 0]];

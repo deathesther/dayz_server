@@ -1,165 +1,93 @@
 /*
 	DZAI Functions
 	
-	Last Updated: 7:49 PM 10/30/2013
+	Last Updated: 5:08 AM 12/24/2013
 */
 
 waituntil {!isnil "bis_fnc_init"};
 diag_log "[DZAI] Compiling DZAI functions.";
 
 //Compile general functions.
-if (isNil "SHK_pos_getPos") then {call compile preprocessFile "\z\addons\dayz_server\DZAI\SHK_pos\shk_pos_init.sqf";};
-BIS_fnc_selectRandom2 = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_selectRandom.sqf";
-if (DZAI_zombieEnemy && (DZAI_weaponNoise > 0)) then { // Optional Zed-to-AI aggro functions
-	ai_fired = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_fired.sqf";
+if (isNil "SHK_pos_getPos") then {call compile preprocessFile format ["%1\SHK_pos\shk_pos_init.sqf",DZAI_directory];};
+if (isNil "fnc_selectRandomWeighted") then {fnc_selectRandomWeighted = compile preprocessFileLineNumbers format ["%1\compile\fn_selectRandomWeighted.sqf",DZAI_directory]};
+BIS_fnc_selectRandom2 = compile preprocessFileLineNumbers format ["%1\compile\fn_selectRandom.sqf",DZAI_directory];
+
+DZAI_addLoot = compile preprocessFileLineNumbers format ["%1\compile\ai_generate_loot.sqf",DZAI_directory];
+DZAI_setupLoadout = compile preprocessFileLineNumbers format ["%1\compile\ai_setup_loadout.sqf",DZAI_directory];
+fnc_spawnBandits_custom	= compile preprocessFileLineNumbers format ["%1\spawn_functions\spawnBandits_custom.sqf",DZAI_directory];
+fnc_respawnBandits = compile preprocessFileLineNumbers format ["%1\spawn_functions\respawnBandits.sqf",DZAI_directory];
+fnc_respawnHandler = compile preprocessFileLineNumbers format ["%1\spawn_functions\respawnHandler2.sqf",DZAI_directory];
+DZAI_setup_AI = compile preprocessFileLineNumbers format ["%1\compile\fn_createGroup.sqf",DZAI_directory];
+DZAI_AI_handledamage = compile preprocessFileLineNumbers format ["%1\compile\fn_damageHandlerAI2.sqf",DZAI_directory];
+DZAI_BIN_taskPatrol = compile preprocessFileLineNumbers format ["%1\compile\BIN_taskPatrol.sqf",DZAI_directory];
+DZAI_AI_killed_all = compile preprocessFileLineNumbers format ["%1\compile\ai_killed_all.sqf",DZAI_directory];
+DZAI_AI_killed_static = compile preprocessFileLineNumbers format ["%1\compile\ai_killed_static.sqf",DZAI_directory];
+DZAI_unitDeath = compile preprocessFileLineNumbers format ["%1\compile\ai_death.sqf",DZAI_directory];
+DZAI_countKills = compile preprocessFileLineNumbers format ["%1\compile\fn_countkills.sqf",DZAI_directory];
+
+if (DZAI_staticAI) then {
+	fnc_spawnBandits = compile preprocessFileLineNumbers format ["%1\spawn_functions\spawnBandits.sqf",DZAI_directory];
+	fnc_despawnBandits = compile preprocessFileLineNumbers format ["%1\spawn_functions\despawnBandits.sqf",DZAI_directory];
+	DZAI_bldgPatrol = compile preprocessFileLineNumbers format ["%1\compile\ai_buildingpatrol.sqf",DZAI_directory];
+	DZAI_static_spawn = compile preprocessFileLineNumbers format ["%1\compile\fn_createStaticSpawn.sqf",DZAI_directory];
 };
-if (DZAI_zombieEnemy && (DZAI_passiveAggro || (DZAI_weaponNoise > 0))) then {
-	ai_alertzombies = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_alertzombies.sqf";
-};
-DZAI_AI_killed_all = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_killed_all.sqf";
-DZAI_AI_killed_static = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_killed_static.sqf";
-DZAI_AI_killed_dynamic = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_killed_dynamic.sqf";
-DZAI_unitDeath = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_death.sqf";
-if (isNil "fnc_selectRandomWeighted") then {
-	fnc_selectRandomWeighted = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_selectRandomWeighted.sqf";
-};
-DZAI_setup_AI = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_createGroup.sqf";
-DZAI_AI_handledamage = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_damageHandlerAI2.sqf";
-DZAI_BIN_taskPatrol = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\BIN_taskPatrol.sqf";
-if (DZAI_debugMarkers < 1) then {
-	DZAI_autoRearm_unit = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\unit_resupply.sqf";
-} else {
-	DZAI_autoRearm_unit = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\unit_resupply_debug.sqf";
-};
-if (DZAI_findKiller) then {
-	DZAI_huntKiller = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_findKiller.sqf";
-};
-DZAI_dyn_huntPlayer = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\fn_seekPlayer.sqf";
-DZAI_addLoot = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_generate_loot.sqf";
-DZAI_setupLoadout = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\ai_setup_loadout.sqf";
-	
-//Compile spawn scripts
-fnc_spawnBandits = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\spawnBandits.sqf";
-fnc_spawnBandits_custom	= compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\spawnBandits_custom.sqf";
-fnc_respawnBandits = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\respawnBandits.sqf";
-fnc_respawnHandler = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\respawnHandler2.sqf";
-fnc_despawnBandits = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\despawnBandits.sqf";
 
 if (DZAI_dynAISpawns) then {
-	fnc_spawnBandits_dynamic = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\spawnBandits_dynamicV2.sqf";
-	fnc_despawnBandits_dynamic = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\despawnBandits_dynamicV2.sqf";
+	fnc_spawnBandits_dynamic = compile preprocessFileLineNumbers format ["%1\spawn_functions\spawnBandits_dynamicV2.sqf",DZAI_directory];
+	fnc_despawnBandits_dynamic = compile preprocessFileLineNumbers format ["%1\spawn_functions\despawnBandits_dynamicV2.sqf",DZAI_directory];
+	DZAI_dyn_huntPlayer = compile preprocessFileLineNumbers format ["%1\compile\fn_seekPlayer.sqf",DZAI_directory];
+	DZAI_AI_killed_dynamic = compile preprocessFileLineNumbers format ["%1\compile\ai_killed_dynamic.sqf",DZAI_directory];
+};
+
+if (DZAI_findKiller) then {
+	DZAI_huntKiller = compile preprocessFileLineNumbers format ["%1\compile\fn_findKiller.sqf",DZAI_directory];
+};
+
+if (DZAI_debugMarkers < 1) then {
+	DZAI_autoRearm_unit = compile preprocessFileLineNumbers format ["%1\compile\unit_resupply.sqf",DZAI_directory];
+} else {
+	DZAI_autoRearm_unit = compile preprocessFileLineNumbers format ["%1\compile\unit_resupply_debug.sqf",DZAI_directory];
+	if (DZAI_debugMarkers > 1) then {
+		DZAI_updateSpawnMarker = compile preprocessFileLineNumbers format ["%1\compile\fn_refreshmarker.sqf",DZAI_directory];
+	};
+};
+
+//Compile zombie aggro functions
+if (DZAI_zombieEnemy && (DZAI_weaponNoise > 0)) then { // Optional Zed-to-AI aggro functions
+	ai_fired = compile preprocessFileLineNumbers format ["%1\compile\ai_fired.sqf",DZAI_directory];
+};
+if (DZAI_zombieEnemy && (DZAI_passiveAggro || (DZAI_weaponNoise > 0))) then {
+	ai_alertzombies = compile preprocessFileLineNumbers format ["%1\compile\ai_alertzombies.sqf",DZAI_directory];
 };
 
 //Helicopter patrol scripts
 if (DZAI_maxHeliPatrols > 0) then {
 	if (DZAI_debugMarkers < 1) then {
-		DZAI_autoRearm_heli = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_resupply.sqf";
+		DZAI_autoRearm_heli = compile preprocessFileLineNumbers format ["%1\compile\heli_resupply.sqf",DZAI_directory];
 	} else {
-		DZAI_autoRearm_heli = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_resupply_debug.sqf";
+		DZAI_autoRearm_heli = compile preprocessFileLineNumbers format ["%1\compile\heli_resupply_debug.sqf",DZAI_directory];
 	};
-	DZAI_spawnHeliPatrol = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\spawn_heliPatrol.sqf";
-	DZAI_airLanding = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_airlanding.sqf";
-	DZAI_heliGetOut = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_getout.sqf";
-	DZAI_hHandleDamage = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_handledamage.sqf";
-	DZAI_heliDestroyed = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\heli_destroyed.sqf";
-	
-	//Reveals nearby player units upon arriving at a waypoint
-	DZAI_heliDetectPlayers = {
-		private ["_unitGroup","_nearUnits","_detectBase","_detectFactor","_detectRange","_heli"];
-		_unitGroup = _this select 0;
-
-		_heli = vehicle (leader _unitGroup);
-		_detectRange = if (_unitGroup getVariable ["DetectPlayersWide",false]) then {_unitGroup setVariable ["DetectPlayersWide",false]; 350} else {250};
-		_nearUnits = (waypointPosition [_unitGroup,(currentWaypoint _unitGroup)]) nearEntities [["AllVehicles","CAManBase"],_detectRange];
-		if ((count _nearUnits) > 0) then {
-			private ["_nearPlayerUnits"];
-			_nearPlayerUnits = [];
-			{
-				if (isPlayer _x) then {
-					_nearPlayerUnits set [count _nearPlayerUnits,_x];
-				};
-			} forEach _nearUnits;
-			
-			if ((count _nearPlayerUnits) > 0) then {
-				{
-					if (isPlayer _x) then {
-						private ["_heliAimPos","_playerAimPos"];
-						_heliAimPos = aimPos _heli;
-						_playerAimPos = aimPos _x;
-						if !(terrainIntersectASL [_heliAimPos,_playerAimPos]) then {
-							if !(lineIntersects [_heliAimPos,_playerAimPos,_heli,_x]) then {
-								_unitGroup reveal [_x,3];
-							};
-						};
-					};
-					sleep 0.1;
-				} forEach _nearPlayerUnits;
-			};
-		};
-	};
-	
-	//Selects a random dynamic trigger to use as AI helicopter's next waypoint
-	DZAI_heliRandomPatrol = {
-		private ["_unitGroup","_tooClose","_wpSelect"];
-		_unitGroup = _this select 0;
-
-		_tooClose = true;
-		while {_tooClose} do {
-			_wpSelect = (DZAI_locations call BIS_fnc_selectRandom2) select 1;
-			if (((waypointPosition [_unitGroup,0]) distance _wpSelect) > 300) then {
-				_tooClose = false;
-			} else {
-				sleep 0.1;
-			};
-		};
-		_wpSelect = [_wpSelect,50+(random 300),(random 360),true] call SHK_pos;
-		[_unitGroup,0] setWPPos _wpSelect; 
-		[_unitGroup,1] setWPPos _wpSelect;
-		if ((waypointType [_unitGroup,1]) == "MOVE") then {
-			if ((random 1) < 0.275) then {
-				[_unitGroup,1] setWaypointType "SAD";
-				[_unitGroup,1] setWaypointTimeout [20,25,30];
-				_unitGroup setVariable ["DetectPlayersWide",true];
-			};
-		} else {
-			[_unitGroup,1] setWaypointType "MOVE";
-			[_unitGroup,1] setWaypointTimeout [3,6,9];
-		};
-		//[_unitGroup,0] setWaypointCompletionRadius 150;
-		_unitGroup setCurrentWaypoint [_unitGroup,0];
-		(vehicle (leader _unitGroup)) flyInHeight (100 + (random 40));
-	};
+	DZAI_spawnHeliPatrol = compile preprocessFileLineNumbers format ["%1\spawn_functions\spawn_heliPatrol.sqf",DZAI_directory];
+	DZAI_airLanding = compile preprocessFileLineNumbers format ["%1\compile\heli_airlanding.sqf",DZAI_directory];
+	DZAI_heliGetOut = compile preprocessFileLineNumbers format ["%1\compile\heli_getout.sqf",DZAI_directory];
+	DZAI_hHandleDamage = compile preprocessFileLineNumbers format ["%1\compile\heli_handledamage.sqf",DZAI_directory];
+	DZAI_heliDestroyed = compile preprocessFileLineNumbers format ["%1\compile\heli_destroyed.sqf",DZAI_directory];
+	DZAI_heliDetectPlayers = compile preprocessFileLineNumbers format ["%1\compile\heli_detectplayers.sqf",DZAI_directory];
+	DZAI_heliRandomPatrol = compile preprocessFileLineNumbers format ["%1\compile\heli_randompatrol.sqf",DZAI_directory];
 };
 
+//Land vehicle patrol scripts
 if (DZAI_maxLandPatrols > 0) then {
-	//Land vehicle patrol scripts
-	DZAI_vehDespawn = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\veh_despawn.sqf";
+	DZAI_vehDespawn = compile preprocessFileLineNumbers format ["%1\spawn_functions\veh_despawn.sqf",DZAI_directory];
 	if (DZAI_debugMarkers < 1) then {
-		DZAI_autoRearm_veh = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\veh_autorearm.sqf";
+		DZAI_autoRearm_veh = compile preprocessFileLineNumbers format ["%1\compile\veh_autorearm.sqf",DZAI_directory];
 	} else {
-		DZAI_autoRearm_veh = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\veh_autorearm_debug.sqf";
+		DZAI_autoRearm_veh = compile preprocessFileLineNumbers format ["%1\compile\veh_autorearm_debug.sqf",DZAI_directory];
 	};
-	DZAI_spawnVehPatrol	= compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\spawn_functions\spawn_vehpatrol.sqf";
-	DZAI_vehGetOut = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\veh_getout.sqf";
-	DZAI_vHandleDamage = compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\compile\veh_handledamage.sqf";
-	
-	DZAI_vehPatrol = {
-		private ["_unitGroup","_tooClose","_wpSelect"];
-		_unitGroup = _this select 0;
-
-		_tooClose = true;
-		while {_tooClose} do {
-			_wpSelect = (DZAI_locations call BIS_fnc_selectRandom2) select 1;
-			if (((waypointPosition [_unitGroup,0]) distance _wpSelect) > 0) then {
-				_tooClose = false;
-			};
-		};
-
-		_wpSelect = [_wpSelect,150 + random(150),random(360),false,[1,300]] call SHK_pos;
-		[_unitGroup,0] setWPPos _wpSelect; 
-		[_unitGroup,0] setWaypointCompletionRadius 150;
-		_unitGroup setCurrentWaypoint [_unitGroup,0];
-	};
+	DZAI_spawnVehPatrol	= compile preprocessFileLineNumbers format ["%1\spawn_functions\spawn_vehpatrol.sqf",DZAI_directory];
+	DZAI_vehGetOut = compile preprocessFileLineNumbers format ["%1\compile\veh_getout.sqf",DZAI_directory];
+	DZAI_vHandleDamage = compile preprocessFileLineNumbers format ["%1\compile\veh_handledamage.sqf",DZAI_directory];
+	DZAI_vehPatrol = compile preprocessFileLineNumbers format ["%1\compile\veh_randompatrol.sqf",DZAI_directory];
 };
 
 //DZAI custom spawns function.
@@ -229,7 +157,7 @@ DZAI_setSkills = {
 		case 8: {if (isNil "DZAI_skill8") then {DZAI_skill3} else {DZAI_skill8}};
 		case 9: {if (isNil "DZAI_skill9") then {DZAI_skill3} else {DZAI_skill9}};
 		case "helicrew": {DZAI_heliCrewSkills};
-		case default {DZAI_skill2};
+		case default {DZAI_skill1};
 	};
 	{
 		_unit setskill [_x select 0,(((_x select 1) + random ((_x select 2)-(_x select 1))) min 1)];
@@ -279,6 +207,7 @@ DZAI_getUptime = {
 
 //Combines two arrays and returns the combined array. Does not add duplicate values. Second array is appended to first array.
 DZAI_append = {
+	if (((typeName (_this select 0)) != "ARRAY")&&((typeName (_this select 1)) != "ARRAY")) exitWith {diag_log "DZAI Error: DZAI_append function was not provided with two arrays!";};
 	{
 		if !(_x in (_this select 0)) then {
 			(_this select 0) set [(count (_this select 0)),_x];
@@ -329,9 +258,11 @@ DZAI_deleteObject = {
 	
 	if ((typeName _obj) == "ARRAY") then {
 		{
+			_x call DZAI_unprotectObject;
 			deleteVehicle _x;
 		} forEach _obj;
 	} else {
+		_obj call DZAI_unprotectObject;
 		deleteVehicle _obj;
 	};
 };
@@ -354,6 +285,7 @@ DZAI_retrySpawn = {
 	_dummy disableAI "MOVE";
 	_dummy disableAI "TARGET";
 	_dummy disableAI "AUTOTARGET";
+	_dummy setVariable ["unconscious",true]; //prevent radio messages if dummy is group leader
 
 	//Initialize group variables.
 	_unitGroup setVariable ["dummyUnit",_dummy];
@@ -369,19 +301,6 @@ DZAI_retrySpawn = {
 	0 = [_trigger,_unitGroup,true] spawn fnc_respawnHandler;
 
 	if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Inserted group %1 into respawn queue. (retryRespawn)",_unitGroup];};
-};
-
-//Refreshes position of debug markers of active static triggers for JIP players. Terminates once trigger is marked inactive.
-DZAI_updateSpawnMarker = {
-	private ["_trigger","_markername","_marker"];
-	_trigger = _this select 0;
-
-	_marker = str (_trigger);
-
-	while {(getMarkerColor _marker) != "ColorGreen"} do {
-		_marker setMarkerPos (getMarkerPos _marker);
-		sleep 30;
-	};
 };
 
 //Finds a position that does not have a player within a certain distance.
@@ -400,88 +319,6 @@ DZAI_findSpawnPos = {
 	};
 	_spawnPos
 };
-
-//Creates static spawn trigger (in development)
-/*Syntax: 	[
-				_spawnMarker, 		//Circular marker defining patrol radius.
-				[_minAI,_addAI],	//(Optional, default [1,1]) Minimum and maximum bonus amount of AI units per group.
-				_positionArray,		//(Optional, default []): Array of markers defining possible spawn points. If omitted or left empty, nearby buildings within 250m radius will be used as spawn points.
-				_equipType,			//(Optional, default 1): Number between 0-3. Defines AI weapon selection and skill parameters.
-				_numGroups			//(Optional, default 1): Number of AI groups to spawn using the above parameters.			
-			] call DZAI_static_spawn;
-*/
-
-//called version			
-DZAI_static_spawn = {
-	private ["_spawnMarker","_minAI","_addAI","_positionArray","_equipType","_numGroups","_patrolRadius","_trigStatements","_trigger"];
-	
-	if ((count _this) < 1) exitWith {diag_log format ["DZAI Error: DZAI_static_spawn expected at least 1 argument, found %1.",(count _this)]; false};
-	_spawnMarker = _this select 0;
-	_spawnMarker setMarkerAlpha 0;
-	
-	if ((count _this) > 1) then {
-		_minAI = (_this select 1) select 0;
-		_addAI = (_this select 1) select 1;
-	} else {
-		_minAI = 1;
-		_addAI = 1;
-	};
-	_positionArray = if ((count _this) > 2) then {_this select 2} else {[]};
-	_equipType = if ((count _this) > 3) then {_this select 3} else {1};
-	_numGroups = if ((count _this) > 4) then {_this select 4} else {1};
-	
-	_patrolRadius = (getMarkerSize _spawnMarker) select 0;
-	
-	_trigStatements = format ["_nul = [%1,%2,%3,thisTrigger,%4,%5,%6] call fnc_spawnBandits;",_minAI,_addAI,_patrolRadius,_positionArray,_equipType,_numGroups];
-	_trigger = createTrigger ["EmptyDetector", getMarkerPos(_spawnMarker)];
-	_trigger setTriggerArea [600, 600, 0, false];
-	_trigger setTriggerActivation ["ANY", "PRESENT", true];
-	_trigger setTriggerTimeout [10, 15, 20, true];
-	_trigger setTriggerText _spawnMarker;
-	_trigger setTriggerStatements ["{isPlayer _x} count thisList > 0;",_trigStatements,"_nul = [thisTrigger] spawn fnc_despawnBandits;"];
-	
-	true
-};
-
-//spawned version
-/*
-	_nul = [
-		[_spawnMarker,[_minAI,_addAI],_positionArray,_equipType,_numGroups],
-		[_spawnMarker,[_minAI,_addAI],_positionArray,_equipType,_numGroups],
-		[_spawnMarker,[_minAI,_addAI],_positionArray,_equipType,_numGroups]
-	] spawn DZAI_static_spawn2;
-*/
-/*
-DZAI_static_spawn2 = {
-	{
-		private ["_spawnMarker","_minAI","_addAI","_positionArray","_equipType","_numGroups","_patrolRadius","_trigStatements","_trigger"];
-		_spawnMarker = _x select 0;
-		_spawnMarker setMarkerAlpha 0;
-		
-		if ((count _x) > 1) then {
-			_minAI = (_x select 1) select 0;
-			_addAI = (_x select 1) select 1;
-		} else {
-			_minAI = 1;
-			_addAI = 1;
-		};
-		_positionArray = if ((count _x) > 2) then {_x select 2} else {[]};
-		_equipType = if ((count _x) > 3) then {_x select 3} else {1};
-		_numGroups = if ((count _x) > 4) then {_x select 4} else {1};
-		
-		_patrolRadius = (getMarkerSize _spawnMarker) select 0;
-		
-		_trigStatements = format ["_nul = [%1,%2,%3,thisTrigger,%4,%5,%6] call fnc_spawnBandits;",_minAI,_addAI,_patrolRadius,_positionArray,_equipType,_numGroups];
-		_trigger = createTrigger ["EmptyDetector", getMarkerPos(_spawnMarker)];
-		_trigger setTriggerArea [600, 600, 0, false];
-		_trigger setTriggerActivation ["ANY", "PRESENT", true];
-		_trigger setTriggerTimeout [10, 15, 20, true];
-		_trigger setTriggerText _spawnMarker;
-		_trigger setTriggerStatements ["{isPlayer _x} count thisList > 0;",_trigStatements,"_nul = [thisTrigger] spawn fnc_despawnBandits;"];
-		sleep 0.05;
-	} forEach _this;
-};
-*/
 
 DZAI_findLootPile = {
 	private ["_lootPiles","_lootPos","_unitGroup","_searchRange"];
@@ -514,43 +351,6 @@ DZAI_shuffleWP = {
 	[_unitGroup,_wp] setWPPos _newWPPos;
 };
 
-DZAI_bldgPatrol = {
-	private ["_unitGroup","_locationArray"];
-	_unitGroup = _this select 0;
-	_locationArray = _this select 1;
-
-	//diag_log format ["DEBUG :: Counted %1 spawn positions.",count _locationArray];
-	
-	for "_i" from 1 to 5 do {
-		private ["_loc","_wp"];
-		_loc = _locationArray call BIS_fnc_selectRandom2;
-		//diag_log format ["DEBUG :: Chosen position: %1.",_loc];
-		_wp = _unitGroup addWaypoint [_loc,0];
-		_wp setWaypointType "MOVE";
-		_wp setWaypointCompletionRadius 35;
-		_wp setWaypointTimeout [0,2,15];
-		_wp setWaypointStatements ["true", "if ((random 3) > 2) then {_nul = [(group this)] spawn DZAI_shuffleWP;} else {_nul = [(group this),100] spawn DZAI_findLootPile;};"];
-		if (DZAI_debugMarkers > 0) then {
-			private["_markername","_marker"];
-			_markername = str (_wp);
-			if ((getMarkerColor _markername) != "") then {deleteMarker _markername};
-			_marker = createMarker [_markername,[_loc select 0,_loc select 1]];
-			//diag_log format ["DEBUG :: Creating marker %1.",_markername];
-			_marker setMarkerShape "ELLIPSE";
-			_marker setMarkerType "Dot";
-			_marker setMarkerColor "ColorOrange";
-			_marker setMarkerBrush "SolidBorder";
-			_marker setMarkerSize [20, 20];
-		};
-		if (_i == 5) then {
-			_wp = _unitGroup addWaypoint [_loc, 0];
-			_wp setWaypointType "CYCLE";
-			_wp setWaypointCompletionRadius 100;
-		};
-		sleep 0.5;
-	};
-};
-
 DZAI_setTrigVars = {
 	private["_trigger"];
 
@@ -563,17 +363,17 @@ DZAI_setTrigVars = {
 		_trigger setVariable ["locationArray",(_this select 4)];
 		_trigger setVariable ["maxUnits",(_this select 5)];
 		_trigger setVariable ["initialized",true];
-		DZAI_actTrigs = DZAI_actTrigs + 1;
+		if (triggerActivated _trigger) then {DZAI_actTrigs = DZAI_actTrigs + 1;};
 		if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Initialized static trigger at %1. GroupArray: %2, PatrolDist: %3. equipType: %4. %LocationArray %5 positions, MaxUnits %6.",triggerText(_this select 0),(_this select 1),(_this select 2),(_this select 3),count (_this select 4),(_this select 5)];};
 		} else {
-		DZAI_actDynTrigs = DZAI_actDynTrigs + 1;
+		if (triggerActivated _trigger) then {DZAI_actDynTrigs = DZAI_actDynTrigs + 1;};
 		if (DZAI_debugLevel > 1) then {diag_log format["DZAI Extended Debug: Initialized dynamic trigger at %1. GroupArray: %2.",getPosATL (_this select 0),(_this select 1)];};
 	};
 
 	true
 };
 
-
+//Retrieves server object monitor array
 DZAI_getObjMon = {
 	private ["_objectMonitor"];
 	_objectMonitor = switch (true) do {
@@ -585,20 +385,33 @@ DZAI_getObjMon = {
 	_objectMonitor
 };
 
+//Prevents object from being destroyed/deleted from DayZ's anti-hacker check
 DZAI_protectObject = {
 	private ["_objectMonitor","_object"];
 	_object = _this;
 	
-	_objectMonitor = switch (true) do {
-		case ((!isNil "dayz_serverObjectMonitor")&&(isNil "PVDZE_serverObjectMonitor")): {dayz_serverObjectMonitor};
-		case (!isNil "PVDZE_serverObjectMonitor"): {PVDZE_serverObjectMonitor};
-		case default {[]};
-	};
+	_objectMonitor = [] call DZAI_getObjMon;
 	
 	_objectMonitor set [count _objectMonitor,_object];
 	_object setVariable ["ObjectID",""];
 	
 	true
+};
+
+//Returns true if object was removed from server object monitor, false if it was not found in the monitor
+DZAI_unprotectObject = {
+	private ["_objectMonitor","_object","_result"];
+	_object = _this;
+	_result = false;
+	
+	_objectMonitor = [] call DZAI_getObjMon;
+	
+	if (_object in _objectMonitor) then {
+		_objectMonitor = _objectMonitor - [_object];
+		_result = true;
+	};
+	
+	_result
 };
 
 DZAI_getWeapongrade = {
@@ -612,6 +425,7 @@ DZAI_getWeapongrade = {
 		case 3: {DZAI_gradeIndices3};
 		case 4: {DZAI_gradeIndicesDyn};
 		case 5: {DZAI_gradeIndicesHeli};
+		case default {[DZAI_gradeIndices0,DZAI_gradeIndices1,DZAI_gradeIndices2,DZAI_gradeIndices3] call BIS_fnc_selectRandom2};
 	};
 	
 	_index = _indexWeighted call BIS_fnc_selectRandom2;

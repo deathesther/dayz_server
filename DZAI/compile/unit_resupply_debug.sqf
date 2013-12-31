@@ -22,7 +22,7 @@ if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth
 if (isNil {_unit getVariable "unconscious"}) then {_unit setVariable ["unconscious",false]};
 
 _lastBandage = 0;
-_bandages = (_weapongrade min 3);
+_bandages = ((_weapongrade + 1) min 3);
 _needsHeal = false;
 
 _markername = format["AI_%1",_unit];

@@ -25,7 +25,8 @@ _helicopter addEventHandler ["GetIn",{
 
 _unitGroup = _helicopter getVariable ["unitGroup",(group (_this select 2))];
 _heliPos = getPosATL _helicopter;
-_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
+//_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
+_weapongrade = DZAI_heliEquipType call DZAI_getWeapongrade;
 
 //Convert helicrew units to ground units
 {
@@ -47,6 +48,7 @@ _weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWe
 
 0 = [_unitGroup,_heliPos,75,DZAI_debugMarkers] spawn DZAI_BIN_taskPatrol;
 _unitsAlive = {alive _x} count (units _unitGroup);
+DZAI_numAIUnits = DZAI_numAIUnits + _unitsAlive;
 _unitGroup allowFleeing 0;
 
 //Create area trigger
@@ -56,7 +58,7 @@ _trigger setTriggerActivation ["ANY", "PRESENT", true];
 _trigger setTriggerTimeout [15, 15, 15, true];
 _trigger setTriggerText (format ["HeliLandingArea_%1",mapGridPosition _helicopter]);
 _trigger setTriggerStatements ["{isPlayer _x} count thisList > 0;","","0 = [thisTrigger] spawn fnc_despawnBandits;"];
-0 = [_trigger,[_unitGroup],75,DZAI_gradeChancesHeli,[],[_unitsAlive,0]] call DZAI_setTrigVars;
+0 = [_trigger,[_unitGroup],75,DZAI_heliEquipType,[],[_unitsAlive,0]] call DZAI_setTrigVars;
 _trigger setVariable ["respawn",false];
 _trigger setVariable ["permadelete",true];
 
@@ -64,7 +66,7 @@ _unitGroup setVariable ["unitType","static"];
 _unitGroup setVariable ["trigger",_trigger];
 _unitGroup setVariable ["GroupSize",_unitsAlive];
 
-[_helicopter,900] spawn DZAI_deleteObject;
 DZAI_curHeliPatrols = DZAI_curHeliPatrols - 1;
 0 = ["air"] spawn fnc_respawnHandler;
+[_helicopter,900] spawn DZAI_deleteObject;
 if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: AI helicopter %1 landed at %2.",typeOf _helicopter,mapGridPosition _helicopter];};

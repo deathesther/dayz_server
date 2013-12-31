@@ -51,7 +51,7 @@ _unitGroup setVariable ["unitType","static"];
 _unitGroup allowFleeing 0;
 
 //Update AI count
-DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
+//DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
 if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Group %1 has group size %2.",_unitGroup,_totalAI];};
 
 0 = [_unitGroup,_triggerPos,_patrolDist,DZAI_debugMarkers] spawn DZAI_BIN_taskPatrol;

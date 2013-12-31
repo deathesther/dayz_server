@@ -24,7 +24,7 @@ if ((_ammo != "")&&(!isNil "_durability")) then {
 		case "motor": {	//Engine damage
 			_partdamage = (_durability select 1) + _damage;
 			_durability set [1,_partdamage];
-			if ((_partdamage >= 0.9) && (alive _unit)) then {
+			if ((_partdamage > 0.89) && (alive _unit)) then {
 				_damage = 0.89;	//Intercept fatal damage to helicopter engine - next hit will destroy the helicopter.
 			};
 		};

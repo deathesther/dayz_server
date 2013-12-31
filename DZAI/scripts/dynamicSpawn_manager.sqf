@@ -9,8 +9,8 @@ sleep 300;
 if (DZAI_debugLevel > 0) then {diag_log "DZAI V2 Dynamic Spawn Manager started.";};
 
 _spawnMax = 10;			//Maximum number of players to select each cycle. If number of online players is less than _spawnMax, all online players will be selected.
-_sleepDelay = 480;		//Frequency of each cycle
-_sleepVary = 240;		//Cycle frequency variance.
+_sleepDelay = 300;		//Frequency of each cycle
+_sleepVary = 180;		//Cycle frequency variance.
 
 _playerUIDs = [];		//Array of all collected playerUIDs
 _timestamps = [];		//Array of timestamps for each corresponding playerUID
@@ -41,9 +41,9 @@ while {true} do {
 			if (!isNull _player) then {
 				_index = _playerUIDs find (getPlayerUID _player);
 				_lastSpawned = _timestamps select _index;
-				_spawnChance = ((time - _lastSpawned) / (_sleepDelay*3));
+				_spawnChance = (((time - _lastSpawned) / (_sleepDelay*3)) min 0.95);
 				if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Player %1 has %2 probability of generating dynamic spawn.",name _player,_spawnChance];};
-				if ((random 1) < (_spawnChance min 0.91)) then {
+				if ((random 1) < _spawnChance) then {
 					_playerPos = getPosATL _player;
 					_isLandUnit = (((vehicle _player) isKindOf "Man") or ((vehicle _player) isKindOf "Land"));
 					_onLand = (!(surfaceIsWater _playerPos));

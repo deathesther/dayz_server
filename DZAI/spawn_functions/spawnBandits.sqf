@@ -57,12 +57,13 @@ if ((count _locationArray) == 0) then {
 		};
 		if (DZAI_debugLevel > 1) then {diag_log "DZAI Extended Debug: Spawning AI from building positions (spawnBandits).";};
 	} else {
-		if (typeName (_positionArray select 0) == "STRING") then {
-			{
+		{
+			if ((((getMarkerPos _x) select 0) != 0)&&(((getMarkerPos _x) select 1) != 0)) then {
 				_spawnPositions set [(count _spawnPositions),(getMarkerPos _x)];
-			} forEach _positionArray;
-			if (DZAI_debugLevel > 1) then {diag_log "DZAI Extended Debug: Spawning AI from marker positions (spawnBandits).";};
-		};
+				deleteMarker _x;
+			};
+		} forEach _positionArray;
+		if (DZAI_debugLevel > 1) then {diag_log "DZAI Extended Debug: Spawning AI from marker positions (spawnBandits).";};
 	};
 } else {
 	if (DZAI_debugMarkers > 0) then {
@@ -101,7 +102,7 @@ for "_j" from 1 to _numGroups do {
 		_unitGroup allowFleeing 0;
 		
 		//Update AI count
-		DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
+		//DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
 		_totalSpawned = _totalSpawned + _totalAI;
 		if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Group %1 has group size %2.",_unitGroup,_totalAI];};
 		

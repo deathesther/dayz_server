@@ -76,6 +76,18 @@ DZAI_zombieEnemy = true;
 //Warning: This option will affect ALL AI spawned, including those spawned from other addons that include AI.
 DZAI_freeForAll = false;
 
+//If enabled, AI group will attempt to track down player responsible for killing a group member. Players with radios will be given text warnings if they are being pursued (Default: true)
+DZAI_findKiller = true;	
+
+//If normal probability check for spawning NVGs fails, then give AI temporary NVGs only if they are spawned with weapongrade 1 or higher (applies only during nighttime hours). Temporary NVGs are unlootable and will be removed at death (Default: false).									
+DZAI_tempNVGs = false;	
+
+//Amount of humanity to reward player for killing an AI unit (Default: 0)									
+DZAI_humanityGain = 100;										
+
+//If enabled, players with radios will be given text warnings if they are being pursued by AI groups. Text warnings include distance of pursuing AI group (Default: true)
+DZAI_radioMsgs = true;
+
 
 /*	AI Spawning Settings (Static AI spawns)
 --------------------------------------------------------------------------------------------------------------------*/	
@@ -113,7 +125,7 @@ DZAI_dynDespawnWait = 120;
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Maximum number of active AI air vehicle patrols. Set at 0 to disable (Default: 0).							
-DZAI_maxHeliPatrols = 5;
+DZAI_maxHeliPatrols = 10;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
 DZAI_respawnTMinA = 600;
@@ -149,30 +161,14 @@ DZAI_airWeapons = [
 --------------------------------------------------------------------------------------------------------------------*/	
 
 //Maximum number of active AI land vehicle patrols. Set at 0 to disable (Default: 0).	
-DZAI_maxLandPatrols = 10;
+DZAI_maxLandPatrols = 25;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
 DZAI_respawnTMinL = 600;
 DZAI_respawnTMaxL = 900;
 
 //Classnames of land vehicle types to use. (Default: "UAZ_Unarmed_TK_EP1")
-DZAI_vehTypes = ["LandRover_MG_TK_EP1_DZ","LandRover_Special_CZ_EP1_DZ","Pickup_PK_GUE_DZ","Pickup_PK_INS_DZ","Pickup_PK_TK_GUE_EP1_DZ","UAZ_MG_TK_EP1_DZ"];
-
-
-/*	Extra AI Settings
---------------------------------------------------------------------------------------------------------------------*/
-
-//If enabled, AI group will attempt to track down player responsible for killing a group member. Players with radios will be given text warnings if they are being pursued (Default: true)
-DZAI_findKiller = true;	
-
-//If normal probability check for spawning NVGs fails, then give AI temporary NVGs only if they are spawned with weapongrade 1 or higher (applies only during nighttime hours). Temporary NVGs are unlootable and will be removed at death (Default: false).									
-DZAI_tempNVGs = false;	
-
-//Amount of humanity to reward player for killing an AI unit (Default: 0)									
-DZAI_humanityGain = 100;										
-
-//If enabled, players with radios will be given text warnings if they are being pursued by AI groups. Text warnings include distance of pursuing AI group (Default: true)
-DZAI_radioMsgs = true;
+DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1"];
 
 
 /*	AI weapon selection settings
@@ -188,9 +184,9 @@ DZAI_dynamicWeaponList = true;
 //All melee weapons and crossbows present in DayZ 1.7.7.1 have been pre-banned ("Crossbow_DZ","Crossbow","MeleeHatchet","MeleeCrowbar","MeleeMachete","MeleeBaseball","MeleeBaseBallBat","MeleeBaseBallBatBarbed","MeleeBaseBallBatNails")
 DZAI_banAIWeapons = [];										
 
-//List of launcher-type weapons for mid/high-level AI to use (by default, weapongrade 1/2/3). If left empty, AI will not use launcher weapons. (Default: [])
+//List of launcher-type weapons for mid/high-level AI to use (by default, weapongrade 1/2/3), example: ["M136"]. If left empty, AI will not use launcher weapons. (Default: [])
 //If AI encounter an armored player vehicle, they will switch to a randomly-selected launcher-type weapon to engage. (Maximum 1 launcher per AI group).
-//Weapon classnames added here are verified if DZAI_verifyTables is set to true.
+//Weapon classnames added here are verified if DZAI_verifyTables is set to true. Note: Launcher weapons are removed from the AI unit upon death.
 DZAI_launcherTypes = [];	
 
 //List of AI weapongrades that are permitted to use launcher-type weapons. Individual custom weapongrade levels may be added to allow launcher use (Default: [1,2,3])
@@ -271,12 +267,12 @@ DZAI_gradeChancesHeli = [0.00,0.00,0.40,0.43,0.17];
 
 //AI skill settings level 0 (Skill, Minimum skill, Maximum skill).
 DZAI_skill0 = [	
-	["aimingAccuracy",0.10,0.15],
+	["aimingAccuracy",0.10,0.125],
 	["aimingShake",0.50,0.60],
 	["aimingSpeed",0.50,0.60],
 	["endurance",0.40,0.60],
 	["spotDistance",0.30,0.45],
-	["spotTime",0.50,0.65],
+	["spotTime",0.30,0.60],
 	["courage",0.40,0.60],
 	["reloadSpeed",0.40,0.60],
 	["commanding",0.40,0.60],
@@ -285,44 +281,44 @@ DZAI_skill0 = [
 
 //AI skill settings level 1 (Skill, Minimum skill, Maximum skill).
 DZAI_skill1 = [	
-	["aimingAccuracy",0.12,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.65,0.80],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.10,0.125],
+	["aimingShake",0.50,0.60],
+	["aimingSpeed",0.50,0.60],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.30,0.60],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
 //AI skill settings level 2 (Skill, Minimum skill, Maximum skill).
 DZAI_skill2 = [	
-	["aimingAccuracy",0.12,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.65,0.80],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.10,0.125],
+	["aimingShake",0.50,0.60],
+	["aimingSpeed",0.50,0.60],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.30,0.60],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
 //AI skill settings level 3 (Skill, Minimum skill, Maximum skill).
 DZAI_skill3 = [	
-	["aimingAccuracy",0.12,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.65,0.80],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.10,0.125],
+	["aimingShake",0.50,0.60],
+	["aimingSpeed",0.50,0.60],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.30,0.60],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
 //Note: Additional AI skill settings can be defined (DZAI_skill4 - DZAI_skill9) using the same format above.
@@ -350,22 +346,22 @@ DZAI_skill9 = nil;
 
 //AI skill settings - AI helicopter crew (Skill, Minimum skill, Maximum skill).
 DZAI_heliCrewSkills = [	
-	["aimingAccuracy",0.12,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.65,0.80],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.10,0.125],
+	["aimingShake",0.50,0.60],
+	["aimingSpeed",0.50,0.60],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.30,0.60],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
 
 //NOTHING TO EDIT BEYOND THIS POINT
 
 //Load custom DZAI settings file.
-if (DZAI_readOverrideFile) then {call compile preprocessFileLineNumbers "\z\addons\dayz_server\DZAI\DZAI_settings_override.sqf"};
+if (DZAI_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\DZAI_settings_override.sqf",DZAI_directory]};
 
 diag_log "[DZAI] DZAI configuration file loaded.";

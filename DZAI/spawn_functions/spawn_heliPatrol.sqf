@@ -14,7 +14,7 @@ if (DZAI_curHeliPatrols >= DZAI_maxHeliPatrols) exitWith {};
 _amount = _this;
 
 for "_i" from 1 to _amount do {
-	private ["_heliType","_startPos","_helicopter","_unitGroup","_pilot","_turretCount","_crewCount","_weapongrade","_waypoint"];
+	private ["_heliType","_startPos","_helicopter","_unitGroup","_pilot","_turretCount","_weapongrade","_waypoint"];
 	_heliType = DZAI_heliTypes call BIS_fnc_selectRandom2;
 	
 	//If chosen classname isn't an air-type vehicle, then use UH1H as default.
@@ -49,7 +49,6 @@ for "_i" from 1 to _amount do {
 	if (DZAI_debugLevel > 0) then {diag_log format ["Spawned helicopter type %1 for group %2 at %3.",_heliType,_unitGroup,mapGridPosition _helicopter];};
 
 	//Add helicopter pilot
-	_crewCount = 1;
 	//_weapongrade = [DZAI_weaponGrades,DZAI_gradeChancesHeli] call fnc_selectRandomWeighted;
 	_weapongrade = DZAI_heliEquipType call DZAI_getWeapongrade;
 	_pilot assignAsDriver _helicopter;
@@ -86,7 +85,6 @@ for "_i" from 1 to _amount do {
 			};
 			_gunner addEventHandler ["HandleDamage",{_this call DZAI_AI_handledamage}];
 			[_gunner] joinSilent _unitGroup;
-			_crewCount = _crewCount + 1;
 			//diag_log format ["DEBUG :: Assigned gunner %1 of %2 to AI %3.",(_i+1),(count _heliTurrets),_heliType];
 		};
 	} else {
@@ -106,7 +104,6 @@ for "_i" from 1 to _amount do {
 	_helicopter addEventHandler ["Killed",{_this call DZAI_heliDestroyed;}];					//Begin despawn process when heli is destroyed.
 	_helicopter addEventHandler ["GetOut",{_this call DZAI_airLanding;}];	//Converts AI crew to ground AI units.
 	_helicopter addEventHandler ["HandleDamage",{_this call DZAI_hHandleDamage}];
-	_helicopter setVariable ["crewCount",_crewCount];
 	_helicopter setVehicleAmmo 1;
 	_helicopter flyInHeight 125;
 	[_helicopter] spawn DZAI_autoRearm_heli;

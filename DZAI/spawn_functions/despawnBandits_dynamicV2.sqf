@@ -1,10 +1,6 @@
 /*
 	despawnBandits_dynamic
 
-	Description:
-	
-	Usage:
-
 	Last updated: 7:42 PM 10/20/2013
 	
 */

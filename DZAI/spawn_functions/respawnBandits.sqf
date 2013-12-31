@@ -38,7 +38,7 @@ _aiGroup = [_totalAI,_unitGroup,_spawnPos,_trigger,_weapongrade] call DZAI_setup
 if (isNull _unitGroup) then {diag_log format ["DZAI Error :: Respawned group was null group. New group reassigned: %1.",_aiGroup]; _unitGroup = _aiGroup};
 
 //Update AI count
-DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
+//DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
 if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Created group %1 of size %2.",_unitGroup,_totalAI];};
 
 if ((count (waypoints _unitGroup)) > 1) then {

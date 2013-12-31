@@ -17,19 +17,15 @@ _helicopter removeAllEventHandlers "GetOut";
 _helicopter removeAllEventHandlers "HandleDamage";
 _helicopter removeAllEventHandlers "Killed";
 
-_units = (units _unitGroup);
 {
 	if (alive _x) then {
-		_x setDamage 1;
+		deleteVehicle _x;
 	};
-} forEach _units;
+} forEach (units _unitGroup);
 
-_deleteQueue = _units;
-_deleteQueue set [(count _deleteQueue),_helicopter];
-
+deleteGroup _unitGroup;
 DZAI_curHeliPatrols = DZAI_curHeliPatrols - 1;
 
-_cleanupTime = 900;	//seconds to despawn helicopter and crew.
-if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Helicopter patrol destroyed. Cleanup in %1 seconds.",_cleanupTime];};
-[_deleteQueue,_cleanupTime] spawn DZAI_deleteObject;
+if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Helicopter patrol destroyed at %1",mapGridPosition _helicopter];};
 0 = ["air"] spawn fnc_respawnHandler;
+[_helicopter,900] spawn DZAI_deleteObject;

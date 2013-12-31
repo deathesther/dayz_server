@@ -85,7 +85,7 @@ _unitGroup reveal [_vehPlayer,4];
 (units _unitGroup) doFire _vehPlayer;
 
 //Update AI count
-DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
+//DZAI_numAIUnits = DZAI_numAIUnits + _totalAI;
 if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: Group %1 has group size %2.",_unitGroup,_totalAI];};
 
 0 = [_unitGroup,_spawnPos,_patrolDist,_targetPlayer,getPosATL _trigger] spawn DZAI_dyn_huntPlayer;

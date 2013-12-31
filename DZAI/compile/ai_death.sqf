@@ -8,7 +8,7 @@
 		Last updated: 7:09 PM 12/15/2013
 */
 
-private["_victim","_killer","_unitGroup","_unitType"];
+private["_victim","_killer","_unitGroup","_unitType","_launchWeapon"];
 _victim = _this select 0;
 _killer = _this select 1;
 
@@ -69,6 +69,14 @@ switch (_unitType) do {
 
 if (_unitType in ["static","dynamic"]) then {
 	0 = [_victim,_killer,_unitGroup] call DZAI_AI_killed_all;
+};
+
+_launchWeapon = (secondaryWeapon _victim);
+if (_launchWeapon in DZAI_launcherTypes) then {
+	private ["_launchAmmo"];
+	_launchAmmo = getArray (configFile >> "CfgWeapons" >> _launchWeapon >> "magazines") select 0;
+	_victim removeMagazines _launchAmmo;
+	_victim removeWeapon _launchWeapon;
 };
 
 //diag_log format ["DEBUG :: AI %1 (Group %2) killed by %3",_victim,_unitGroup,_killer];

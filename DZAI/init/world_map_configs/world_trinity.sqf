@@ -20,8 +20,7 @@ if (DZAI_verifyTables) then {
 };
 
 if (DZAI_staticAI) then {
-
-	//begin triggers
+	//marker name, [minimum AI, max additional AI], [markers for manual spawn points] (leave blank to generate spawn points), equipType (optional, required if AI group number is defined), number of AI groups (optional)
 	["DZAI_StansfieldAirport",[2,2],[],2] call DZAI_static_spawn;
 	["DZAI_FarmArea",[0,2],[],0] call DZAI_static_spawn;
 	["DZAI_HouseArea1",[0,2],[],0] call DZAI_static_spawn;
@@ -71,7 +70,6 @@ if (DZAI_staticAI) then {
 	["DZAI_TimberlandN",[2,1]] call DZAI_static_spawn;
 	["DZAI_MilBase7"] call DZAI_static_spawn;
 	["DZAI_TimberlandIndustrial"] call DZAI_static_spawn;
-	//end of triggers
 };
 
 #include "custom_markers\cust_markers_trinity.sqf"
