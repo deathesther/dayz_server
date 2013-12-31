@@ -19,19 +19,26 @@ publicVariable "MCoords";
 _hummer = createVehicle ["UAZ_Unarmed_UN_EP1",[(_coords select 0) + 10, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
 _hummer setVariable ["Mission",1,true];
 
-[_coords,80,4,2,1] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
-sleep 5;
-[_coords,80,4,2,1] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
-sleep 5;
-[_coords,80,4,2,1] execVM "\z\addons\dayz_server\missions\add_unit_server2.sqf";//AI Guards
+	_this = createMarker ["DZAI_marker_Minor", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Flag";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [100, 100];
+	_this setMarkerAlpha 0;
+    DZAI_marker_Minor = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
+	["DZAI_marker_Minor",4,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
-waitUntil{({alive _x} count (units SniperTeam)) < 1};
+waitUntil{{isPlayer _x && _x distance _hummer < 10  } count playableunits > 0};
 
 //Mission completed
 [nil,nil,rTitleText,"The hunting party has been wiped out!", "PLAIN",6] call RE;
 [nil,nil,rGlobalRadio,"The hunting party has been wiped out!"] call RE;
 [nil,nil,rHINT,"The hunting party has been wiped out!"] call RE;
+
+deleteMarker "DZAI_marker_Minor";
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

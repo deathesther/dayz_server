@@ -40,17 +40,16 @@ tentloot addMagazineCargoGlobal ["FoodCanBakedBeans", 4];
 tentloot addMagazineCargoGlobal ["ItemBandage", 4];
 tentloot addMagazineCargoGlobal ["ItemMorphine", 4];
 tentloot addMagazineCargoGlobal ["ItemPainkiller", 4];
-tentloot addMagazineCargoGlobal ["ItemAntibiotic", 2]
+tentloot addMagazineCargoGlobal ["ItemAntibiotic", 2];
 tentloot addWeaponCargoGlobal ["ItemKnife", 2];
 tentloot addWeaponCargoGlobal ["ItemToolbox", 2];
 tentloot addWeaponCargoGlobal ["ItemMatches", 2];
 tentloot addMagazineCargoGlobal ["ItemBloodbag", 2];
 tentloot addMagazineCargoGlobal ["ItemJerryCan", 2];
-tentloot addMagazineCargoGlobal ["MP5A5", 2]
-tentloot addMagazineCargoGlobal ["30Rnd_9x19_MP5", 5]
-tentloot addMagazineCargoGlobal ["glock17_EP1", 2]
-tentloot addMagazineCargoGlobal ["17Rnd_9x19_glock17", 4]
-
+tentloot addMagazineCargoGlobal ["MP5A5", 2];
+tentloot addMagazineCargoGlobal ["30Rnd_9x19_MP5", 5];
+tentloot addMagazineCargoGlobal ["glock17_EP1", 2];
+tentloot addMagazineCargoGlobal ["17Rnd_9x19_glock17", 4];
 
 waitUntil{{isPlayer _x && _x distance tentloot < 10  } count playableunits > 0}; 
 

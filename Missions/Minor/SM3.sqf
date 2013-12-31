@@ -19,9 +19,8 @@ publicVariable "MCoords";
 _baserunover = createVehicle ["Land_HouseV_1I3",[(_coords select 0) +2, (_coords select 1) +5,-0.3],[], 0, "CAN_COLLIDE"];
 _baserunover2 = createVehicle ["Land_hut06",[(_coords select 0) - 10, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
 _baserunover3 = createVehicle ["Land_hut06",[(_coords select 0) - 7, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
-_hummer = createVehicle ["HMMWV_DZ",[(_coords select 0) + 10, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
+_hummer = createVehicle ["HMMWV",[(_coords select 0) + 10, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
 _hummer2 = createVehicle ["UAZ_Unarmed_UN_EP1",[(_coords select 0) - 25, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
-_hummer3 = createVehicle ["SUV_DZ",[(_coords select 0) + 25, (_coords select 1) - 15,0],[], 0, "CAN_COLLIDE"];
 
 _baserunover setVariable ["Mission",1,true];
 _baserunover2 setVariable ["Mission",1,true];
@@ -29,11 +28,9 @@ _baserunover3 setVariable ["Mission",1,true];
 _hummer setVariable ["Mission",1,true];
 _hummer1 setVariable ["Mission",1,true];
 _hummer2 setVariable ["Mission",1,true];
-_hummer3 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 3, _coords select 1,0],[], 0, "CAN_COLLIDE"];
 [_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
-
 _crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_Minor", _coords];
