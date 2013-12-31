@@ -8,9 +8,9 @@ publicVariable "MissionGoMinor";
 _coords =  [getMarkerPos "center",0,7000,10,0,20,0] call BIS_fnc_findSafePos;
 
 //Mission start
-[nil,nil,rTitleText,"Hillbillies have moved into the area!", "PLAIN",6] call RE;
-[nil,nil,rGlobalRadio,"Hillbillies have moved into the area!"] call RE;
-[nil,nil,rHINT,"Hillbillies have moved into the area!"] call RE;
+[nil,nil,rTitleText,"Bandits have moved into the area!", "PLAIN",6] call RE;
+[nil,nil,rGlobalRadio,"Bandits have moved into the area!"] call RE;
+[nil,nil,rHINT,"Bandits have moved into the area!"] call RE;
 
 MCoords = _coords;
 publicVariable "MCoords";
@@ -20,10 +20,17 @@ baserunover = createVehicle ["land_housev_1i4",[(_coords select 0) +2, (_coords 
 baserunover2 = createVehicle ["land_kbud",[(_coords select 0) - 10, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
 baserunover3 = createVehicle ["land_kbud",[(_coords select 0) - 7, (_coords select 1) - 5,0],[], 0, "CAN_COLLIDE"];
 
-[[(_coords select 0) - 20, (_coords select 1) - 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server5.sqf";//AI Guards
-sleep 3;
-[[(_coords select 0) + 20, (_coords select 1) + 15,0],40,4,2,0] execVM "\z\addons\dayz_server\missions\add_unit_server5.sqf";//AI Guards
-sleep 3;
+	_this = createMarker ["DZAI_marker_Minor", _coords];
+	_this setMarkerShape "ELLIPSE";
+	_this setMarkerType "Flag";
+	_this setMarkerBrush "Solid";
+	_this setMarkerSize [100, 100];
+	_this setMarkerAlpha 0;
+    DZAI_marker_Minor = _this;
+	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
+sleep 1;
+	["DZAI_marker_Minor",15,2,False] call DZAI_spawn;
+	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
 if (isDedicated) then {
 
@@ -48,20 +55,20 @@ if (isDedicated) then {
 			_iArray call spawn_loot;
 			_nearby = _coords nearObjects ["WeaponHolder",20];
 			{
-				_x setVariable ["Mission",1,true];
+				_x setVariable ["permaLoot",true];
 			} forEach _nearBy;
 		};
 	};
 };
 
-[] execVM "debug\hillbilly.sqf";
-
 waitUntil{{isPlayer _x && _x distance baserunover < 10  } count playableunits > 0}; 
 
 //Mission completed
-[nil,nil,rTitleText,"Survivors killed all Hillies! Loot their corpses!", "PLAIN",6] call RE;
-[nil,nil,rGlobalRadio,"Survivors killed all Hillies! Loot their corpses!"] call RE;
-[nil,nil,rHINT,"Survivors killed all Hillies! Loot their corpses!"] call RE;
+[nil,nil,rTitleText,"Survivors killed all Bandits! Loot their corpses!", "PLAIN",6] call RE;
+[nil,nil,rGlobalRadio,"Survivors killed all Bandits! Loot their corpses!"] call RE;
+[nil,nil,rHINT,"Survivors killed all Bandits! Loot their corpses!"] call RE;
+
+deleteMarker "DZAI_marker_Minor";
 
 [] execVM "debug\remmarkers75.sqf";
 MissionGoMinor = 0;

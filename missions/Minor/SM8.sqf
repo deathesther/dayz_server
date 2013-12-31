@@ -30,7 +30,7 @@ LandingParty addVehicle pbxride;
 LandingParty move (_coords select 1);
 waitUntil{(pbxride distance (_coords select 1)) < 50}; 
 tentloot = createVehicle ["TentStorage",_coords select 1,[], 0, "NONE"];
-tentloot setVariable ["Mission",1,true];
+tentloot setVariable ["permaLoot",true];
 sleep 1;
 
 tentloot addWeaponCargoGlobal ["ItemCompass", 2];

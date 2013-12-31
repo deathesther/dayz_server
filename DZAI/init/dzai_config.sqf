@@ -133,7 +133,7 @@ DZAI_respawnTMaxA = 900;
 
 //Classnames of air vehicle types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								
-DZAI_heliTypes = ["UH1H_DZ"];	
+DZAI_heliTypes = ["UH1H_DZ",CH_47F_EP1];
 
 //Specify vehicle weapon for air vehicles that are unarmed by default. DZAI will arm these air vehicles with the specified weapons upon spawning each vehicle.
 //NOTE: These classnames are not verified by DZAI - it is the user's responsibility to make sure they are valid and unbanned.
@@ -168,8 +168,14 @@ DZAI_respawnTMinL = 600;
 DZAI_respawnTMaxL = 900;
 
 //Classnames of land vehicle types to use. (Default: "UAZ_Unarmed_TK_EP1")
-DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1"];
+DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_EP1","UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1","UAZ_RU"];
 
+
+
+["UAZ_CDF",3],
+["UAZ_INS",3],
+["UAZ_MG_TK_EP1",3],
+["UAZ_RU",3],
 
 /*	AI weapon selection settings
 --------------------------------------------------------------------------------------------------------------------*/
