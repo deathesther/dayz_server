@@ -96,11 +96,11 @@ DZAI_radioMsgs = true;
 DZAI_staticAI = true;
 
 //Set minimum and maximum wait time in seconds to respawn an AI group after all units have been killed. Applies to both static AI and custom spawned AI (Default: Min 300, Max 600).									
-DZAI_respawnTimeMin = 900;
-DZAI_respawnTimeMax = 1800;
+DZAI_respawnTimeMin = 1600;
+DZAI_respawnTimeMax = 1900;
 
 //Time to allow spawned AI units to exist in seconds before being despawned when no players are present in a trigger area. Applies to both static AI and custom spawned AI (Default: 120)										
-DZAI_despawnWait = 600;										
+DZAI_despawnWait = 120;										
 
 
 /*	Dynamic AI Spawning Settings
@@ -128,12 +128,12 @@ DZAI_dynDespawnWait = 120;
 DZAI_maxHeliPatrols = 10;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
-DZAI_respawnTMinA = 600;
-DZAI_respawnTMaxA = 900;
+DZAI_respawnTMinA = 1600;
+DZAI_respawnTMaxA = 1900;
 
 //Classnames of air vehicle types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								
-DZAI_heliTypes = ["UH1H_DZ","CH_47F_EP1"];
+DZAI_heliTypes = ["UH1H_DZ","UH1H_TK_EP1","UH1H_TK_GUE_EP1"];
 
 //Specify vehicle weapon for air vehicles that are unarmed by default. DZAI will arm these air vehicles with the specified weapons upon spawning each vehicle.
 //NOTE: These classnames are not verified by DZAI - it is the user's responsibility to make sure they are valid and unbanned.
@@ -164,8 +164,8 @@ DZAI_airWeapons = [
 DZAI_maxLandPatrols = 30;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
-DZAI_respawnTMinL = 600;
-DZAI_respawnTMaxL = 900;
+DZAI_respawnTMinL = 1600;
+DZAI_respawnTMaxL = 1900;
 
 //Classnames of land vehicle types to use. (Default: "UAZ_Unarmed_TK_EP1")
 DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_EP1","UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1","UAZ_RU"];
