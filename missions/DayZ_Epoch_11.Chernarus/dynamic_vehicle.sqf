@@ -147,5 +147,12 @@ AllowedVehiclesList = [
 ["ACE_HC130_N",1],
 ["ACE_UAZ_SPG9_CDF",1],
 ["ACE_Offroad_SPG9_INS",1],
-["ACE_UAZ_MG_RU",1]
+["ACE_UAZ_MG_RU",1],
+["pook_H13_medevac",1],
+["pook_H13_amphib",1],
+["pook_H13_gunship",1],
+["pook_H13_transport",1],
+["pook_H13_civ",1],
+["rksl_foxhound_lppv",1],
+["rksl_foxhound_lppv_wd",1]
 ];

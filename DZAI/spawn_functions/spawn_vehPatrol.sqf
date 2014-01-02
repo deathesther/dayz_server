@@ -46,7 +46,7 @@ for "_i" from 1 to _amount do {
 	_driver moveInDriver _vehicle;
 	0 = [_driver,_weapongrade] call DZAI_setSkills;
 	0 = [_driver,_weapongrade] call DZAI_setupLoadout;
-	_driver setVariable ["unithealth",[12000,0,0,false,false]];
+	_driver setVariable ["unithealth",[6000,0,0,false,false]];
 	_driver setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious
 	_driver setVariable ["DZAI_deathTime",time];
 	if (!(_driver hasWeapon "NVGoggles")) then {
@@ -62,7 +62,7 @@ for "_i" from 1 to _amount do {
 		[_cargo] joinSilent _unitGroup;
 		0 = [_cargo,_weapongrade] call DZAI_setSkills;
 		0 = [_cargo,_weapongrade] call DZAI_setupLoadout;
-		_cargo setVariable ["unithealth",[12000,0,0,false,false]];
+		_cargo setVariable ["unithealth",[6000,0,0,false,false]];
 		_cargo setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious
 		_cargo setVariable ["DZAI_deathTime",time];
 		if (!(_cargo hasWeapon "NVGoggles")) then {
@@ -82,7 +82,7 @@ for "_i" from 1 to _amount do {
 		[_gunner] joinSilent _unitGroup;
 		0 = [_gunner,_weapongrade] call DZAI_setSkills;
 		0 = [_gunner,_weapongrade] call DZAI_setupLoadout;
-		_gunner setVariable ["unithealth",[12000,0,0,false,false]];
+		_gunner setVariable ["unithealth",[6000,0,0,false,false]];
 		_gunner setVariable ["unconscious",true];	//Prevent AI heli crew from being knocked unconscious
 		_gunner setVariable ["DZAI_deathTime",time];
 		if (!(_gunner hasWeapon "NVGoggles")) then {

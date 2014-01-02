@@ -50,7 +50,7 @@ for "_i" from 1 to _totalAI do {
 	[_unit] joinSilent _unitGroup;														// Add AI unit to group
 
 	_unit setVariable ["bodyName",(name _unit)];										// Set unit body name
-	_unit setVariable ["unithealth",[12000,0,0,false,false]];							// Set unit health (blood, hands health, legs health, hands broken, legs broken)
+	_unit setVariable ["unithealth",[6000,0,0,false,false]];							// Set unit health (blood, hands health, legs health, hands broken, legs broken)
 	_unit setVariable ["unconscious",false];											// Set unit consciousness
 
 	if (DZAI_zAggro) then {

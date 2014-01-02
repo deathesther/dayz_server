@@ -18,7 +18,7 @@ if (_unit getVariable ["rearmEnabled",false]) exitWith {};
 _unit setVariable ["rearmEnabled",true];
 
 //Initialize medical variables
-if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth",[12000,0,0,false,false]]};
+if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth",[6000,0,0,false,false]]};
 if (isNil {_unit getVariable "unconscious"}) then {_unit setVariable ["unconscious",false]};
 
 _lastBandage = 0;
@@ -81,7 +81,7 @@ while {(alive _unit)&&(!(isNull _unit))} do {
 				_healTimes = 0;
 				while {(!(_unit getVariable ["unconscious",false]))&&(_healTimes < 3)&&(alive _unit)} do {
 					sleep 2;
-					_health set [0,(((_health select 0) + 2000) min 12000)];
+					_health set [0,(((_health select 0) + 2000) min 6000)];
 					_healTimes = _healTimes + 1;
 					if ((_healTimes == 3)&&(alive _unit)) then {
 						_health set [1,0];
