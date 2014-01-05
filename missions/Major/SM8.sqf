@@ -35,7 +35,7 @@ _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 
 [_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
 _crate setVariable ["permaLoot",true];
 _crate2 = createVehicle ["USVehicleBox",[(_coords select 0) - 10, (_coords select 1) - 10,0],[], 0, "NONE"];
-[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxesH.sqf";
 _crate2 setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];

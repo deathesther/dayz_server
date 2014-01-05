@@ -20,7 +20,7 @@ _chopcrash = createVehicle ["UH60Wreck_DZ",_coords,[], 0, "CAN_COLLIDE"];
 _chopcrash setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USLaunchersBox",[(_coords select 0) - 6, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesS.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesH.sqf";
 _crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_Minor", _coords];

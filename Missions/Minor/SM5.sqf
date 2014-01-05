@@ -20,7 +20,7 @@ _humveecrash = createVehicle ["HMMWVwreck",_coords,[], 0, "CAN_COLLIDE"];
 _humveecrash setVariable ["Mission",1,true];
 
 _crate = createVehicle ["RULaunchersBox",[(_coords select 0) - 14, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesH.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 _crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_Minor", _coords];
