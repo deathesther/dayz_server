@@ -170,6 +170,7 @@ DZAI_respawnTMaxL = 1900;
 //Classnames of land vehicle types to use. (Default: "UAZ_Unarmed_TK_EP1")
 DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_EP1","UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1","UAZ_RU"];
 
+
 /*	AI weapon selection settings
 --------------------------------------------------------------------------------------------------------------------*/
 
@@ -266,58 +267,58 @@ DZAI_gradeChancesHeli = [0.00,0.00,0.40,0.43,0.17];
 
 //AI skill settings level 0 (Skill, Minimum skill, Maximum skill).
 DZAI_skill0 = [	
-	["aimingAccuracy",0.10,0.125],
-	["aimingShake",0.50,0.60],
-	["aimingSpeed",0.50,0.60],
-	["endurance",0.40,0.60],
-	["spotDistance",0.30,0.45],
-	["spotTime",0.30,0.60],
-	["courage",0.40,0.60],
-	["reloadSpeed",0.40,0.60],
-	["commanding",0.40,0.60],
-	["general",0.40,0.60]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.45,0.75],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
 //AI skill settings level 1 (Skill, Minimum skill, Maximum skill).
 DZAI_skill1 = [	
-	["aimingAccuracy",0.10,0.125],
-	["aimingShake",0.50,0.60],
-	["aimingSpeed",0.50,0.60],
-	["endurance",0.40,0.60],
-	["spotDistance",0.30,0.45],
-	["spotTime",0.30,0.60],
-	["courage",0.40,0.60],
-	["reloadSpeed",0.40,0.60],
-	["commanding",0.40,0.60],
-	["general",0.40,0.60]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.45,0.75],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
 //AI skill settings level 2 (Skill, Minimum skill, Maximum skill).
 DZAI_skill2 = [	
-	["aimingAccuracy",0.10,0.125],
-	["aimingShake",0.50,0.60],
-	["aimingSpeed",0.50,0.60],
-	["endurance",0.40,0.60],
-	["spotDistance",0.30,0.45],
-	["spotTime",0.30,0.60],
-	["courage",0.40,0.60],
-	["reloadSpeed",0.40,0.60],
-	["commanding",0.40,0.60],
-	["general",0.40,0.60]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.45,0.75],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
 //AI skill settings level 3 (Skill, Minimum skill, Maximum skill).
 DZAI_skill3 = [	
-	["aimingAccuracy",0.10,0.125],
-	["aimingShake",0.50,0.60],
-	["aimingSpeed",0.50,0.60],
-	["endurance",0.40,0.60],
-	["spotDistance",0.30,0.45],
-	["spotTime",0.30,0.60],
-	["courage",0.40,0.60],
-	["reloadSpeed",0.40,0.60],
-	["commanding",0.40,0.60],
-	["general",0.40,0.60]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.45,0.75],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
 //Note: Additional AI skill settings can be defined (DZAI_skill4 - DZAI_skill9) using the same format above.
@@ -345,16 +346,16 @@ DZAI_skill9 = nil;
 
 //AI skill settings - AI helicopter crew (Skill, Minimum skill, Maximum skill).
 DZAI_heliCrewSkills = [	
-	["aimingAccuracy",0.10,0.125],
-	["aimingShake",0.50,0.60],
-	["aimingSpeed",0.50,0.60],
-	["endurance",0.40,0.60],
-	["spotDistance",0.30,0.45],
-	["spotTime",0.30,0.60],
-	["courage",0.40,0.60],
-	["reloadSpeed",0.40,0.60],
-	["commanding",0.40,0.60],
-	["general",0.40,0.60]
+	["aimingAccuracy",0.125,0.15],
+	["aimingShake",0.60,0.70],
+	["aimingSpeed",0.60,0.70],
+	["endurance",0.55,0.75],
+	["spotDistance",0.45,0.60],
+	["spotTime",0.45,0.75],
+	["courage",0.55,0.75],
+	["reloadSpeed",0.55,0.75],
+	["commanding",0.55,0.75],
+	["general",0.55,0.75]
 ];
 
 

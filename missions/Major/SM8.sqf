@@ -32,7 +32,7 @@ _c130wreck = createVehicle ["C130J_wreck_EP1",[(_coords select 0) + 30, (_coords
 _c130wreck setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "NONE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 _crate setVariable ["permaLoot",true];
 _crate2 = createVehicle ["USVehicleBox",[(_coords select 0) - 10, (_coords select 1) - 10,0],[], 0, "NONE"];
 [_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxesH.sqf";

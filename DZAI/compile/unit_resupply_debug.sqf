@@ -18,7 +18,7 @@ if (_unit getVariable ["rearmEnabled",false]) exitWith {};
 _unit setVariable ["rearmEnabled",true];
 
 //Initialize medical variables
-if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth",[6000,0,0,false,false]]};
+if (isNil {_unit getVariable "unithealth"}) then {_unit setVariable ["unithealth",[12000,0,0,false,false]]};
 if (isNil {_unit getVariable "unconscious"}) then {_unit setVariable ["unconscious",false]};
 
 _lastBandage = 0;
@@ -107,7 +107,7 @@ while {(alive _unit)&&(!(isNull _unit))} do {													//Run script for as lo
 				_healTimes = 0;
 				while {(!(_unit getVariable ["unconscious",false]))&&(_healTimes < 3)&&(alive _unit)} do {
 					sleep 2;
-					_health set [0,(((_health select 0) + 2000) min 6000)];
+					_health set [0,(((_health select 0) + 2000) min 12000)];
 					if (DZAI_debugLevel > 1) then {diag_log format ["DZAI Extended Debug: AI %1 is healing. Current Blood: %2.",_unit,(_health select 0)];};
 					_healTimes = _healTimes + 1;
 					if ((_healTimes == 3)&&(alive _unit)) then {

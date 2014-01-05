@@ -30,7 +30,7 @@ _vehPos = getPosATL _vehicle;
 		private ["_health"];
 		0 = [_x, 3] spawn DZAI_autoRearm_unit;
 		_x setVariable ["unconscious",false];
-		_health = _x getVariable ["unithealth",[6000,0,0,false,false]];
+		_health = _x getVariable ["unithealth",[12000,0,0,false,false]];
 		_health set [1,0];
 		_health set [2,0];
 		_health set [3,false];

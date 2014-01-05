@@ -29,7 +29,7 @@ publicVariable "Ccoords";
 [] execVM "debug\addmarkers.sqf";
 
 _crate = createVehicle ["USVehicleBox",_coords,[], 0, "NONE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes1.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 _crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];

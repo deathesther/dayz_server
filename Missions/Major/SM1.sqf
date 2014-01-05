@@ -22,7 +22,7 @@ _hummer setVariable ["Mission",1,true];
 _hummer1 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",_coords,[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesS.sqf";
 _crate setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];
