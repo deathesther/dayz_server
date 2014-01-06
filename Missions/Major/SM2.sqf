@@ -1,15 +1,15 @@
-//Medical C-130 Crash by lazyink (Full credit for original code to TheSzerdi & TAW_Tonic)
+//parts and weapon C-130 Crash by lazyink (Full credit for original code to TheSzerdi & TAW_Tonic)
 
 private ["_coords","_MainMarker","_wait"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMajor.sqf";
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,5600,100,0,20,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",0,50,5,0,2000,0] call BIS_fnc_findSafePos;
 
 //Mission start
-[nil,nil,rTitleText,"A C-130 carrying medical supplies has crashed and bandits are securing the site! Check your map for the location!", "PLAIN",10] call RE;
-[nil,nil,rGlobalRadio,"A C-130 carrying medical supplies has crashed and bandits are securing the site! Check your map for the location!"] call RE;
-[nil,nil,rHINT,"A C-130 carrying medical supplies has crashed and bandits are securing the site! Check your map for the location!"] call RE;
+[nil,nil,rTitleText,"A C-130 carrying parts and weapon supplies has crashed and bandits are securing the site! Check your map for the location!", "PLAIN",10] call RE;
+[nil,nil,rGlobalRadio,"A C-130 carrying parts and weapon supplies has crashed and bandits are securing the site! Check your map for the location!"] call RE;
+[nil,nil,rHINT,"A C-130 carrying parts and weapon supplies has crashed and bandits are securing the site! Check your map for the location!"] call RE;
 
 Ccoords = _coords;
 publicVariable "Ccoords";
@@ -24,11 +24,11 @@ _hummer setVariable ["Mission",1,true];
 _hummer1 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesC.sqf";
 _crate setVariable ["permaLoot",true];
 
 _crate2 = createVehicle ["USLaunchersBox",[(_coords select 0) - 6, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxesS.sqf";
+[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxes.sqf";
 _crate2 setVariable ["permaLoot",true];
 
 	_this = createMarker ["DZAI_marker_major", _coords];

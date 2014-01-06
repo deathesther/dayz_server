@@ -1,15 +1,15 @@
-_crate4 = _this select 0;
+_crate5 = _this select 0;
 
-clearWeaponCargoGlobal _crate4;
-clearMagazineCargoGlobal _crate4;
+clearWeaponCargoGlobal _crate5;
+clearMagazineCargoGlobal _crate5;
 
-private ["_crate4","_amount","_lootTable","_index","_itemType","_config","_itemTypes","_weights","_cntWeights","_num"];
+private ["_crate5","_amount","_lootTable","_index","_itemType","_config","_itemTypes","_weights","_cntWeights","_num"];
 
-_lootTable = "Crate1";
+_lootTable = "Crate4";
 
 crate_add_loot = {
 
-	private ["_iItem","_iClass","_itemTypes","_index","_weights","_cntWeights","_qty","_max","_tQty","_canType","_mags","_amount","_crate4"];
+	private ["_iItem","_iClass","_itemTypes","_index","_weights","_cntWeights","_qty","_max","_tQty","_canType","_mags","_amount","_crate5"];
 
 
 
@@ -17,7 +17,7 @@ crate_add_loot = {
 
 	_iClass = 	_this select 1;
 
-	_crate4 =    _this select 2;
+	_crate5 =    _this select 2;
 
 
 
@@ -53,7 +53,7 @@ crate_add_loot = {
 
 				_canType = _itemTypes select _index;
 
-				_crate4 addMagazineCargoGlobal [_canType,_tQty];
+				_crate5 addMagazineCargoGlobal [_canType,_tQty];
 
 				_qty = _qty + _tQty;
 
@@ -63,7 +63,7 @@ crate_add_loot = {
 
 			{
 
-				_crate4 addWeaponCargoGlobal [_iItem,random(4)];
+				_crate5 addWeaponCargoGlobal [_iItem,random(4)];
 
 			};
 
@@ -93,9 +93,9 @@ crate_add_loot = {
 
 			
 
-			_crate4 addMagazineCargoGlobal [_canType,_amount];
+			_crate5 addMagazineCargoGlobal [_canType,_amount];
 
-			_crate4 addMagazineCargoGlobal ["ItemSilverBar",_amount];
+			_crate5 addMagazineCargoGlobal ["ItemSilverBar",_amount];
 
 			
 
@@ -123,7 +123,7 @@ crate_add_loot = {
 
 			
 
-			_crate4 addBackpackCargoGlobal [_iItem,1];
+			_crate5 addBackpackCargoGlobal [_iItem,1];
 
 		};
 
@@ -161,7 +161,7 @@ crate_add_loot = {
 
 			//Item is a weapon, add it and a random quantity of magazines
 
-			_crate4 addWeaponCargoGlobal [_iItem,_amount];
+			_crate5 addWeaponCargoGlobal [_iItem,_amount];
 
 			_mags = [] + getArray (configFile >> "cfgWeapons" >> _iItem >> "magazines");
 
@@ -173,7 +173,7 @@ crate_add_loot = {
 
 				if (_mags select 0 == "20Rnd_556x45_Stanag") then { _mags set [0, "30Rnd_556x45_Stanag"] };
 
-				_crate4 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
+				_crate5 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
 
 			};
 
@@ -189,7 +189,7 @@ crate_add_loot = {
 
 			_amount = round(random 3);
 
-			_crate4 addWeaponCargoGlobal [_iItem,_amount];
+			_crate5 addWeaponCargoGlobal [_iItem,_amount];
 
 			_mags = [] + getArray (configFile >> "cfgWeapons" >> _iItem >> "magazines");
 
@@ -203,7 +203,7 @@ crate_add_loot = {
 
 				};
 
-				_crate4 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
+				_crate5 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
 
 			};
 
@@ -213,11 +213,11 @@ crate_add_loot = {
 
 		{
 
-			//_crate4 addWeaponCargoGlobal [_iItem,1];
+			//_crate5 addWeaponCargoGlobal [_iItem,1];
 
 			_amount = round(random 6);
 
-			_crate4 addMagazineCargoGlobal [_iItem, _amount];
+			_crate5 addMagazineCargoGlobal [_iItem, _amount];
 
 		};
 
@@ -227,7 +227,7 @@ crate_add_loot = {
 
 			_amount = round(random 6);
 
-			_crate4 addMagazineCargoGlobal [_iItem,_amount];
+			_crate5 addMagazineCargoGlobal [_iItem,_amount];
 
 		};
 
@@ -237,7 +237,7 @@ crate_add_loot = {
 
 			_amount = round(random 5);
 
-			_crate4 addMagazineCargoGlobal ["ItemGoldBar", _amount];
+			_crate5 addMagazineCargoGlobal ["ItemGoldBar", _amount];
 
 		};
 
@@ -262,5 +262,5 @@ for "_x" from 1 to (_num + _amount) do {
 	_index = floor(random _cntWeights);
 	_index = _weights select _index;
 	_itemType = _itemTypes select _index;
-	[_itemType select 0, _itemType select 1, _crate4] spawn crate_add_loot;
+	[_itemType select 0, _itemType select 1, _crate5] spawn crate_add_loot;
 };

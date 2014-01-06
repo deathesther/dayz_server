@@ -5,7 +5,7 @@ private ["_coords","_MainMarker","_wait"];
 
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,5500,30,0,2000,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",0,50,5,0,2000,0] call BIS_fnc_findSafePos;
 
 //Mission start
 [nil,nil,rTitleText,"A medical supply crate has been secured by bandits! Check your map for the location!", "PLAIN",10] call RE;

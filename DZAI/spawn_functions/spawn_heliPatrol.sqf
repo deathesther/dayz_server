@@ -146,6 +146,7 @@ for "_i" from 1 to _amount do {
 
 	if ((!isNull _helicopter)&&(!isNull _unitGroup)) then {
 		DZAI_curHeliPatrols = DZAI_curHeliPatrols + 1;
+		mission_dzai_heli_array set [count mission_dzai_heli_array, [_helicopter, _unitGroup, 0]];
 		if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Created AI helicopter crew group %1 is now active and patrolling.",_unitGroup];};
 	};
 	if (_i < _amount) then {sleep 20};

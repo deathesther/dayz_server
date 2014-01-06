@@ -251,5 +251,7 @@ _playerObj setVariable ["lastTime",time];
 
 //diag_log ("LOGIN PUBLISHING: " + str(_playerObj) + " Type: " + (typeOf _playerObj));
 
+call mission_sync_markers;
+
 PVDZE_plr_Login = nil;
 PVDZE_plr_Login2 = nil;

@@ -1,16 +1,16 @@
-//Medical Ural Attack by lazyink (Full credit for original code to TheSzerdi & TAW_Tonic)
+//Parts Ural Attack by lazyink (Full credit for original code to TheSzerdi & TAW_Tonic)
 
 private ["_coords","_MainMarker","_chopper","_wait"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMajor.sqf";
 
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,5500,30,0,20,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",0,50,5,0,2000,0] call BIS_fnc_findSafePos;
 
 //Mission start
-[nil,nil,rTitleText,"Bandits have destroyed a Ural carrying medical supplies and are securing the cargo! Check your map for the location!", "PLAIN",10] call RE;
-[nil,nil,rGlobalRadio,"Bandits have destroyed a Ural carrying medical supplies and are securing the cargo! Check your map for the location!"] call RE;
-[nil,nil,rHINT,"Bandits have destroyed a Ural carrying medical supplies and are securing the cargo! Check your map for the location!"] call RE;
+[nil,nil,rTitleText,"Bandits have destroyed a Ural carrying Parts supplies and are securing the cargo! Check your map for the location!", "PLAIN",10] call RE;
+[nil,nil,rGlobalRadio,"Bandits have destroyed a Ural carrying Parts supplies and are securing the cargo! Check your map for the location!"] call RE;
+[nil,nil,rHINT,"Bandits have destroyed a Ural carrying Parts supplies and are securing the cargo! Check your map for the location!"] call RE;
 
 Ccoords = _coords;
 publicVariable "Ccoords";
@@ -26,7 +26,7 @@ _hummer setVariable ["Mission",1,true];
 _hummer1 setVariable ["Mission",1,true];
 
 _crate = createVehicle ["USVehicleBox",[(_coords select 0) - 6, _coords select 1,0],[], 0, "CAN_COLLIDE"];
-[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
+[_crate] execVM "\z\addons\dayz_server\missions\misc\fillBoxesC.sqf";
 _crate setVariable ["permaLoot",true];
 
 _crate2 = createVehicle ["USLaunchersBox",[(_coords select 0) - 10, _coords select 1,0],[], 0, "CAN_COLLIDE"];
@@ -48,9 +48,9 @@ sleep 1;
 waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0};
 
 //Mission completed
-[nil,nil,rTitleText,"The medical supplies have been secured by survivors!", "PLAIN",6] call RE;
-[nil,nil,rGlobalRadio,"The medical supplies have been secured by survivors!"] call RE;
-[nil,nil,rHINT,"The medical supplies have been secured by survivors!"] call RE;
+[nil,nil,rTitleText,"The Parts supplies have been secured by survivors!", "PLAIN",6] call RE;
+[nil,nil,rGlobalRadio,"The Parts supplies have been secured by survivors!"] call RE;
+[nil,nil,rHINT,"The Parts supplies have been secured by survivors!"] call RE;
 
 deleteMarker "DZAI_marker_major";
 
