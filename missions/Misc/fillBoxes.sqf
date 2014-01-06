@@ -1,43 +1,266 @@
-_crate = _this select 0;
-clearWeaponCargoGlobal _crate;
-clearMagazineCargoGlobal _crate;
+_crate1 = _this select 0;
 
-// RIFLES
-_crate addWeaponCargoGlobal ["G36A_camo", 1];
-_crate addWeaponCargoGlobal ["M4A1_AIM_SD_camo", 1];
-_crate addWeaponCargoGlobal ["G36C_camo", 1];
-_crate addWeaponCargoGlobal ["M14_EP1", 1];
-_crate addWeaponCargoGlobal ["M16A4_ACG_GL", 1];
-_crate addWeaponCargoGlobal ["M16A4_GL", 1];
-_crate addWeaponCargoGlobal ["M4A3_CCO_EP1", 1];
-_crate addWeaponCargoGlobal ["M4A1_AIM_SD_camo", 1];
-_crate addWeaponCargoGlobal ["M4SPR", 1];
-_crate addWeaponCargoGlobal ["RPK_74", 1];
-_crate addWeaponCargoGlobal ["Sa58V_RCO_EP1", 1];
-_crate addWeaponCargoGlobal ["M4A1_HWS_GL_SD_Camo", 1];
+clearWeaponCargoGlobal _crate1;
+clearMagazineCargoGlobal _crate1;
 
-// PISTOLS
-_crate addWeaponCargoGlobal ["glock17_EP1", 1];
-_crate addWeaponCargoGlobal ["UZI_EP1", 1];
+private ["_crate1","_amount","_lootTable","_index","_itemType","_config","_itemTypes","_weights","_cntWeights","_num"];
+
+_lootTable = "Crate2";
+
+crate_add_loot = {
+
+	private ["_iItem","_iClass","_itemTypes","_index","_weights","_cntWeights","_qty","_max","_tQty","_canType","_mags","_amount","_crate1"];
 
 
-// AMMUNITION
-_crate addMagazineCargoGlobal ["17Rnd_9x19_glock17", 10];
-_crate addMagazineCargoGlobal ["30Rnd_9x19_UZI", 10];
-_crate addMagazineCargoGlobal ["30Rnd_762x39_AK47", 10];
-_crate addMagazineCargoGlobal ["30Rnd_762x39_SA58", 10];
-_crate addMagazineCargoGlobal ["30Rnd_556x45_G36", 10];
-_crate addMagazineCargoGlobal ["30Rnd_556x45_StanagSD", 10];
-_crate addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 10];
-_crate addMagazineCargoGlobal ["20Rnd_556x45_Stanag", 10];
-_crate addMagazineCargoGlobal ["75Rnd_545x39_RPK", 10];
 
-// ITEMS
-_crate addWeaponCargoGlobal ["ItemToolbox", 2];
+	_iItem = 	_this select 0;
 
-// CLOTHING
-_crate addMagazineCargoGlobal ["Skin_Soldier1_DZ", 2];
-_crate addMagazineCargoGlobal ["Skin_Camo1_DZ", 2];
+	_iClass = 	_this select 1;
 
-// BACKPACKS
-_crate addBackpackCargoGlobal ['DZ_Backpack_EP1', 1];
+	_crate1 =    _this select 2;
+
+
+
+	switch (_iClass) do
+
+	{
+
+		default
+
+		{
+
+			_itemTypes = [] + ((getArray (missionconfigFile >> "cfgLoot" >> _iClass)) select 0);
+
+			_index = dayz_CLBase find _iClass;
+
+			_weights = dayz_CLChances select _index;
+
+			_cntWeights = count _weights;
+
+			_qty = 3;
+
+			_max = 1 + round(random 3);
+
+			while {_qty < _max} do
+
+			{
+
+				_tQty = 1 + round(random 1);
+
+				_index = floor(random _cntWeights);
+
+				_index = _weights select _index;
+
+				_canType = _itemTypes select _index;
+
+				_crate1 addMagazineCargoGlobal [_canType,_tQty];
+
+				_qty = _qty + _tQty;
+
+			};
+
+			if (_iItem != "") then
+
+			{
+
+				_crate1 addWeaponCargoGlobal [_iItem,random(4)];
+
+			};
+
+		};
+
+		case "single":
+
+		{
+
+			_amount = round(random 5);
+
+			_itemTypes = [] + ((getArray (missionconfigFile >> "cfgLoot" >> _iItem)) select 0);
+
+			_index = dayz_CLBase find _iItem;
+
+			_weights = dayz_CLChances select _index;
+
+			_cntWeights = count _weights;
+
+				
+
+			_index = floor(random _cntWeights);
+
+			_index = _weights select _index;
+
+			_canType = _itemTypes select _index;
+
+			
+
+			_crate1 addMagazineCargoGlobal [_canType,_amount];
+
+			_crate1 addMagazineCargoGlobal ["ItemSilverBar",_amount];
+
+			
+
+		};
+
+		case "backpack":
+
+		{
+
+			_amount = round(random 2);
+
+			_itemTypes = [] + ((getArray (missionconfigFile >> "cfgLoot" >> _iItem)) select 0);
+
+			_index = dayz_CLBase find _iItem;
+
+			_weights = dayz_CLChances select _index;
+
+			_cntWeights = count _weights;
+
+			_index = floor(random _cntWeights);
+
+			_index = _weights select _index;
+
+			_iItem = _itemTypes select _index;
+
+			
+
+			_crate1 addBackpackCargoGlobal [_iItem,1];
+
+		};
+
+		case "cfglootweapon":
+
+		{
+
+			_amount = round(random 3);
+
+			_itemTypes = [] + ((getArray (missionConfigFile >> "cfgLoot" >> _iItem)) select 0);
+
+			_index = dayz_CLBase find _iItem;
+
+			_weights = dayz_CLChances select _index;
+
+			_cntWeights = count _weights;
+
+				
+
+			_index = floor(random _cntWeights);
+
+			_index = _weights select _index;
+
+			_iItem = _itemTypes select _index;
+
+
+
+			if (_iItem == "Chainsaw") then {
+
+				_iItem = ["ChainSaw","ChainSawB","ChainSawG","ChainSawP","ChainSawR"] call BIS_fnc_selectRandom;
+
+			};
+
+
+
+			//Item is a weapon, add it and a random quantity of magazines
+
+			_crate1 addWeaponCargoGlobal [_iItem,_amount];
+
+			_mags = [] + getArray (configFile >> "cfgWeapons" >> _iItem >> "magazines");
+
+			if ((count _mags) > 0) then
+
+			{
+
+				if (_mags select 0 == "Quiver") then { _mags set [0, "WoodenArrow"] }; // Prevent spawning a Quiver
+
+				if (_mags select 0 == "20Rnd_556x45_Stanag") then { _mags set [0, "30Rnd_556x45_Stanag"] };
+
+				_crate1 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
+
+			};
+
+			
+
+		};
+
+		
+
+		case "weapon":
+
+		{
+
+			_amount = round(random 3);
+
+			_crate1 addWeaponCargoGlobal [_iItem,_amount];
+
+			_mags = [] + getArray (configFile >> "cfgWeapons" >> _iItem >> "magazines");
+
+			if ((count _mags) > 0) then
+
+			{
+
+				if (_mags select 0 == "Quiver") then { 
+
+					_mags set [0, "WoodenArrow"] 
+
+				};
+
+				_crate1 addMagazineCargoGlobal [(_mags select 0), (_amount*(round(random 5)))];
+
+			};
+
+		};
+
+		case "weaponnomags":
+
+		{
+
+			//_crate1 addWeaponCargoGlobal [_iItem,1];
+
+			_amount = round(random 6);
+
+			_crate1 addMagazineCargoGlobal [_iItem, _amount];
+
+		};
+
+		case "magazine":
+
+		{
+
+			_amount = round(random 6);
+
+			_crate1 addMagazineCargoGlobal [_iItem,_amount];
+
+		};
+
+		case "object":
+
+		{
+
+			_amount = round(random 5);
+
+			_crate1 addMagazineCargoGlobal ["ItemGoldBar", _amount];
+
+		};
+
+	};
+
+};
+
+_config = 		missionConfigFile >> "CfgBuildingLoot" >> _lootTable;
+_itemTypes =	[] + getArray (_config >> "itemType");
+_index =        dayz_CBLBase find toLower(_lootTable);
+_weights =		dayz_CBLChances select _index;
+_cntWeights = count _weights;
+
+
+_num = 40;
+_amount = round(random 8);
+
+
+for "_x" from 1 to (_num + _amount) do {
+	//create loot
+	sleep 1;
+	_index = floor(random _cntWeights);
+	_index = _weights select _index;
+	_itemType = _itemTypes select _index;
+	[_itemType select 0, _itemType select 1, _crate1] spawn crate_add_loot;
+};
