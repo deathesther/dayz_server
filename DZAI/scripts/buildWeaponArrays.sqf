@@ -27,7 +27,7 @@ for "_i" from 0 to ((count _unwantedWeapons) - 1) do {
 //Compatibility with Namalsk's selectable loot table feature.
 if (isNil "dayzNam_buildingLoot") then {
 	_cfgBuildingLoot = "cfgBuildingLoot";
-	if (((toLower worldName) == "trinity")&&(DZAI_modName != "epoch")) then {
+	if (((toLower worldName) == "trinity")&&{(DZAI_modName != "epoch")}) then {
 		//Fix for Trinity Island's Barracks loot table.
 		_bldgClasses set [2,["Barracks"]];
 	};
@@ -38,14 +38,14 @@ if (isNil "dayzNam_buildingLoot") then {
 //diag_log format ["DEBUG :: _cfgBuildingLoot: %1",_cfgBuildingLoot];
 
 //Compatibility with DayZ 1.7.7's new HeliCrash tables
-if ((isClass (missionConfigFile >> _cfgBuildingLoot >> "HeliCrashWEST")) && (isClass (missionConfigFile >> _cfgBuildingLoot >> "HeliCrashEAST"))) then {
+if ((isClass (missionconfigFile >> _cfgBuildingLoot >> "HeliCrashWEST")) && {(isClass (missionconfigFile >> _cfgBuildingLoot >> "HeliCrashEAST"))}) then {
 	_bldgClasses set [3,["HeliCrashWEST","HeliCrashEAST"]];
 	//diag_log format ["DEBUG :: HeliCrash tables modified: %1",(_bldgClasses select 3)];
 };
 
 //Fix for CfgBuildingLoot structure change in DayZ 1.7.7
 _lootList = "";
-_lootListCheck = isArray (missionConfigFile >> _cfgBuildingLoot >> "Default" >> "lootType");
+_lootListCheck = isArray (missionconfigFile >> _cfgBuildingLoot >> "Default" >> "lootType");
 //diag_log format ["DEBUG :: _lootListCheck: %1",_lootListCheck];
 if (_lootListCheck) then {
 	_lootList = "lootType";
@@ -69,18 +69,18 @@ DZAI_Rifles3 = [];
 for "_i" from 0 to (count _bldgClasses - 1) do {					//_i = weapongrade
 	for "_j" from 0 to (count (_bldgClasses select _i) - 1) do {	//If each weapongrade has more than 1 building class, investigate them all
 		private["_bldgLoot"];
-		_bldgLoot = [] + getArray (missionConfigFile >> _cfgBuildingLoot >> ((_bldgClasses select _i) select _j) >> _lootList);
+		_bldgLoot = [] + getArray (missionconfigFile >> _cfgBuildingLoot >> ((_bldgClasses select _i) select _j) >> _lootList);
 		for "_k" from 0 to (count _bldgLoot - 1) do {				
 			_lootItem = _bldgLoot select _k;
 			if ((_lootItem select 1) == "weapon") then {			//Build an array of "weapons", then categorize them as rifles or pistols, then sort them into the correct weapon grade.
 				private ["_weaponItem","_weaponMags"];
 				_weaponItem = _lootItem select 0;
-				_weaponMags = count (getArray (ConfigFile >> "cfgWeapons" >> _weaponItem >> "magazines"));
-				if ((_weaponMags > 0) && !(_weaponItem in _aiWeaponBanList)) then {							//Consider an item as a "weapon" if it has at least one magazine type.
-					if ((getNumber (ConfigFile >> "CfgWeapons" >> _weaponItem >> "type")) == 1) then {
+				_weaponMags = count (getArray (configFile >> "cfgWeapons" >> _weaponItem >> "magazines"));
+				if ((_weaponMags > 0) && {!(_weaponItem in _aiWeaponBanList)}) then {							//Consider an item as a "weapon" if it has at least one magazine type.
+					if ((getNumber (configFile >> "CfgWeapons" >> _weaponItem >> "type")) == 1) then {
 						call compile format ["DZAI_Rifles%1 set [(count DZAI_Rifles%1),'%2'];",_i,_weaponItem];
 					} else {
-						if ((getNumber (ConfigFile >> "CfgWeapons" >> _weaponItem >> "type")) == 2) then {
+						if ((getNumber (configFile >> "CfgWeapons" >> _weaponItem >> "type")) == 2) then {
 							call compile format ["DZAI_Pistols%1 set [(count DZAI_Pistols%1),'%2'];",_i,_weaponItem];
 						};
 					};
@@ -88,13 +88,13 @@ for "_i" from 0 to (count _bldgClasses - 1) do {					//_i = weapongrade
 			} else {
 				if ((_lootItem select 1) == "cfglootweapon") then {
 					private ["_weapons"];
-					_weapons = [] + getArray (missionConfigFile >> "cfgLoot" >> (_lootItem select 0));
+					_weapons = [] + getArray (missionconfigFile >> "cfgLoot" >> (_lootItem select 0));
 					{
 						if (!(_x in _aiWeaponBanList)) then {
-							if ((getNumber (ConfigFile >> "CfgWeapons" >> _x >> "type")) == 1) then {
+							if ((getNumber (configFile >> "CfgWeapons" >> _x >> "type")) == 1) then {
 								call compile format ["DZAI_Rifles%1 set [(count DZAI_Rifles%1),'%2'];",_i,_x];
 							} else {
-								if ((getNumber (ConfigFile >> "CfgWeapons" >> _x >> "type")) == 2) then {
+								if ((getNumber (configFile >> "CfgWeapons" >> _x >> "type")) == 2) then {
 									call compile format ["DZAI_Pistols%1 set [(count DZAI_Pistols%1),'%2'];",_i,_x];
 								};
 							};

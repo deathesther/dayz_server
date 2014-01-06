@@ -24,12 +24,12 @@ DZAI_monitorRate = 300;
 //If disabled, any invalid classnames will not be removed and clients may crash upon looting AI bodies with invalid items. Disable ONLY if a previous scan shows no invalid classnames (Default: true).										
 DZAI_verifyTables = true;
 
-//Enable to have server spawn in objects/buildings normally spawned clientside by DayZ's CfgTownGenerator. Prevents AI from walking/shooting through clutter and other objects. (Default: false)	
+//Enable to have server spawn in objects/buildings normally spawned clientside by DayZ's CfgTownGenerator. Prevents AI from walking/shooting through clutter and other objects. (Default: true)	
 //If running DayZ Mod ("vanilla DayZ") or DayZ Overwatch, it is highly recommended to enable this option, as many added buildings are handled by the CfgTownGenerator.								
-DZAI_objPatch = false;
+DZAI_objPatch = true;
 
 //Minimum seconds to pass until a dead AI body can be cleaned up by DZAI's task scheduler. Affects both static and dynamic AI units (Default: 300).										
-DZAI_cleanupDelay = 600;									
+DZAI_cleanupDelay = 300;									
 
 //Enable or disable DZAI reading from dzai_settings_override.sqf file (Default: true)
 DZAI_readOverrideFile = true;
@@ -49,7 +49,7 @@ DZAI_readOverrideFile = true;
 */
 
 //(Optional) In most cases it is unnecessary to edit this setting. If the wrong DayZ mod is being detected, choose the correct one from the list above. 
-DZAI_modName = "epoch";
+DZAI_modName = "";
 
 
 /*	AI Unit Settings
@@ -83,10 +83,13 @@ DZAI_findKiller = true;
 DZAI_tempNVGs = false;	
 
 //Amount of humanity to reward player for killing an AI unit (Default: 0)									
-DZAI_humanityGain = 100;										
+DZAI_humanityGain = 0;										
 
-//If enabled, players with radios will be given text warnings if they are being pursued by AI groups. Text warnings include distance of pursuing AI group (Default: true)
+//If enabled, players with radios will be given text warnings if they are being pursued by AI groups. (Default: true)
 DZAI_radioMsgs = true;
+
+//If enabled, send radio messages using client-side DZAI radio addon. If disabled, send radio messages by remote execution method. (Default: false)
+DZAI_useRadioAddon = false;
 
 
 /*	AI Spawning Settings (Static AI spawns)
@@ -96,8 +99,8 @@ DZAI_radioMsgs = true;
 DZAI_staticAI = true;
 
 //Set minimum and maximum wait time in seconds to respawn an AI group after all units have been killed. Applies to both static AI and custom spawned AI (Default: Min 300, Max 600).									
-DZAI_respawnTimeMin = 1600;
-DZAI_respawnTimeMax = 1900;
+DZAI_respawnTimeMin = 300;
+DZAI_respawnTimeMax = 600;
 
 //Time to allow spawned AI units to exist in seconds before being despawned when no players are present in a trigger area. Applies to both static AI and custom spawned AI (Default: 120)										
 DZAI_despawnWait = 120;										
@@ -107,14 +110,14 @@ DZAI_despawnWait = 120;
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Enable or disable dynamic AI spawns. If enabled, AI spawn locations will be generated for randomly selected players at randomized intervals (Default: true)									
-DZAI_dynAISpawns = false;
+DZAI_dynAISpawns = true;
 
 //Array of area blacklist markers. Players within marker areas will not be targeted for dynamic AI spawns (Example: ["BlacklistArea1","BlacklistArea2","BlacklistArea3"])
 //Epoch: DZAI will automatically set up 200m-radius blacklist areas around each trader area.
 DZAI_dynAreaBlacklist = [];
 
 //Time to wait before force-despawning trigger area after all spawned units have been killed.(Default: 300)									
-DZAI_dynRemoveDeadWait = 600;
+DZAI_dynRemoveDeadWait = 300;
 
 //Time to wait before despawning all AI units in dynamic trigger area when no players are present. (Default: 120)
 DZAI_dynDespawnWait = 120;
@@ -125,15 +128,15 @@ DZAI_dynDespawnWait = 120;
 --------------------------------------------------------------------------------------------------------------------*/		
 
 //Maximum number of active AI air vehicle patrols. Set at 0 to disable (Default: 0).							
-DZAI_maxHeliPatrols = 10;
+DZAI_maxHeliPatrols = 0;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
-DZAI_respawnTMinA = 1600;
-DZAI_respawnTMaxA = 1900;
+DZAI_respawnTMinA = 600;
+DZAI_respawnTMaxA = 900;
 
 //Classnames of air vehicle types to use. Valid vehicle types: Helicopters and Planes (Default: "UH1H_DZ").
 //Air vehicles that are normally unarmed may have weapons added by DZAI (see "DZAI_airWeapons" setting below).								
-DZAI_heliTypes = ["UH1H_DZ","UH1H_TK_EP1","UH1H_TK_GUE_EP1"];
+DZAI_heliTypes = ["UH1H_DZ"];	
 
 //Specify vehicle weapon for air vehicles that are unarmed by default. DZAI will arm these air vehicles with the specified weapons upon spawning each vehicle.
 //NOTE: These classnames are not verified by DZAI - it is the user's responsibility to make sure they are valid and unbanned.
@@ -161,14 +164,14 @@ DZAI_airWeapons = [
 --------------------------------------------------------------------------------------------------------------------*/	
 
 //Maximum number of active AI land vehicle patrols. Set at 0 to disable (Default: 0).	
-DZAI_maxLandPatrols = 30;
+DZAI_maxLandPatrols = 0;
 
 //Set minimum and maximum wait time in seconds to respawn an AI vehicle patrol after vehicle is destroyed or disabled. (Default: Min 600, Max 900).
-DZAI_respawnTMinL = 1600;
-DZAI_respawnTMaxL = 1900;
+DZAI_respawnTMinL = 600;
+DZAI_respawnTMaxL = 900;
 
 //Classnames of land vehicle types to use. (Default: "UAZ_Unarmed_TK_EP1")
-DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_EP1","UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1","UAZ_RU"];
+DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1"];
 
 
 /*	AI weapon selection settings
@@ -178,7 +181,7 @@ DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_E
 //Highly recommended to enable DZAI_verifyTables if this option is set to false. 
 DZAI_dynamicWeaponList = true;
 
-//(Only if DZAI_dynamicWeaponList = true) List of classnames of weapons that AI should never use. By default, AI may carry any lootable weapon. 
+//List of classnames of weapons that AI should never use. By default, AI may carry any lootable weapon. (Only if DZAI_dynamicWeaponList = true)  
 //Example: DZAI_banAIWeapons = ["M107_DZ","BAF_AS50_scoped"] will remove the M107 and AS50 from AI weapon tables if dynamic weapon list is enabled.								
 //Note: It is recommended to add all melee weapon classnames into this list as AI have issues using melee weapons. 
 //All melee weapons and crossbows present in DayZ 1.7.7.1 have been pre-banned ("Crossbow_DZ","Crossbow","MeleeHatchet","MeleeCrowbar","MeleeMachete","MeleeBaseball","MeleeBaseBallBat","MeleeBaseBallBatBarbed","MeleeBaseBallBatNails")
@@ -197,22 +200,22 @@ DZAI_launcherLevels = [1,2,3];
 --------------------------------------------------------------------------------------------------------------------*/
 
 //Number of selections of medical items (Inventory)
-DZAI_invmedicals = 2;
+DZAI_invmedicals = 1;
 
 //Number of selections of edible items (Inventory) 										
-DZAI_invedibles = 2;	
+DZAI_invedibles = 1;	
 
 //Number of selections of medical items (Backpack)									
-DZAI_bpmedicals = 2; 	
+DZAI_bpmedicals = 1; 	
 
 //Number of selections of edible items (Backpack)									
-DZAI_bpedibles = 2;	
+DZAI_bpedibles = 1;	
 
 //Maximum number of items to select from DZAI_MiscItemS table.										
 DZAI_numMiscItemS = 3;						
 
 //Maximum number of items to select from DZAI_MiscItemL table.				
-DZAI_numMiscItemL = 2;										
+DZAI_numMiscItemL = 1;										
 
 
 /*	AI loot probability settings
@@ -267,16 +270,16 @@ DZAI_gradeChancesHeli = [0.00,0.00,0.40,0.43,0.17];
 
 //AI skill settings level 0 (Skill, Minimum skill, Maximum skill).
 DZAI_skill0 = [	
-	["aimingAccuracy",0.125,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.10,0.125],
+	["aimingShake",0.45,0.55],
+	["aimingSpeed",0.45,0.55],
+	["endurance",0.40,0.60],
+	["spotDistance",0.30,0.45],
+	["spotTime",0.30,0.60],
+	["courage",0.40,0.60],
+	["reloadSpeed",0.40,0.60],
+	["commanding",0.40,0.60],
+	["general",0.40,0.60]
 ];
 
 //AI skill settings level 1 (Skill, Minimum skill, Maximum skill).
@@ -295,30 +298,30 @@ DZAI_skill1 = [
 
 //AI skill settings level 2 (Skill, Minimum skill, Maximum skill).
 DZAI_skill2 = [	
-	["aimingAccuracy",0.125,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.15,0.20],
+	["aimingShake",0.75,0.85],
+	["aimingSpeed",0.75,0.85],
+	["endurance",0.70,0.90],
+	["spotDistance",0.60,0.75],
+	["spotTime",0.60,0.90],
+	["courage",0.70,0.90],
+	["reloadSpeed",0.70,0.90],
+	["commanding",0.70,0.90],
+	["general",0.70,0.90]
 ];
 
 //AI skill settings level 3 (Skill, Minimum skill, Maximum skill).
 DZAI_skill3 = [	
-	["aimingAccuracy",0.125,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.20,0.25],
+	["aimingShake",0.85,0.95],
+	["aimingSpeed",0.85,0.95],
+	["endurance",0.80,1.00],
+	["spotDistance",0.70,0.85],
+	["spotTime",0.70,1.00],
+	["courage",0.80,1.00],
+	["reloadSpeed",0.80,1.00],
+	["commanding",0.80,1.00],
+	["general",0.80,1.00]
 ];
 
 //Note: Additional AI skill settings can be defined (DZAI_skill4 - DZAI_skill9) using the same format above.
@@ -346,16 +349,16 @@ DZAI_skill9 = nil;
 
 //AI skill settings - AI helicopter crew (Skill, Minimum skill, Maximum skill).
 DZAI_heliCrewSkills = [	
-	["aimingAccuracy",0.125,0.15],
-	["aimingShake",0.60,0.70],
-	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
-	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
-	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
-	["general",0.55,0.75]
+	["aimingAccuracy",0.50,0.50],
+	["aimingShake",0.85,0.95],
+	["aimingSpeed",0.85,0.95],
+	["endurance",0.60,0.80],
+	["spotDistance",0.90,1.00],
+	["spotTime",0.90,1.00],
+	["courage",0.90,1.00],
+	["reloadSpeed",0.90,1.00],
+	["commanding",0.90,1.00],
+	["general",0.90,1.00]
 ];
 
 

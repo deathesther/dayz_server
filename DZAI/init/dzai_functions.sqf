@@ -53,10 +53,10 @@ if (DZAI_debugMarkers < 1) then {
 };
 
 //Compile zombie aggro functions
-if (DZAI_zombieEnemy && (DZAI_weaponNoise > 0)) then { // Optional Zed-to-AI aggro functions
+if (DZAI_zombieEnemy && {(DZAI_weaponNoise > 0)}) then { // Optional Zed-to-AI aggro functions
 	ai_fired = compile preprocessFileLineNumbers format ["%1\compile\ai_fired.sqf",DZAI_directory];
 };
-if (DZAI_zombieEnemy && (DZAI_passiveAggro || (DZAI_weaponNoise > 0))) then {
+if (DZAI_zombieEnemy && {(DZAI_passiveAggro || {(DZAI_weaponNoise > 0)})}) then {
 	ai_alertzombies = compile preprocessFileLineNumbers format ["%1\compile\ai_alertzombies.sqf",DZAI_directory];
 };
 
@@ -123,11 +123,27 @@ DZAI_spawn = {
 	*/
 	
 	if (DZAI_debugLevel > 0) then {diag_log format ["DZAI Debug: Created custom spawn area %1 at %2 with %3 AI units, weapongrade %4, respawn %5.",_spawnMarker,mapGridPosition _trigger,_totalAI,_weapongrade,_respawn];};
-	true
+	
+	_trigger
 };
 
 //Miscellaneous functions 
 //------------------------------------------------------------------------------------------------------------------------
+
+if (DZAI_radioMsgs) then {
+	if (DZAI_useRadioAddon) then {
+		DZAI_radioSend = {
+			DZAI_SMS = (_this select 1);
+			(owner (_this select 0)) publicVariableClient "DZAI_SMS";
+			true
+		};
+	} else {
+		DZAI_radioSend = {
+			[nil,(_this select 0),"loc",rTITLETEXT,(_this select 1),"PLAIN DOWN",2] call RE;
+			true
+		};
+	};
+};
 
 //DZAI group side assignment function. Detects when East side has too many groups, then switches to Resistance side.
 DZAI_getFreeSide = {
@@ -432,3 +448,39 @@ DZAI_getWeapongrade = {
 	
 	DZAI_weaponGrades select _index
 };
+
+DZAI_checkClassname = {
+	private ["_classname","_checkType","_result","_config","_banString","_check"];
+
+	_classname = _this select 0;
+	_checkType = _this select 1;
+	_result = true;
+
+	switch (toLower _checkType) do {
+		case "weapon": {
+			_config = "CfgWeapons";
+			_banString = "bin\config.bin/CfgWeapons/FakeWeapon";
+		};
+		case "vehicle": {
+			_config = "CfgVehicles";
+			_banString = "bin\config.bin/CfgVehicles/Banned";
+		};
+		case "magazine": {
+			_config = "CfgMagazines";
+			_banString = "bin\config.bin/CfgMagazines/FakeMagazine";
+		};
+		case default {
+			_config = "";
+			_banString = "";
+		};
+	};
+	
+	_check = (str(inheritsFrom (configFile >> _config >> _classname)));
+
+	if ((_check == "") or (_check == _banString)) then {
+		_result = false;
+	};
+	
+	_result
+};
+
