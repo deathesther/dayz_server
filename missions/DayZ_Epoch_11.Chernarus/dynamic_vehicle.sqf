@@ -143,7 +143,6 @@ AllowedVehiclesList = [
 ["UH1H_TK_EP1",1],
 ["UH1H_TK_GUE_EP1",1],
 ["ACE_AH6J_DAGR_FLIR",1],
-["ACE_MQ8B_hellfire",1],
 ["ACE_HC130_N",1],
 ["ACE_UAZ_SPG9_CDF",1],
 ["ACE_Offroad_SPG9_INS",1],
