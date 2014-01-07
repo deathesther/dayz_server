@@ -218,9 +218,9 @@ mission_spawn_standard = {
 
 	diag_log ("DEBUG: Mission Code: Removing AI + Crates");
 	// Remove Crates
-	{
-		deleteVehicle _x;
-	} forEach _crates;
+	//{
+	//	deleteVehicle _x;
+	//} forEach _crates;
 
 	// Kill All AI + Triggers
 	{

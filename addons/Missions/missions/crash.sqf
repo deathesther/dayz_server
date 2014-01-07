@@ -140,9 +140,9 @@ mission_spawn_crash = {
 	deleteVehicle _c130wreck;
 	
 	// Remove Crates
-	{
-		deleteVehicle _x;
-	} forEach _crates;
+	//{
+	//	deleteVehicle _x;
+	//} forEach _crates;
 
 	
 	// Kill All AI + Triggers

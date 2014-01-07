@@ -4,7 +4,7 @@ private ["_coords","_MainMarker","_wait"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMajor.sqf";
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,50,5,0,2000,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",0,2000,200,0,50,0] call BIS_fnc_findSafePos;
 
 //Mission start
 [nil,nil,rTitleText,"A C-130 carrying parts and weapon supplies has crashed and bandits are securing the site! Check your map for the location!", "PLAIN",10] call RE;

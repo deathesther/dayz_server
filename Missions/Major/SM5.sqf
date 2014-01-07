@@ -5,7 +5,7 @@ private ["_coords","_MainMarker","_chopper","_wait"];
 
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,50,5,0,2000,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",0,2000,200,0,50,0] call BIS_fnc_findSafePos;
 
 //Mission start
 [nil,nil,rTitleText,"Bandits have destroyed a Ural carrying Parts supplies and are securing the cargo! Check your map for the location!", "PLAIN",10] call RE;
