@@ -252,7 +252,7 @@ _weights =		dayz_CBLChances select _index;
 _cntWeights = count _weights;
 
 
-_num = 25;
+_num = 35;
 _amount = round(random 8);
 
 
