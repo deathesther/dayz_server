@@ -4,7 +4,7 @@ private ["_coords","_MainMarker","_wait"];
 [] execVM "\z\addons\dayz_server\Missions\SMGoMajor.sqf";
 WaitUntil {MissionGo == 1};
 
-_coords = [getMarkerPos "center",0,2000,200,0,50,0] call BIS_fnc_findSafePos;
+_coords = [getMarkerPos "center",200,2000,200,0,50,0] call BIS_fnc_findSafePos;
 
 //Mission start
 [nil,nil,rTitleText,"Bandits have discovered a weapons cache! Check your map for the location!", "PLAIN",10] call RE;
