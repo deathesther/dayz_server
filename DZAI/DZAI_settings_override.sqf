@@ -23,22 +23,23 @@
 
 //Add your preferred settings below this line.
 DZAI_objPatch = true;
-DZAI_cleanupDelay = 600;
+DZAI_cleanupDelay = 1800;
 DZAI_modName = "epoch";
 DZAI_passiveAggro = true;
 DZAI_humanityGain = 100;
 DZAI_useRadioAddon = false;
-DZAI_respawnTimeMin = 1600;
-DZAI_respawnTimeMax = 1900;
+DZAI_staticAI = false;
+DZAI_respawnTimeMin = 1900;
+DZAI_respawnTimeMax = 3600;
 DZAI_dynAISpawns = false;
-DZAI_maxHeliPatrols = 10;
-DZAI_respawnTMinA = 1600;
-DZAI_respawnTMaxA = 1900;
-DZAI_heliTypes = ["UH1H_DZ","UH1H_TK_EP1","UH1H_TK_GUE_EP1","CH_47F_EP1_DZ","Mi17_DZ"];
-DZAI_maxLandPatrols = 30;
-DZAI_respawnTMinL = 1600;
-DZAI_respawnTMaxL = 1900;
-DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_UN_EP1","UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1","UAZ_RU"];
+DZAI_maxHeliPatrols = 8;
+DZAI_respawnTMinA = 1900;
+DZAI_respawnTMaxA = 3600;
+DZAI_heliTypes = ["UH1H_DZ","UH1H_TK_EP1","UH1H_TK_GUE_EP1","CH_47F_EP1_DZ"];
+DZAI_maxLandPatrols = 15;
+DZAI_respawnTMinL = 1900;
+DZAI_respawnTMaxL = 3600;
+DZAI_vehTypes = ["UAZ_CDF","UAZ_INS","UAZ_MG_TK_EP1_DZE","UAZ_RU","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_TK_EP1","UAZ_Unarmed_UN_EP1"];
 DZAI_launcherTypes = ["RPG7V"];
 DZAI_launcherLevels = [3];
 DZAI_skill0 = [
