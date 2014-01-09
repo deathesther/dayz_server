@@ -51,7 +51,7 @@ DZAI_dynDespawnWait = 120;
 DZAI_maxHeliPatrols = 8;
 DZAI_respawnTMinA = 1800;
 DZAI_respawnTMaxA = 3600;
-DZAI_heliTypes = ["UH1H_DZ","UH1H_TK_EP1","UH1H_TK_GUE_EP1","CH_47F_EP1_DZ"];
+DZAI_heliTypes = ["UH1H_DZE","UH1H_TK_EP1","UH1H_TK_GUE_EP1","CH_47F_EP1_DZE"];
 DZAI_airWeapons = [
 	[
 		//Air vehicle classnames (Remember: no comma for last entry! Otherwise, separate each string with commas)
@@ -68,7 +68,7 @@ DZAI_airWeapons = [
 DZAI_maxLandPatrols = 15;
 DZAI_respawnTMinL = 1800;
 DZAI_respawnTMaxL = 3600;
-DZAI_vehTypes = ["UAZ_CDF","UAZ_INS","UAZ_RU","UAZ_Unarmed_TK_CIV_EP1","UAZ_Unarmed_TK_EP1","UAZ_Unarmed_UN_EP1"];
+DZAI_vehTypes = ["UAZ_CDF","UAZ_INS","UAZ_RU","UAZ_Unarmed_TK_EP1","UAZ_Unarmed_UN_EP1"];
 DZAI_dynamicWeaponList = true;
 DZAI_banAIWeapons = [];
 DZAI_launcherTypes = ["RPG7V"];
