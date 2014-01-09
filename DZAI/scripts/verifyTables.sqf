@@ -14,7 +14,7 @@ _allArrays = ["DZAI_Rifles0","DZAI_Rifles1","DZAI_Rifles2","DZAI_Rifles3","DZAI_
 _verified = [];
 
 {
-	if (!isNil (missionNamespace getVariable _x)) then {
+	if ((typeName (missionNamespace getVariable _x)) == "ARRAY") then {
 		_allArrays set [count _allArrays,_x];
 	};
 } forEach ["DZAI_Rifles4","DZAI_Rifles5","DZAI_Rifles6","DZAI_Rifles7","DZAI_Rifles8","DZAI_Rifles9"];
