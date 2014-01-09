@@ -32,7 +32,7 @@ _crate setVariable ["permaLoot",true];
     DZAI_marker_Minor = _this;
 	diag_log("Mission-DEBUG - MISSION AI MARKER DONE");
 sleep 1;
-	["DZAI_marker_Minor",6,2,False] call DZAI_spawn;
+	["DZAI_marker_Minor",9,3,False] call DZAI_spawn;
 	diag_log("Mission-DEBUG - SPAWNED MISSION DZAI AI");
 
 waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
