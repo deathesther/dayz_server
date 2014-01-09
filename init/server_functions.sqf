@@ -877,3 +877,5 @@ server_spawnCleanAnimals = {
 	};
 	DZE_DYN_cleanAnimals = nil;
 };
+//custom map
+[] execVM "\z\addons\dayz_server\Custom\balotaSpawn.sqf";
