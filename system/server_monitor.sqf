@@ -226,7 +226,6 @@ if (isServer and isNil "sm_done") then {
 					
 					//_object setvelocity [0,0,1];
 					_object call fnc_veh_ResetEH;
-					[_object, _class] call fnc_veh_Ammo;
 					
 					if(_ownerID != "0" and !(_object isKindOf "Bicycle")) then {
 						_object setvehiclelock "locked";
