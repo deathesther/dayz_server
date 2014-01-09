@@ -28,8 +28,8 @@ mission_spawn_timer_max = 650;
 
 // Note Vehicles are destroyed at min timer value... 
 // Its on my todo list to code it to kill vehicles @ actual end of mission
-mission_despawn_timer_min = 2700;
-mission_despawn_timer_max = 2700;
+mission_despawn_timer_min = 36000;
+mission_despawn_timer_max = 36000;
 
 // Distance around Plotpoles + Info Boards (i.e trader cities)
 // To blacklist from spawning missions at
