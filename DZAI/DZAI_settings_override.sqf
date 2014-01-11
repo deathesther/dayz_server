@@ -23,7 +23,7 @@
 
 //Add your preferred settings below this line.
 DZAI_debugLevel = 0;
-DZAI_debugMarkers = 1;
+DZAI_debugMarkers = 0;
 DZAI_monitorRate = 300;
 DZAI_verifyTables = true;
 DZAI_objPatch = true;
@@ -68,7 +68,7 @@ DZAI_airWeapons = [
 DZAI_maxLandPatrols = 15;
 DZAI_respawnTMinL = 1800;
 DZAI_respawnTMaxL = 3600;
-DZAI_vehTypes = ["UAZ_CDF","UAZ_INS","UAZ_RU","UAZ_Unarmed_TK_EP1","UAZ_Unarmed_UN_EP1"];
+DZAI_vehTypes = ["UAZ_Unarmed_TK_EP1"];
 DZAI_dynamicWeaponList = true;
 DZAI_banAIWeapons = [];
 DZAI_launcherTypes = ["RPG7V"];

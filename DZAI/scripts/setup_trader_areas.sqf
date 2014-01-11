@@ -3,7 +3,7 @@
 */
 
 _trader_markers = switch (toLower worldName) do {
-	case "chernarus": {["Tradercitystary","wholesaleSouth","boatTraderEast","BoatDealerSouth","AirVehicles","BanditDen","Klen","BoatDealerEast","TradercityBash","HeroTrader","Tradercitybash","Tradercityklen","boatsnwholesale_1","boatsnwholesale_1_1","Airplane Dealer","Boat Dealer","HeroVendor","Boat Dealer_1","BanditVendor"]};
+	//case "chernarus": {["Tradercitystary","wholesaleSouth","boatTraderEast","BoatDealerSouth","AirVehicles","BanditDen","Klen","BoatDealerEast","TradercityBash","HeroTrader","Tradercitybash","Tradercityklen","boatsnwholesale_1","boatsnwholesale_1_1","Airplane Dealer","Boat Dealer","HeroVendor","Boat Dealer_1","BanditVendor"]};
 	case "takistan": {["tradercitykush","Trader_City_Nur","Trader_City_Garm","Wholesaler","Wholesaler_1","Airplane Dealer","BanditTrader","BlackMarketVendor"]};
 	case "isladuala": {["Trader City Camara","st_3","st_4","st_3_1","st_3_1_1","st_3_1_1_1","st_3_2","st_3_2_1","st_3_2_2","st_3_2_3","st_3_2_3_1"]};
 	case "tavi": {["TraderCityLyepestok","TraderCitySabina","TraderCityBilgrad","TraderCityBranibor","BanditVendor","HeroVendor","AircraftDealer","AircraftDealer2","Misc.Vendor","Misc.Vendor2","BoatDealer","BoatDealer2","BoatDealer3","BoatDealer4","Wholesaler","Wholesaler2"]};
