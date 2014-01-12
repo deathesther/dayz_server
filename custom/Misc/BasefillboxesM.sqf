@@ -5,7 +5,7 @@ clearMagazineCargoGlobal _crate1;
 
 private ["_crate1","_amount","_lootTable","_index","_itemType","_config","_itemTypes","_weights","_cntWeights","_num"];
 
-_lootTable = "AIGRADE1";
+_lootTable = "BASELOOT2";
 
 crate_add_loot = {
 
