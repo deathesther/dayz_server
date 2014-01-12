@@ -817,4 +817,32 @@ if (true) then
   _this setPos [4686.9214, 2601.4802, -5.7220459e-006];
 };
 
+_this = createMarker ["Barrack16", [4663.5356, 2561.5747]];
+_this setMarkerType "Vehicle";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [3, 3];
+_marker_2 = _this;
+
+_this = createMarker ["Barrack17", [4668.7607, 2570.0674]];
+_this setMarkerType "Vehicle";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [3, 3];
+_marker_3 = _this;
+
+_this = createMarker ["Barrack18", [4729.292, 2533.1616]];
+_this setMarkerType "Vehicle";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [3, 3];
+_marker_6 = _this;
+
+_this = createMarker ["Barrack19", [4723.5229, 2524.2351]];
+_this setMarkerType "Vehicle";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [3, 3];
+_marker_7 = _this;
+
 processInitCommands;

@@ -8,7 +8,7 @@ sleep 60;
 	_this setMarkerAlpha 0;
     bases_spawn_balota1 = _this;
 sleep 1;
-	["bases_spawn_balota1",4,1,False] call DZAI_spawn;
+	["bases_spawn_balota1",6,1,False] call DZAI_spawn;
 
 	_this = createMarker ["bases_spawn_balota2", [4784.4551, 2517.7869]];
 	_this setMarkerShape "ELLIPSE";
@@ -18,7 +18,7 @@ sleep 1;
 	_this setMarkerAlpha 0;
     bases_spawn_balota2 = _this;
 sleep 1;
-	["bases_spawn_balota2",4,1,False] call DZAI_spawn;
+	["bases_spawn_balota2",6,1,False] call DZAI_spawn;
 
 	_this = createMarker ["bases_spawn_balota3", [4747.1172, 2561.6042]];
 	_this setMarkerShape "ELLIPSE";
@@ -28,7 +28,7 @@ sleep 1;
 	_this setMarkerAlpha 0;
     bases_spawn_balota3 = _this;
 sleep 1;
-diefastbase = ["bases_spawn_balota3",4,0,False] call DZAI_spawn;
+diefastbase = ["bases_spawn_balota3",8,0,False] call DZAI_spawn;
 
 	_crate = createVehicle ["USVehicleBox", [4812.8901, 2559.4473, 0.056986809],[], 0, "CAN_COLLIDE"];
 	[_crate] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesL";
