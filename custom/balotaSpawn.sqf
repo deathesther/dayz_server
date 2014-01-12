@@ -41,15 +41,3 @@ diefastbase = ["bases_spawn_balota3",8,0,False] call DZAI_spawn;
 	_crate3 = createVehicle ["USVehicleBox", [4812.0166, 2587.8662, 0.056986809],[], 0, "CAN_COLLIDE"];
 	[_crate3] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
 	_crate3 setVariable ["permaLoot",true];
-
-waitUntil{{isPlayer _x && _x distance _crate < 10  } count playableunits > 0}; 
-
-//Mission completed
-[nil,nil,rTitleText,"Bandit Base has been wiped out Base is! Base has been secured by survivors", "PLAIN",6] call RE;
-[nil,nil,rGlobalRadio,"Bandit Base has been wiped out! Base has been secured by survivors"] call RE;
-[nil,nil,rHINT,"Bandit Base has been wiped out! Base has been secured by survivors"] call RE;
-
-deleteMarker "bases_spawn_balota1";
-deleteMarker "bases_spawn_balota2";
-deleteMarker "bases_spawn_balota3";
-deleteMarker "bases_spawn_balota4";

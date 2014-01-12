@@ -879,3 +879,6 @@ server_spawnCleanAnimals = {
 };
 //custom map
 [] execVM "\z\addons\dayz_server\Custom\balotaSpawn.sqf";
+[] execVM "\z\addons\dayz_server\Custom\BOOMSpawn.sqf";
+[] execVM "\z\addons\dayz_server\Custom\BOOMSpawn2.sqf";
+[] execVM "\z\addons\dayz_server\Custom\BOOMSpawn3.sqf";
