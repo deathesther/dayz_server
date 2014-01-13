@@ -12912,11 +12912,11 @@ if (true) then
   _this setPos [13091.2,3646.19,0];
 };
 
-_this = createMarker ["TikhayaCity", [1149.62,2470.67,0]];
-_this setMarkerText "Tikhaya City";
-_this setMarkerType "Town";
-_this setMarkerColor "ColorBlue";
-_this setMarkerSize [0.5, 0.5];
+_this = createMarker ["BanditCity", [1149.62,2470.67,0]];
+_this setMarkerText "Bandit City";
+_this setMarkerType "Flag";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
 _marker_7 = _this;
 
 _this = createMarker ["RepairStation1", [6069.12,7936.26,0]];
@@ -12954,17 +12954,17 @@ _this setMarkerColor "ColorGreen";
 _this setMarkerSize [4, 4];
 _marker_12 = _this;
 
-_this = createMarker ["YOLO", [9479.02,11399.5,0]];
-_this setMarkerText " ";
+_this = createMarker ["BanditMainbase", [9479.02,11399.5,0]];
+_this setMarkerText "Bandit Main base";
 _this setMarkerType "Attack";
 _this setMarkerColor "ColorRed";
 _marker_13 = _this;
 
-_this = createMarker ["SkullCity", [13712.2,2919.47,0]];
-_this setMarkerText "Skull City";
-_this setMarkerType "Town";
-_this setMarkerColor "ColorBlue";
-_this setMarkerSize [0.5, 0.5];
+_this = createMarker ["Bandit2City", [13712.2,2919.47,0]];
+_this setMarkerText "Bandit City";
+_this setMarkerType "Flag";
+_this setMarkerColor "ColorRed";
+_this setMarkerBrush "Solid";
 _marker_14 = _this;
 
 _this = createMarker ["Bridge", [13197.7,3608.49,0]];

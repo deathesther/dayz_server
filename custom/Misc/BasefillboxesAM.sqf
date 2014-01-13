@@ -95,10 +95,6 @@ crate_add_loot = {
 
 			_crate_BAM addMagazineCargoGlobal [_canType,_amount];
 
-			_crate_BAM addMagazineCargoGlobal ["ItemSilverBar",_amount];
-
-			
-
 		};
 
 		case "backpack":
@@ -228,16 +224,6 @@ crate_add_loot = {
 			_amount = round(random 6);
 
 			_crate_BAM addMagazineCargoGlobal [_iItem,_amount];
-
-		};
-
-		case "object":
-
-		{
-
-			_amount = round(random 5);
-
-			_crate_BAM addMagazineCargoGlobal ["ItemGoldBar", _amount];
 
 		};
 

@@ -23,7 +23,7 @@
 
 //Add your preferred settings below this line.
 DZAI_debugLevel = 0;
-DZAI_debugMarkers = 0;
+DZAI_debugMarkers = 1;
 DZAI_monitorRate = 300;
 DZAI_verifyTables = true;
 DZAI_objPatch = true;
