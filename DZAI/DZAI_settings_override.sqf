@@ -29,7 +29,7 @@ DZAI_verifyTables = true;
 DZAI_objPatch = true;
 DZAI_cleanupDelay = 1800;
 DZAI_modName = "epoch";
-DZAI_weaponNoise = 0.00;
+DZAI_weaponNoise = false;
 DZAI_passiveAggro = true;
 DZAI_refreshRate = 15;
 DZAI_zDetectRange = 200;
@@ -80,7 +80,7 @@ DZAI_bpedibles = 2;
 DZAI_numMiscItemS = 3;
 DZAI_numMiscItemL = 3;
 DZAI_chanceMedicals = 0.70;
-DZAI_chanceEdibles = 0.75;
+DZAI_chanceEdibles = 0.70;
 DZAI_chanceMiscItemS = 0.60;
 DZAI_chanceMiscItemL = 0.10;
 DZAI_gradeChancesNewbie = [0.90,0.10,0.00,0.00,0.00];
@@ -94,48 +94,48 @@ DZAI_skill0 = [
 	["aimingAccuracy",0.125,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
+	["endurance",0.55,0.65],
 	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
+	["spotTime",0.45,0.60],
 	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
+	["reloadSpeed",0.60,0.70],
+	["commanding",0.55,0.65],
 	["general",0.55,0.75]
 ];
 DZAI_skill1 = [
 	["aimingAccuracy",0.125,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
+	["endurance",0.55,0.65],
 	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
+	["spotTime",0.45,0.60],
 	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
+	["reloadSpeed",0.60,0.70],
+	["commanding",0.55,0.65],
 	["general",0.55,0.75]
 ];
 DZAI_skill2 = [
 	["aimingAccuracy",0.125,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
+	["endurance",0.55,0.65],
 	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
+	["spotTime",0.45,0.60],
 	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
+	["reloadSpeed",0.60,0.70],
+	["commanding",0.55,0.65],
 	["general",0.55,0.75]
 ];
 DZAI_skill3 = [
 	["aimingAccuracy",0.125,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
+	["endurance",0.55,0.65],
 	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
+	["spotTime",0.45,0.60],
 	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
+	["reloadSpeed",0.60,0.70],
+	["commanding",0.55,0.65],
 	["general",0.55,0.75]
 ];
 DZAI_skill4 = nil;
@@ -148,11 +148,11 @@ DZAI_heliCrewSkills = [
 	["aimingAccuracy",0.125,0.15],
 	["aimingShake",0.60,0.70],
 	["aimingSpeed",0.60,0.70],
-	["endurance",0.55,0.75],
+	["endurance",0.55,0.65],
 	["spotDistance",0.45,0.60],
-	["spotTime",0.45,0.75],
+	["spotTime",0.45,0.60],
 	["courage",0.55,0.75],
-	["reloadSpeed",0.55,0.75],
-	["commanding",0.55,0.75],
+	["reloadSpeed",0.60,0.70],
+	["commanding",0.55,0.65],
 	["general",0.55,0.75]
 ];
