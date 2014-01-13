@@ -95,3 +95,6 @@ if (_spawnRoll <= _spawnChance) then {
 		_x setVariable ["permaLoot",true];
 	} forEach _nearBy;
 };
+_CScoords = _position;
+publicVariable "_CScoords";
+[] execVM "debug\CSMarker.sqf";

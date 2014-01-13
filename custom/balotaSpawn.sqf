@@ -30,14 +30,14 @@ sleep 1;
 sleep 1;
 diefastbase = ["bases_spawn_balota3",8,0,False] call DZAI_spawn;
 
-	_crate = createVehicle ["USVehicleBox", [4812.8901, 2559.4473, 0.056986809],[], 0, "CAN_COLLIDE"];
-	[_crate] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesL";
-	_crate setVariable ["permaLoot",true];
+	_cratebb = createVehicle ["USVehicleBox", [4812.8901, 2559.4473, 0.056986809],[], 0, "CAN_COLLIDE"];
+	[_cratebb] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesL.sqf";
+	_cratebb setVariable ["permaLoot",true];
 
-	_crate2 = createVehicle ["USVehicleBox", [4792.6621, 2598.8276, 0.056986809],[], 0, "CAN_COLLIDE"];
-	[_crate2] execVM "\z\addons\dayz_server\missions\misc\fillBoxesC.sqf";
-	_crate2 setVariable ["permaLoot",true];
+	_cratebb2 = createVehicle ["USVehicleBox", [4792.6621, 2598.8276, 0.056986809],[], 0, "CAN_COLLIDE"];
+	[_cratebb2] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesAL.sqf";
+	_cratebb2 setVariable ["permaLoot",true];
 
-	_crate3 = createVehicle ["USVehicleBox", [4812.0166, 2587.8662, 0.056986809],[], 0, "CAN_COLLIDE"];
-	[_crate3] execVM "\z\addons\dayz_server\missions\misc\fillBoxesM.sqf";
-	_crate3 setVariable ["permaLoot",true];
+	_cratebb3 = createVehicle ["USVehicleBox", [4812.0166, 2587.8662, 0.056986809],[], 0, "CAN_COLLIDE"];
+	[_cratebb3] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesC.sqf";
+	_cratebb3 setVariable ["permaLoot",true];

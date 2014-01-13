@@ -99,3 +99,35 @@ _this setMarkerAlpha 0;
 bandit_main_base_S10 = _this;
 sleep 1;
 	["bandit_main_base_S10",3,2,False] call DZAI_spawn;
+
+	_cratesb = createVehicle ["USVehicleBox", [1154.5842, 2473.0718],[], 0, "CAN_COLLIDE"];
+	[_cratesb] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesH.sqf";
+	_cratesb setVariable ["permaLoot",true];
+
+	_cratesb2 = createVehicle ["USVehicleBox", [1208.6947, 2537.0837],[], 0, "CAN_COLLIDE"];
+	[_cratesb2] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesM.sqf";
+	_cratesb2 setVariable ["permaLoot",true];
+
+	_cratesb3 = createVehicle ["USVehicleBox", [1217.261, 2543.7644],[], 0, "CAN_COLLIDE"];
+	[_cratesb3] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesAM.sqf";
+	_cratesb3 setVariable ["permaLoot",true];
+
+	_cratesb4 = createVehicle ["USVehicleBox", [1226.493, 2550.4604],[], 0, "CAN_COLLIDE"];
+	[_cratesb4] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesC.sqf";
+	_cratesb4 setVariable ["permaLoot",true];
+
+	_cratesb5 = createVehicle ["USVehicleBox", [1071.4041, 2405.7681, -4.7683716e-007],[], 0, "CAN_COLLIDE"];
+	[_cratesb5] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesMED.sqf";
+	_cratesb5 setVariable ["permaLoot",true];
+
+	_cratesb6 = createVehicle ["USVehicleBox", [1338.3754, 2464.8286],[], 0, "CAN_COLLIDE"];
+	[_cratesb6] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesL.sqf";
+	_cratesb6 setVariable ["permaLoot",true];
+
+	_cratesb7 = createVehicle ["USVehicleBox", [1354.0651, 2472.1196],[], 0, "CAN_COLLIDE"];
+	[_cratesb7] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesAL.sqf";
+	_cratesb7 setVariable ["permaLoot",true];
+
+	_cratesb8 = createVehicle ["USVehicleBox", [1148.1849, 2539.0923],[], 0, "CAN_COLLIDE"];
+	[_cratesb8] execVM "\z\addons\dayz_server\custom\Misc\BasefillboxesO.sqf";
+	_cratesb8 setVariable ["permaLoot",true];
